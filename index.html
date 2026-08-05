@@ -893,38 +893,38 @@ height: 100%;
 
  // FUNGSI JEMBATAN (FETCH API) YANG DISEMPURNAKAN DENGAN AUTO-RETRY (ANTI TIMEOUT)
  async function callGAS(actionName, payloadData = {}, retries = 3) {
-     try {
-         const response = await fetch(GAS_WEBAPP_URL, {
-             method: "POST",
-             redirect: "follow",
-             headers: {
-                 "Content-Type": "text/plain;charset=utf-8", 
-             },
-             body: JSON.stringify({
-                 action: actionName,
-                 data: payloadData
-             })
-         });
+ try {
+ const response = await fetch(GAS_WEBAPP_URL, {
+ method: "POST",
+ redirect: "follow",
+ headers: {
+ "Content-Type": "text/plain;charset=utf-8", 
+},
+ body: JSON.stringify({
+ action: actionName,
+ data: payloadData
+ })
+ });
 
-         const textResponse = await response.text();
-         
-         try {
-             return JSON.parse(textResponse);
-         } catch (parseError) {
-             if (retries > 0) {
-                 console.warn(`Server sibuk/data tidak valid, mencoba ulang... (${retries} percobaan tersisa)`);
-                 await new Promise(res => setTimeout(res, 2000));
-                 return await callGAS(actionName, payloadData, retries - 1);
-             }
-             throw new Error("Server Google sedang sibuk. Mohon muat ulang (refresh) halaman.");
-         }
-     } catch (networkError) {
-         if (retries > 0) {
-             await new Promise(res => setTimeout(res, 2000));
-             return await callGAS(actionName, payloadData, retries - 1);
-         }
-         throw networkError;
-     }
+ const textResponse = await response.text();
+ 
+try {
+ return JSON.parse(textResponse);
+ } catch (parseError) {
+ if (retries > 0) {
+ console.warn(`Server sibuk/data tidak valid, mencoba ulang... (${retries} percobaan tersisa)`);
+ await new Promise(res => setTimeout(res, 2000));
+ return await callGAS(actionName, payloadData, retries - 1);
+ }
+ throw new Error("Server Google sedang sibuk. Mohon muat ulang (refresh) halaman.");
+ }
+ } catch (networkError) {
+ if (retries > 0) {
+ await new Promise(res => setTimeout(res, 2000));
+ return await callGAS(actionName, payloadData, retries - 1);
+ }
+ throw networkError;
+ }
  }
 
  let sessionSekolah = ""; 
@@ -1000,20 +1000,20 @@ if (isSuperAdmin) {
  const cachedData = sessionStorage.getItem(cacheKey);
 
  if (cachedData) {
-     console.log("Menggunakan data dari cache lokal (Instan)...");
-     initDashboard(cachedData);
+ console.log("Menggunakan data dari cache lokal (Instan)...");
+ initDashboard(cachedData);
  } else {
-     callGAS("getSchoolData", { namaSekolah: res.namaSekolah })
-     .then(function(jsonString) {
-         sessionStorage.setItem(cacheKey, jsonString); // Simpan ke memori sementara
-         initDashboard(jsonString);
-     })
-     .catch(err => {
-         alert("Gagal mengambil data: " + err.message);
-         document.getElementById('loading').style.display = 'none';
-         document.getElementById('login-screen').style.display = 'flex';
-         btn.innerText = "Sign In"; btn.disabled = false;
-     });
+ callGAS("getSchoolData", { namaSekolah: res.namaSekolah })
+ .then(function(jsonString) {
+ sessionStorage.setItem(cacheKey, jsonString); // Simpan ke memori sementara
+ initDashboard(jsonString);
+ })
+ .catch(err => {
+ alert("Gagal mengambil data: " + err.message);
+ document.getElementById('loading').style.display = 'none';
+ document.getElementById('login-screen').style.display = 'flex';
+ btn.innerText = "Sign In"; btn.disabled = false;
+ });
  }
 
  } else {
@@ -1863,8 +1863,9 @@ const firstSheetName = workbook.SheetNames[0];
  throw new Error("File Excel kosong atau hanya berisi judul kolom!");
  }
 
- const dataRows = jsonData.slice(1).filter(row => row.length > 0);
- statusEl.innerHTML = "<span style='color: #f59e0b;'>🚀 Mengirim " + dataRows.length + " data ke database...</span>";
+ // 🔥 PERBAIKAN: .slice(1) DIHAPUS AGAR HEADER TIDAK HILANG SAAT DATA DIKIRIM KE BACKEND 🔥
+ const dataRows = jsonData.filter(row => row.length > 0);
+ statusEl.innerHTML = "<span style='color: #f59e0b;'>🚀 Mengirim " + (dataRows.length - 1) + " data ke database...</span>";
 
  callGAS("uploadDataSiswa", { rowsData: dataRows, mode: mode })
  .then(function(res) {
@@ -1873,7 +1874,7 @@ const firstSheetName = workbook.SheetNames[0];
  statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>";
  alert(res.message);
  
- // 🔥 Bersihkan cache jika data baru diupload agar Dashboard tidak pakai data usang 🔥
+// 🔥 Bersihkan cache jika data baru diupload agar Dashboard tidak pakai data usang 🔥
  sessionStorage.clear();
 
  const modalEl = document.getElementById('modalUploadExcel');
@@ -1885,11 +1886,11 @@ const firstSheetName = workbook.SheetNames[0];
  document.getElementById('loading').style.display = 'block';
  document.getElementById('main-content').style.display = 'none';
  
- callGAS("getSchoolData", { namaSekolah: sessionSekolah })
+callGAS("getSchoolData", { namaSekolah: sessionSekolah })
  .then(function(jsonString) {
-     const cacheKey = "ganesa_data_" + sessionSekolah;
-     sessionStorage.setItem(cacheKey, jsonString);
-     initDashboard(jsonString);
+ const cacheKey = "ganesa_data_" + sessionSekolah;
+ sessionStorage.setItem(cacheKey, jsonString);
+ initDashboard(jsonString);
  });
 
  } else {
