@@ -1869,20 +1869,16 @@ function renderIndivGroupedChart(dataArray, elementId, colorPalette, isLight = f
      if (sheetData.length > 1) {
          const headers = sheetData[0].map(h => String(h).trim().toLowerCase());
          const idxNamaSekolah = headers.indexOf('nama sekolah');
-         const idxNama = headers.indexOf('nama');
          
          // Jika sheet ini punya kolom "Nama Sekolah", kita proses
          if (idxNamaSekolah !== -1) {
-             if (!headerRow) headerRow = sheetData[0]; // Ambil header dari sheet pertama yg valid
+             if (!headerRow) headerRow = sheetData[0]; 
              
              for(let r = 1; r < sheetData.length; r++) {
                   const row = sheetData[r];
-                  if (row.length > 0) {
-                      let namaSiswa = idxNama !== -1 ? row[idxNama] : "";
-                      // 🔥 FILTER: Hanya ambil baris yang ada Nama Siswanya (abaikan baris rumus/kosong) 🔥
-                      if (namaSiswa !== undefined && namaSiswa !== null && String(namaSiswa).trim() !== "") {
-                          allUploadedRows.push(row);
-                      }
+                  // 🔥 JALAN TENGAH: Kirim SEMUA data selama baris tidak murni kosong 100% 🔥
+                  if (row.length > 0 && row.join("").trim() !== "") {
+                      allUploadedRows.push(row);
                   }
              }
          }
@@ -1894,7 +1890,7 @@ function renderIndivGroupedChart(dataArray, elementId, colorPalette, isLight = f
  }
 
  if (allUploadedRows.length === 0) {
-     throw new Error("File Excel valid, tetapi tidak ada data siswa (Kolom 'Nama' kosong)!");
+     throw new Error("File Excel valid, tetapi sama sekali tidak ada baris data!");
  }
 
  const dataRows = [headerRow, ...allUploadedRows];
