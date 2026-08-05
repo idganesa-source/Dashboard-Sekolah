@@ -976,7 +976,7 @@ document.getElementById('dyn-school').innerText = res.namaSekolah;
 
  const btnUpload = document.getElementById('btn-upload-excel');
  const btnCreateUser = document.getElementById('btn-create-user');
- const btnDownloadPdf = document.getElementById('btn-download-pdf');
+ const btnDownloadPdf = document.getElementById('btn-download-pdf'); // TOMBOL PDF BARU
 
  // 🔥 LOGIKA BARU ANTI-TYPO: PENGECEKAN SUPER ADMIN DAN KONSULTAN PSIKOLOG 🔥
  const sek = (sessionSekolah || "").trim().toUpperCase();
@@ -991,7 +991,7 @@ document.getElementById('dyn-school').innerText = res.namaSekolah;
 if (isSuperAdmin) {
  if (btnUpload) btnUpload.style.display = 'flex';
  if (btnCreateUser) btnCreateUser.style.display = 'flex';
- if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex';
+ if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex'; // TAMPILKAN TOMBOL PDF
  } else {
  if (btnUpload) btnUpload.style.display = 'none';
  if (btnCreateUser) btnCreateUser.style.display = 'none';
@@ -1009,7 +1009,7 @@ if (isSuperAdmin) {
  document.getElementById('login-screen').style.display = 'none';
  document.getElementById('loading').style.display = 'block';
 
- // MENGAMBIL DATA DARI SERVER
+ // 🔥 MENGAMBIL DATA SEGAR LANGSUNG DARI SERVER (TANPA CACHE) 🔥
  callGAS("getSchoolData", { namaSekolah: res.namaSekolah })
  .then(function(jsonString) {
  initDashboard(jsonString);
@@ -1384,7 +1384,10 @@ if (isVal(val)) { countObj[val] = (countObj[val] || 0) + 1; }
  document.getElementById('laporan-isi').style.display = 'block';
  
 document.getElementById('dyn-logo-report').src = document.getElementById('dyn-logo').src;
- document.getElementById('indiv-sekolah-teks').innerText = sessionSekolah || "-";
+ 
+ // 🔥 PERBAIKAN NAMA GRUP BERDASARKAN SEKOLAH SISWA 🔥
+ document.getElementById('indiv-sekolah-teks').innerText = siswa[colIndices.kolomNamaSekolah] || $('#filter-sekolah').val() || sessionSekolah || "-";
+ 
  document.getElementById('indiv-kelas-teks').innerText = siswa[colIndices.kolomKelas] || "-";
  document.getElementById('indiv-nama-teks').innerText = siswa[colIndices.kolomNama] || "-";
  document.getElementById('indiv-jk-teks').innerText = siswa[colIndices.kolomGender] || "-";
