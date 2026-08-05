@@ -1855,17 +1855,50 @@ function renderIndivGroupedChart(dataArray, elementId, colorPalette, isLight = f
  const data = new Uint8Array(e.target.result);
  const workbook = XLSX.read(data, { type: 'array' });
  
-const firstSheetName = workbook.SheetNames[0];
- const worksheet = workbook.Sheets[firstSheetName];
- const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+ let allUploadedRows = [];
+ let headerRow = null;
 
- if (jsonData.length <= 1) {
- throw new Error("File Excel kosong atau hanya berisi judul kolom!");
+ // Loop semua sheet di dalam file Excel
+ for (let i = 0; i < workbook.SheetNames.length; i++) {
+     const sheetName = workbook.SheetNames[i];
+     if (sheetName === "AkunSekolah") continue; // Lewati sheet akun
+     
+     const ws = workbook.Sheets[sheetName];
+     const sheetData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+     
+     if (sheetData.length > 1) {
+         const headers = sheetData[0].map(h => String(h).trim().toLowerCase());
+         const idxNamaSekolah = headers.indexOf('nama sekolah');
+         const idxNama = headers.indexOf('nama');
+         
+         // Jika sheet ini punya kolom "Nama Sekolah", kita proses
+         if (idxNamaSekolah !== -1) {
+             if (!headerRow) headerRow = sheetData[0]; // Ambil header dari sheet pertama yg valid
+             
+             for(let r = 1; r < sheetData.length; r++) {
+                  const row = sheetData[r];
+                  if (row.length > 0) {
+                      let namaSiswa = idxNama !== -1 ? row[idxNama] : "";
+                      // 🔥 FILTER: Hanya ambil baris yang ada Nama Siswanya (abaikan baris rumus/kosong) 🔥
+                      if (namaSiswa !== undefined && namaSiswa !== null && String(namaSiswa).trim() !== "") {
+                          allUploadedRows.push(row);
+                      }
+                  }
+             }
+         }
+     }
  }
 
- // 🔥 PERBAIKAN: .slice(1) DIHAPUS AGAR HEADER TIDAK HILANG SAAT DATA DIKIRIM KE BACKEND 🔥
- const dataRows = jsonData.filter(row => row.length > 0);
- statusEl.innerHTML = "<span style='color: #f59e0b;'>🚀 Mengirim " + (dataRows.length - 1) + " data ke database...</span>";
+ if (!headerRow) {
+     throw new Error("Kolom 'Nama Sekolah' tidak ditemukan di seluruh sheet Excel!");
+ }
+
+ if (allUploadedRows.length === 0) {
+     throw new Error("File Excel valid, tetapi tidak ada data siswa (Kolom 'Nama' kosong)!");
+ }
+
+ const dataRows = [headerRow, ...allUploadedRows];
+ statusEl.innerHTML = "<span style='color: #f59e0b;'>🚀 Mengirim " + allUploadedRows.length + " data ke database...</span>";
 
  callGAS("uploadDataSiswa", { rowsData: dataRows, mode: mode })
  .then(function(res) {
