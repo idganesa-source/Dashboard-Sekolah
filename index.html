@@ -995,17 +995,10 @@ if (isSuperAdmin) {
  document.getElementById('login-screen').style.display = 'none';
  document.getElementById('loading').style.display = 'block';
 
- // 🔥 FITUR CACHE BARU: Mengecek apakah data sudah tersimpan di browser 🔥
- const cacheKey = "ganesa_data_" + res.namaSekolah;
- const cachedData = sessionStorage.getItem(cacheKey);
-
- if (cachedData) {
- console.log("Menggunakan data dari cache lokal (Instan)...");
- initDashboard(cachedData);
- } else {
+ // 🔥 MENGAMBIL DATA SEGAR LANGSUNG DARI SERVER (TANPA CACHE) 🔥
+ // Ini memastikan jika Anda mengedit langsung di Google Sheet, cukup F5 langsung berubah.
  callGAS("getSchoolData", { namaSekolah: res.namaSekolah })
  .then(function(jsonString) {
- sessionStorage.setItem(cacheKey, jsonString); // Simpan ke memori sementara
  initDashboard(jsonString);
  })
  .catch(err => {
@@ -1014,7 +1007,6 @@ if (isSuperAdmin) {
  document.getElementById('login-screen').style.display = 'flex';
  btn.innerText = "Sign In"; btn.disabled = false;
  });
- }
 
  } else {
  err.innerText = res.message; err.style.display = 'block';
@@ -1029,9 +1021,6 @@ if (isSuperAdmin) {
 
  function doLogout() {
  if(confirm("Apakah Anda yakin ingin keluar dari Dashboard?")) {
- // 🔥 Bersihkan memori cache agar data baru di-download saat login berikutnya 🔥
- sessionStorage.clear();
-
  document.getElementById('main-content').style.display = 'none';
  document.getElementById('login-screen').style.display = 'flex';
  document.getElementById('input-email').value = '';
@@ -1876,7 +1865,7 @@ function renderIndivGroupedChart(dataArray, elementId, colorPalette, isLight = f
              
              for(let r = 1; r < sheetData.length; r++) {
                   const row = sheetData[r];
-                  // 🔥 JALAN TENGAH: Kirim SEMUA data selama baris tidak murni kosong 100% 🔥
+                  // Kirim SEMUA data ke backend selama tidak murni kosong
                   if (row.length > 0 && row.join("").trim() !== "") {
                       allUploadedRows.push(row);
                   }
@@ -1903,9 +1892,6 @@ function renderIndivGroupedChart(dataArray, elementId, colorPalette, isLight = f
  statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>";
  alert(res.message);
  
-// 🔥 Bersihkan cache jika data baru diupload agar Dashboard tidak pakai data usang 🔥
- sessionStorage.clear();
-
  const modalEl = document.getElementById('modalUploadExcel');
  const modal = bootstrap.Modal.getInstance(modalEl);
  if (modal) modal.hide();
@@ -1915,11 +1901,9 @@ function renderIndivGroupedChart(dataArray, elementId, colorPalette, isLight = f
  document.getElementById('loading').style.display = 'block';
  document.getElementById('main-content').style.display = 'none';
  
-callGAS("getSchoolData", { namaSekolah: sessionSekolah })
+ callGAS("getSchoolData", { namaSekolah: sessionSekolah })
  .then(function(jsonString) {
- const cacheKey = "ganesa_data_" + sessionSekolah;
- sessionStorage.setItem(cacheKey, jsonString);
- initDashboard(jsonString);
+     initDashboard(jsonString);
  });
 
  } else {
