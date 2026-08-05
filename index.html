@@ -1554,7 +1554,7 @@ if(!text) return "";
 let str = String(text).trim(); 
 if(!isVal(str)) return ""; 
 str = str.replace(/\n/g, '<br>');
- return `<div style="margin-bottom: 15px;"><h4 style="font-size:15px; color:#1a1c20; margin-bottom:5px; font-weight:bold;">${title}</h4><p style="margin:0; font-size:13px; color:#374151; line-height: 1.6;">${str}</p></div>`; 
+ return `<div style="margin-bottom: 15px;"><h4 style="font-size:15px; color:#1a1c20; margin-bottom:5px; font-weight:bold;">${title}</h4><p style="margin:0; font-size:13px; color:#374151; line-height: 1.6; text-align: justify;">${str}</p></div>`; 
 };
 
  if (hasKecer) {
@@ -1620,7 +1620,7 @@ let deskripsiGaya = String(siswa[colIndices.kolomGayaDesk] || '').trim().replace
  let descGayaHtml = `<div style="margin-bottom: 15px;">
  <h4 style="font-size:15px; font-weight:bold; color:#1a1c20; margin-bottom:5px;">Tipe Gaya Belajar:</h4>
  <p style="margin:0; font-size:14px; color:#1a1c20; margin-bottom:5px;">${siswa[colIndices.kolomGayaBelajar]}</p>
- <p style="margin:0; font-size:13px; color:#374151; line-height: 1.6;">${deskripsiGaya}</p>
+ <p style="margin:0; font-size:13px; color:#374151; line-height: 1.6; text-align: justify;">${deskripsiGaya}</p>
  </div>` + 
 buildCleanDesc('Ciri-ciri Gaya Belajar:', siswa[colIndices.kolomGayaCiri]) + 
 buildCleanDesc('Strategi Belajar Yang Bisa Diterapkan:', siswa[colIndices.kolomGayaSaran]);
