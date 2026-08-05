@@ -19,6 +19,12 @@
 
  <!-- SheetJS (Pembaca Excel di Browser) -->
  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+ <!-- 🔥 LIBRARY UNTUK CETAK PDF & ZIP 🔥 -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
  
 <style>
  /* =======================================================
@@ -662,6 +668,12 @@ height: 100%;
  <h2 class="top-title">Dashboard Utama</h2>
  </div>
  <div class="btn-action-group">
+ 
+ <!-- 🔥 TOMBOL BARU: DOWNLOAD PDF KELAS 🔥 -->
+ <button id="btn-download-pdf" class="btn-top" style="display:none; background-color: #f59e0b; color: white; border: 1px solid #d97706;" onclick="downloadPDFKelasZip()">
+ 📥 <span>Download PDF Kelas</span>
+ </button>
+
  <!-- TOMBOL BUAT AKUN (KHUSUS SUPER ADMIN) -->
  <button id="btn-create-user" class="btn-top btn-create-user" style="display:none;" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
  ➕ <span>Buat Akun</span>
@@ -966,6 +978,7 @@ document.getElementById('dyn-school').innerText = res.namaSekolah;
 
  const btnUpload = document.getElementById('btn-upload-excel');
  const btnCreateUser = document.getElementById('btn-create-user');
+ const btnDownloadPdf = document.getElementById('btn-download-pdf'); // TOMBOL PDF BARU
 
  // 🔥 LOGIKA BARU ANTI-TYPO: PENGECEKAN SUPER ADMIN DAN KONSULTAN PSIKOLOG 🔥
  const sek = (sessionSekolah || "").trim().toUpperCase();
@@ -980,9 +993,11 @@ document.getElementById('dyn-school').innerText = res.namaSekolah;
 if (isSuperAdmin) {
  if (btnUpload) btnUpload.style.display = 'flex';
  if (btnCreateUser) btnCreateUser.style.display = 'flex';
+ if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex'; // TAMPILKAN TOMBOL PDF
  } else {
  if (btnUpload) btnUpload.style.display = 'none';
  if (btnCreateUser) btnCreateUser.style.display = 'none';
+ if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
  }
  } else {
  document.getElementById('box-filter-sekolah').style.display = 'none';
@@ -990,13 +1005,13 @@ if (isSuperAdmin) {
  document.getElementById('box-filter-kelas').className = 'col-md-6';
  if (btnUpload) btnUpload.style.display = 'none';
  if (btnCreateUser) btnCreateUser.style.display = 'none';
+ if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
  }
 
  document.getElementById('login-screen').style.display = 'none';
  document.getElementById('loading').style.display = 'block';
 
  // 🔥 MENGAMBIL DATA SEGAR LANGSUNG DARI SERVER (TANPA CACHE) 🔥
- // Ini memastikan jika kamu mengedit langsung di Google Sheet, cukup F5 langsung berubah.
  callGAS("getSchoolData", { namaSekolah: res.namaSekolah })
  .then(function(jsonString) {
  initDashboard(jsonString);
@@ -1234,6 +1249,7 @@ dataObj.headers.forEach((header, index) => {
 
  const btnUpload = document.getElementById('btn-upload-excel');
  const btnCreateUser = document.getElementById('btn-create-user');
+ const btnDownloadPdf = document.getElementById('btn-download-pdf'); // TOMBOL PDF BARU
 
  // 🔥 LOGIKA DI INIT DASHBOARD: FILTER SEKOLAH TERBUKA UNTUK ADMIN & KONSULTAN 🔥
  const sek = (sessionSekolah || "").trim().toUpperCase();
@@ -1249,13 +1265,16 @@ dataObj.headers.forEach((header, index) => {
 if (isSuperAdmin) {
  if (btnUpload) btnUpload.style.display = 'flex';
  if (btnCreateUser) btnCreateUser.style.display = 'flex';
+ if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex'; // TAMPILKAN TOMBOL PDF
  } else {
  if (btnUpload) btnUpload.style.display = 'none';
  if (btnCreateUser) btnCreateUser.style.display = 'none';
+ if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
  }
  } else {
  if (btnUpload) btnUpload.style.display = 'none';
  if (btnCreateUser) btnCreateUser.style.display = 'none';
+ if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
  }
 
  let isUpdating = false;
@@ -1980,6 +1999,107 @@ const modalEl = document.getElementById('modalCreateUser');
  .catch(function(err) {
  statusEl.innerHTML = "<span style='color: #ef4444;'>✖ Error: " + err.message + "</span>";
  });
+ }
+
+ // 🔥 FUNGSI DOWNLOAD PDF PER KELAS (DIBUNGKUS DALAM ZIP) 🔥
+ async function downloadPDFKelasZip() {
+     const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
+     const fKelas = $('#filter-kelas').val();
+
+     if (!fSekolah || !fKelas) {
+         alert("⚠️ Silakan pilih Sekolah dan Grup/Kelas di filter terlebih dahulu!");
+         return;
+     }
+
+     let students = allRows.filter(r => 
+         String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && 
+         String(r[colIndices.kolomKelas]).trim() === fKelas
+     );
+
+     // Pastikan nama siswanya valid
+     students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
+
+     if (students.length === 0) {
+         alert("⚠️ Tidak ada data siswa yang valid di kelas ini.");
+         return;
+     }
+
+     if (!confirm(`Terdapat ${students.length} siswa di kelas ${fKelas}.\n\nSistem akan membuat laporan PDF untuk masing-masing siswa dan membungkus semuanya ke dalam 1 file ZIP.\n\nProses ini berjalan otomatis dan akan memakan waktu. Lanjutkan?`)) {
+         return;
+     }
+
+     // Tampilkan Loading
+     document.getElementById('loading').style.display = 'block';
+     const loadingText = document.querySelector('#loading span');
+     
+     navTo('menu-laporan-individu'); // Pindah ke tab laporan individu
+     const originalName = $('#filter-nama').val(); // Simpan pilihan filter saat ini
+
+     const { jsPDF } = window.jspdf;
+     const zip = new JSZip();
+     
+     // Buat folder di dalam file zip dengan nama aman (tanpa karakter aneh)
+     const safeFolderName = `Laporan_${fSekolah}_${fKelas}`.replace(/[^a-zA-Z0-9_-]/g, "_");
+     const folder = zip.folder(safeFolderName);
+
+     for (let i = 0; i < students.length; i++) {
+         const studentName = String(students[i][colIndices.kolomNama]).trim();
+         // Buat nama file PDF yang aman dari karakter ilegal
+         const safeFileName = studentName.replace(/[^a-zA-Z0-9 _-]/g, "") + ".pdf";
+         
+         // Update UI Status Loading
+         loadingText.innerHTML = `Memproses PDF: <b>${i + 1} dari ${students.length} Siswa</b><br><small style="color:#0d9488;">Membuat file: ${safeFileName}</small>`;
+         
+         // Ganti filter nama agar dashboard menampilkan data siswa ini
+         $('#filter-nama').val(studentName).trigger('change');
+         
+         // ⏳ Beri waktu agar grafik (Google Charts) selesai me-render sebelum difoto
+         await new Promise(r => setTimeout(r, 1500));
+
+         const reportElement = document.querySelector('.paper-report');
+         
+         // Ambil 'foto' dari elemen laporan
+         const canvas = await html2canvas(reportElement, { scale: 2, useCORS: true, logging: false });
+         const imgData = canvas.toDataURL('image/jpeg', 1.0);
+         
+         const doc = new jsPDF('p', 'mm', 'a4');
+         const pdfWidth = doc.internal.pageSize.getWidth();
+         const pdfHeight = doc.internal.pageSize.getHeight();
+         const imgProps = doc.getImageProperties(imgData);
+         const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+         let heightLeft = imgHeight;
+         let position = 0;
+
+         // Masukkan gambar ke dalam PDF (kalau halamannya panjang, akan terpotong ke halaman 2)
+         doc.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+         heightLeft -= pdfHeight;
+
+         while (heightLeft >= 0) {
+             position = heightLeft - imgHeight;
+             doc.addPage();
+             doc.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+             heightLeft -= pdfHeight;
+         }
+
+         // Jadikan PDF tersebut sebagai ArrayBuffer dan simpan ke dalam folder ZIP
+         const pdfArrayBuffer = doc.output('arraybuffer');
+         folder.file(safeFileName, pdfArrayBuffer);
+     }
+
+     loadingText.innerHTML = `Membungkus ke dalam ZIP...<br><small style="color:#0d9488;">Proses hampir selesai, mohon tunggu.</small>`;
+     
+     // Buat file ZIP dan Trigger Download ke pengguna
+     zip.generateAsync({type:"blob"}).then(function(content) {
+         saveAs(content, `${safeFolderName}.zip`);
+         
+         // Bersihkan / Kembalikan tampilan
+         $('#filter-nama').val(originalName).trigger('change');
+         loadingText.innerHTML = "Memuat Data <span id='load-sekolah'></span>...";
+         document.getElementById('loading').style.display = 'none';
+         
+         alert(`✅ Berhasil!\n\nFile ZIP berisi semua PDF laporan kelas ${fKelas} telah diunduh.`);
+     });
  }
  </script>
 </body>
