@@ -166,7 +166,37 @@
  .chart-div-large { min-height: 340px; }
  .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
- .pdf-page { padding: 20px 15px !important; }
+ 
+ .pdf-page {
+ background-color: #ffffff;
+ color: #1a1c20;
+ padding: 30px 35px;
+ border-radius: 8px;
+ font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+ width: 210mm;
+ min-height: 296mm;
+ max-width: 100%;
+ margin: 0 auto 25px auto;
+ box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+ box-sizing: border-box;
+ position: relative;
+ page-break-after: always;
+ overflow: hidden;
+ }
+ @media print {
+ body { background-color: #ffffff !important; }
+ .no-print, .top-navbar, .sidebar, #login-screen, .btn-action-group { display: none !important; }
+ .pdf-page {
+ box-shadow: none !important;
+ margin: 0 !important;
+ width: 100% !important;
+ min-height: 100vh !important;
+ page-break-after: always !important;
+ page-break-inside: avoid !important;
+ padding: 20mm 15mm !important;
+ }
+ }
+ 
  .custom-table-light th, .custom-table-light td {
  padding: 8px 6px;
  font-size: 11px;
@@ -322,16 +352,37 @@
  /* =======================================================
  🔥 TEMA LAPORAN INDIVIDU (PDF PAGE / MULTI HALAMAN) 🔥
  ======================================================= */
+ 
  .pdf-page {
  background-color: #ffffff;
  color: #1a1c20;
- padding: 40px;
- border-radius: 12px;
+ padding: 30px 35px;
+ border-radius: 8px;
  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
- max-width: 900px;
- margin: 0 auto 20px auto;
- box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+ width: 210mm;
+ min-height: 296mm;
+ max-width: 100%;
+ margin: 0 auto 25px auto;
+ box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+ box-sizing: border-box;
+ position: relative;
+ page-break-after: always;
+ overflow: hidden;
  }
+ @media print {
+ body { background-color: #ffffff !important; }
+ .no-print, .top-navbar, .sidebar, #login-screen, .btn-action-group { display: none !important; }
+ .pdf-page {
+ box-shadow: none !important;
+ margin: 0 !important;
+ width: 100% !important;
+ min-height: 100vh !important;
+ page-break-after: always !important;
+ page-break-inside: avoid !important;
+ padding: 20mm 15mm !important;
+ }
+ }
+ 
  .pr-header {
  display: flex;
  align-items: center;
@@ -462,7 +513,37 @@ height: 100%;
 .school-header-panel { flex-direction: column; align-items: flex-start; gap: 12px; padding: 15px; }
  .assessment-title { text-align: left; padding-left: 0; border-left: none; border-top: 1px solid #e2e8f0; padding-top: 10px; width: 100%; font-size: 14px; }
  .detail-hint { opacity: 1; }
- .pdf-page { padding: 18px; }
+ 
+ .pdf-page {
+ background-color: #ffffff;
+ color: #1a1c20;
+ padding: 30px 35px;
+ border-radius: 8px;
+ font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+ width: 210mm;
+ min-height: 296mm;
+ max-width: 100%;
+ margin: 0 auto 25px auto;
+ box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+ box-sizing: border-box;
+ position: relative;
+ page-break-after: always;
+ overflow: hidden;
+ }
+ @media print {
+ body { background-color: #ffffff !important; }
+ .no-print, .top-navbar, .sidebar, #login-screen, .btn-action-group { display: none !important; }
+ .pdf-page {
+ box-shadow: none !important;
+ margin: 0 !important;
+ width: 100% !important;
+ min-height: 100vh !important;
+ page-break-after: always !important;
+ page-break-inside: avoid !important;
+ padding: 20mm 15mm !important;
+ }
+ }
+ 
  .pr-header img { width: 60px; height: 60px; }
  .pr-header-text h1 { font-size: 20px; }
  .mbti-label-left, .mbti-label-right { font-size: 11px; width: 60px; }
@@ -669,7 +750,7 @@ height: 100%;
  </div>
  <div class="btn-action-group">
  
- <!-- 🔥 TOMBOL BARU: DOWNLOAD PDF KELAS 🔥 -->
+<!-- 🔥 TOMBOL BARU: DOWNLOAD PDF KELAS 🔥 -->
  <button id="btn-download-pdf" class="btn-top" style="display:none; background-color: #f59e0b; color: white; border: 1px solid #d97706;" onclick="downloadPDFKelasZip()">
  📥 <span>Download PDF Kelas</span>
  </button>
@@ -769,95 +850,95 @@ height: 100%;
  
 <div id="laporan-isi" style="display:none; padding: 15px 0;">
  
- <!-- HALAMAN 1 PDF: BIODATA & KEPRIBADIAN -->
+<!-- HALAMAN 1 PDF: BIODATA & KEPRIBADIAN -->
  <div class="pdf-page">
-     <div class="pr-header">
-     <img src="" id="dyn-logo-report" alt="Logo">
-     <div class="pr-header-text">
-     <h1>GANESA.ID</h1>
-     <p>Gerbang Asessment Indonesia<br>
-     PT. AKARA NATURA NUSANTARA<br>
-     Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
-     </div>
-     </div>
+ <div class="pr-header">
+ <img src="" id="dyn-logo-report" alt="Logo">
+ <div class="pr-header-text">
+ <h1>GANESA.ID</h1>
+ <p>Gerbang Asessment Indonesia<br>
+ PT. AKARA NATURA NUSANTARA<br>
+ Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
+ </div>
+ </div>
 
-     <div class="pr-biodata">
-     <div>Grup</div><div>:</div><div id="indiv-sekolah-teks">-</div>
-     <div>Kelas</div><div>:</div><div id="indiv-kelas-teks">-</div>
-     <div>Nama</div><div>:</div><div id="indiv-nama-teks">-</div>
-     <div>Jenis Kelamin</div><div>:</div><div id="indiv-jk-teks">-</div>
-     </div>
+ <div class="pr-biodata">
+ <div>Grup</div><div>:</div><div id="indiv-sekolah-teks">-</div>
+ <div>Kelas</div><div>:</div><div id="indiv-kelas-teks">-</div>
+ <div>Nama</div><div>:</div><div id="indiv-nama-teks">-</div>
+ <div>Jenis Kelamin</div><div>:</div><div id="indiv-jk-teks">-</div>
+ </div>
 
-     <div class="pr-section-title" style="border-bottom: none; margin-bottom: 5px;">DISCLAIMER</div>
-     <div style="font-size: 13px; color: #374151; line-height: 1.6; margin-bottom: 40px;">
-     <ul style="padding-left: 20px; list-style-type: disc;">
-     <li style="margin-bottom: 8px;">Ganesa.id (Gerbang Assessment Indonesia) adalah sebuah sistem pemetaan gaya belajar dan bakat minat untuk memberikan pandangan data tentang potensi diri</li>
-     <li style="margin-bottom: 8px;">Peruntukan penggunaan ganesa.id dalam lingkup internal pembinaan ganesa.id dalam pemetaan gaya belajar dan bakat minat</li>
-     <li style="margin-bottom: 8px;">Ganesa.id di buat atas pemetaan assessment diagnostik non kognitif</li>
-     <li style="margin-bottom: 8px;">Ganesa.id disusun oleh praktisi pendidikan dan konsultan psikolog</li>
-     <li style="margin-bottom: 8px;">Hasil dari ganesa.id dapat di gunakan 6 bulan sampai 1 tahun setelah tes dilaksanakan. di luar dari rentang waktu tersebut perlu melakukan tes kembali karena hasil dapat berubah dengan beberapa faktor.</li>
-     <li style="margin-bottom: 8px;">Dengan menyetujui pernyataan di atas membebaskan ganesa.id dari tuntutan yang timbul karena penggunaan sistem diluar peruntukan yang di sepakati.</li>
-     <li style="margin-bottom: 8px;">Dalam laporan ini akan menampilkan mengenai:
-     <ol id="dynamic-disclaimer-list" style="padding-left: 20px; margin-top: 5px; list-style-type: decimal;"></ol>
-     </li>
-     </ul>
-     </div>
+ <div class="pr-section-title" style="border-bottom: none; margin-bottom: 5px;">DISCLAIMER</div>
+ <div style="font-size: 13px; color: #374151; line-height: 1.6; margin-bottom: 40px;">
+ <ul style="padding-left: 20px; list-style-type: disc;">
+ <li style="margin-bottom: 8px;">Ganesa.id (Gerbang Assessment Indonesia) adalah sebuah sistem pemetaan gaya belajar dan bakat minat untuk memberikan pandangan data tentang potensi diri</li>
+ <li style="margin-bottom: 8px;">Peruntukan penggunaan ganesa.id dalam lingkup internal pembinaan ganesa.id dalam pemetaan gaya belajar dan bakat minat</li>
+ <li style="margin-bottom: 8px;">Ganesa.id di buat atas pemetaan assessment diagnostik non kognitif</li>
+ <li style="margin-bottom: 8px;">Ganesa.id disusun oleh praktisi pendidikan dan konsultan psikolog</li>
+ <li style="margin-bottom: 8px;">Hasil dari ganesa.id dapat di gunakan 6 bulan sampai 1 tahun setelah tes dilaksanakan. di luar dari rentang waktu tersebut perlu melakukan tes kembali karena hasil dapat berubah dengan beberapa faktor.</li>
+ <li style="margin-bottom: 8px;">Dengan menyetujui pernyataan di atas membebaskan ganesa.id dari tuntutan yang timbul karena penggunaan sistem diluar peruntukan yang di sepakati.</li>
+ <li style="margin-bottom: 8px;">Dalam laporan ini akan menampilkan mengenai:
+ <ol id="dynamic-disclaimer-list" style="padding-left: 20px; margin-top: 5px; list-style-type: decimal;"></ol>
+ </li>
+ </ul>
+ </div>
 
-     <div id="indiv-sect-kepribadian">
-     <div class="pr-section-title">Kecenderungan Kepribadian</div>
-     <div class="mbti-container" id="pr-mbti-bars"></div>
-     <div class="pr-desc-box">
-     <h4>Tipe Kepribadian: <span id="indiv-hasil-kepribadian" style="color:#8b5cf6;"></span></h4>
-     <div id="desc-kepribadian"></div>
-     </div>
-     </div>
+ <div id="indiv-sect-kepribadian">
+ <div class="pr-section-title">Kecenderungan Kepribadian</div>
+ <div class="mbti-container" id="pr-mbti-bars"></div>
+ <div class="pr-desc-box">
+ <h4>Tipe Kepribadian: <span id="indiv-hasil-kepribadian" style="color:#8b5cf6;"></span></h4>
+ <div id="desc-kepribadian"></div>
+ </div>
+ </div>
  </div>
 
  <!-- HALAMAN 2 PDF: KECERDASAN MAJEMUK & GAYA BELAJAR -->
  <div class="pdf-page" id="pdf-page-2">
-     <div id="indiv-sect-kecerdasan">
-     <div class="pr-section-title">Kecenderungan Majemuk</div>
-     <div class="mi-container" id="pr-mi-bars"></div>
-     <div id="desc-kecerdasan" style="margin-top:15px; font-size:13px; color:#374151;"></div>
-     </div>
+ <div id="indiv-sect-kecerdasan">
+ <div class="pr-section-title">Kecenderungan Majemuk</div>
+ <div class="mi-container" id="pr-mi-bars"></div>
+ <div id="desc-kecerdasan" style="margin-top:15px; font-size:13px; color:#374151;"></div>
+ </div>
 
-     <div id="indiv-sect-gaya">
-     <div class="pr-section-title">Kecenderungan Gaya Belajar</div>
-     <div id="chart_indiv_gaya" class="chart-div" style="min-height: 350px;"></div>
-     <div id="desc-gaya" style="margin-top:5px; font-size:13px; color:#1a1c20; line-height: 1.6;"></div>
-     </div>
+ <div id="indiv-sect-gaya">
+ <div class="pr-section-title">Kecenderungan Gaya Belajar</div>
+ <div id="chart_indiv_gaya" class="chart-div" style="min-height: 350px;"></div>
+ <div id="desc-gaya" style="margin-top:5px; font-size:13px; color:#1a1c20; line-height: 1.6;"></div>
+ </div>
  </div>
 
  <!-- HALAMAN 3 PDF: RIASEC, DISC, & AQ -->
  <div class="pdf-page" id="pdf-page-3">
-     <div id="indiv-sect-riasec">
-     <div class="pr-section-title">Kecenderungan Minat dan Bakat (RIASEC)</div>
-     <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Tipe Final: <span id="indiv-hasil-riasec" style="color:#3b82f6;"></span></div>
-     <div id="chart_indiv_riasec" class="chart-div" style="min-height: 250px;"></div>
-     <div class="pr-desc-box" id="desc-riasec" style="margin-top:15px; border-left-color: #3b82f6;"></div>
-     </div>
-     
-     <div id="indiv-sect-disc">
-     <div class="pr-section-title">Analisis DISC</div>
-     <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-disc" style="color:#f59e0b;"></span></div>
-     <div id="desc-disc" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
-     <div id="chart_indiv_disc" class="chart-div" style="min-height: 250px;"></div>
-     </div>
-     
-     <div id="indiv-sect-aq">
-     <div class="pr-section-title">Ketahanan Diri (AQ)</div>
-     <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-aq" style="color:#ef4444;"></span></div>
-     <div id="desc-aq" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
-     <div id="chart_indiv_aq" class="chart-div" style="min-height: 250px;"></div>
-     </div>
+ <div id="indiv-sect-riasec">
+ <div class="pr-section-title">Kecenderungan Minat dan Bakat (RIASEC)</div>
+ <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Tipe Final: <span id="indiv-hasil-riasec" style="color:#3b82f6;"></span></div>
+ <div id="chart_indiv_riasec" class="chart-div" style="min-height: 250px;"></div>
+ <div class="pr-desc-box" id="desc-riasec" style="margin-top:15px; border-left-color: #3b82f6;"></div>
+ </div>
+ 
+<div id="indiv-sect-disc">
+ <div class="pr-section-title">Analisis DISC</div>
+ <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-disc" style="color:#f59e0b;"></span></div>
+ <div id="desc-disc" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
+ <div id="chart_indiv_disc" class="chart-div" style="min-height: 250px;"></div>
+ </div>
+ 
+<div id="indiv-sect-aq">
+ <div class="pr-section-title">Ketahanan Diri (AQ)</div>
+ <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-aq" style="color:#ef4444;"></span></div>
+ <div id="desc-aq" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
+ <div id="chart_indiv_aq" class="chart-div" style="min-height: 250px;"></div>
+ </div>
  </div>
 
  <!-- HALAMAN 4 PDF: TABEL LAINNYA (TIDAK AKAN TERPOTONG) -->
  <div class="pdf-page" id="pdf-page-4">
-     <div id="indiv-sect-lainnya">
-     <div class="pr-section-title">Pemetaan Kesejahteraan & Kebiasaan</div>
-     <table class="custom-table-light" id="indiv-tabel-lainnya" style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"><tbody></tbody></table>
-     </div>
+ <div id="indiv-sect-lainnya">
+ <div class="pr-section-title">Pemetaan Kesejahteraan & Kebiasaan</div>
+ <table class="custom-table-light" id="indiv-tabel-lainnya" style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"><tbody></tbody></table>
+ </div>
  </div>
 
  </div>
@@ -1385,10 +1466,10 @@ if (isVal(val)) { countObj[val] = (countObj[val] || 0) + 1; }
  
 document.getElementById('dyn-logo-report').src = document.getElementById('dyn-logo').src;
  
- // 🔥 PERBAIKAN NAMA GRUP BERDASARKAN SEKOLAH SISWA 🔥
+// 🔥 PERBAIKAN NAMA GRUP BERDASARKAN SEKOLAH SISWA 🔥
  document.getElementById('indiv-sekolah-teks').innerText = siswa[colIndices.kolomNamaSekolah] || $('#filter-sekolah').val() || sessionSekolah || "-";
  
- document.getElementById('indiv-kelas-teks').innerText = siswa[colIndices.kolomKelas] || "-";
+document.getElementById('indiv-kelas-teks').innerText = siswa[colIndices.kolomKelas] || "-";
  document.getElementById('indiv-nama-teks').innerText = siswa[colIndices.kolomNama] || "-";
  document.getElementById('indiv-jk-teks').innerText = siswa[colIndices.kolomGender] || "-";
  
@@ -1866,55 +1947,55 @@ function renderIndivGroupedChart(dataArray, elementId, colorPalette, isLight = f
  const data = new Uint8Array(e.target.result);
  const workbook = XLSX.read(data, { type: 'array' });
  
- let allUploadedRows = [];
+let allUploadedRows = [];
  let headerRow = null;
  let headerKeys = [];
 
  // Membaca semua sheet Excel agar format tidak tertukar
  for (let i = 0; i < workbook.SheetNames.length; i++) {
-     const sheetName = workbook.SheetNames[i];
-     if (sheetName === "AkunSekolah") continue;
-     
-     const ws = workbook.Sheets[sheetName];
-     const sheetData = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
-     
-     if (sheetData.length > 1) {
-         const headers = sheetData[0].map(h => String(h).trim());
-         const headersLower = headers.map(h => h.toLowerCase());
-         const idxNamaSekolah = headersLower.indexOf('nama sekolah');
-         
-         if (idxNamaSekolah !== -1) {
-             if (!headerRow) {
-                 headerRow = headers;
-                 headerKeys = headersLower;
-             }
-             
-             for(let r = 1; r < sheetData.length; r++) {
-                  const row = sheetData[r];
-                  // Filter: Hanya kirim baris yang benar-benar ada isinya
-                  if (row.length > 0 && row.join("").trim() !== "") {
-                      let alignedRow = [];
-                      for (let k = 0; k < headerKeys.length; k++) {
-                          let localIdx = headersLower.indexOf(headerKeys[k]);
-                          if (localIdx !== -1 && localIdx < row.length) {
-                              alignedRow.push(row[localIdx]);
-                          } else {
-                              alignedRow.push("");
-                          }
-                      }
-                      allUploadedRows.push(alignedRow);
-                  }
-             }
-         }
-     }
+ const sheetName = workbook.SheetNames[i];
+ if (sheetName === "AkunSekolah") continue;
+ 
+const ws = workbook.Sheets[sheetName];
+ const sheetData = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
+ 
+if (sheetData.length > 1) {
+ const headers = sheetData[0].map(h => String(h).trim());
+ const headersLower = headers.map(h => h.toLowerCase());
+ const idxNamaSekolah = headersLower.indexOf('nama sekolah');
+ 
+if (idxNamaSekolah !== -1) {
+ if (!headerRow) {
+ headerRow = headers;
+ headerKeys = headersLower;
+ }
+ 
+for(let r = 1; r < sheetData.length; r++) {
+ const row = sheetData[r];
+ // Filter: Hanya kirim baris yang benar-benar ada isinya
+ if (row.length > 0 && row.join("").trim() !== "") {
+ let alignedRow = [];
+ for (let k = 0; k < headerKeys.length; k++) {
+ let localIdx = headersLower.indexOf(headerKeys[k]);
+ if (localIdx !== -1 && localIdx < row.length) {
+ alignedRow.push(row[localIdx]);
+ } else {
+ alignedRow.push("");
+ }
+ }
+ allUploadedRows.push(alignedRow);
+ }
+ }
+ }
+ }
  }
 
  if (!headerRow) {
-     throw new Error("Kolom 'Nama Sekolah' tidak ditemukan di seluruh sheet Excel!");
+ throw new Error("Kolom 'Nama Sekolah' tidak ditemukan di seluruh sheet Excel!");
  }
 
  if (allUploadedRows.length === 0) {
-     throw new Error("File Excel valid, tetapi sama sekali tidak ada baris data!");
+ throw new Error("File Excel valid, tetapi sama sekali tidak ada baris data!");
  }
 
  const dataRows = [headerRow, ...allUploadedRows];
@@ -1927,7 +2008,7 @@ function renderIndivGroupedChart(dataArray, elementId, colorPalette, isLight = f
  statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>";
  alert(res.message);
  
- const modalEl = document.getElementById('modalUploadExcel');
+const modalEl = document.getElementById('modalUploadExcel');
  const modal = bootstrap.Modal.getInstance(modalEl);
  if (modal) modal.hide();
  fileInput.value = '';
@@ -1936,9 +2017,9 @@ function renderIndivGroupedChart(dataArray, elementId, colorPalette, isLight = f
  document.getElementById('loading').style.display = 'block';
  document.getElementById('main-content').style.display = 'none';
  
- callGAS("getSchoolData", { namaSekolah: sessionSekolah })
+callGAS("getSchoolData", { namaSekolah: sessionSekolah })
  .then(function(jsonString) {
-     initDashboard(jsonString);
+ initDashboard(jsonString);
  });
 
  } else {
@@ -2005,128 +2086,125 @@ const modalEl = document.getElementById('modalCreateUser');
  }
 
  // 🔥 FUNGSI DOWNLOAD PDF PER KELAS (MULTI-HALAMAN & ANTI TERPOTONG) 🔥
- async function downloadPDFKelasZip() {
-     const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
-     const fKelas = $('#filter-kelas').val();
+  async function downloadPDFKelasZip() {
+ const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
+ const fKelas = $('#filter-kelas').val();
 
-     if (!fSekolah || !fKelas) {
-         alert("⚠️ Silakan pilih Sekolah dan Grup/Kelas di filter terlebih dahulu!");
-         return;
-     }
-
-     let students = allRows.filter(r => 
-         String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && 
-         String(r[colIndices.kolomKelas]).trim() === fKelas
-     );
-
-     // Pastikan nama siswanya valid
-     students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
-
-     if (students.length === 0) {
-         alert("⚠️ Tidak ada data siswa yang valid di kelas ini.");
-         return;
-     }
-
-     if (!confirm(`Terdapat ${students.length} siswa di kelas ${fKelas}.\n\nSistem akan membuat laporan PDF untuk masing-masing siswa (setiap laporan berisi 4 halaman agar tidak terpotong) dan membungkus semuanya ke dalam 1 file ZIP.\n\nProses ini berjalan otomatis dan akan memakan waktu. Lanjutkan?`)) {
-         return;
-     }
-
-     // Tampilkan Loading
-     document.getElementById('loading').style.display = 'block';
-     const loadingText = document.querySelector('#loading span');
-     
-     navTo('menu-laporan-individu'); // Pindah ke tab laporan individu
-     const originalName = $('#filter-nama').val(); // Simpan pilihan filter saat ini
-
-     const { jsPDF } = window.jspdf;
-     const zip = new JSZip();
-     
-     // Buat folder di dalam file zip dengan nama aman (tanpa karakter aneh)
-     const safeFolderName = `Laporan_${fSekolah}_${fKelas}`.replace(/[^a-zA-Z0-9_-]/g, "_");
-     const folder = zip.folder(safeFolderName);
-
-     for (let i = 0; i < students.length; i++) {
-         const studentName = String(students[i][colIndices.kolomNama]).trim();
-         // Buat nama file PDF yang aman dari karakter ilegal
-         const safeFileName = studentName.replace(/[^a-zA-Z0-9 _-]/g, "") + ".pdf";
-         
-         // Update UI Status Loading
-         loadingText.innerHTML = `Memproses PDF: <b>${i + 1} dari ${students.length} Siswa</b><br><small style="color:#0d9488;">Membuat file: ${safeFileName}</small>`;
-         
-         // Ganti filter nama agar dashboard menampilkan data siswa ini
-         $('#filter-nama').val(studentName).trigger('change');
-         
-         // ⏳ Beri waktu agar grafik (Google Charts) selesai me-render sebelum difoto
-         await new Promise(r => setTimeout(r, 1500));
-
-         const doc = new jsPDF('p', 'mm', 'a4');
-         const pdfWidth = doc.internal.pageSize.getWidth();
-         const pdfHeight = doc.internal.pageSize.getHeight();
-         let isFirstPageAdded = false;
-
-         // Ambil semua halaman (.pdf-page) yang sudah kita pisah di HTML
-         const pagesToRender = document.querySelectorAll('.pdf-page');
-
-         for (let p = 0; p < pagesToRender.length; p++) {
-             // Cek jika halaman tersebut kosong (tingginya sangat kecil), lewati saja agar PDF tidak ada kertas kosong.
-             if (pagesToRender[p].offsetHeight < 100 && p > 0) continue;
-
-             // Sembunyikan bayangan kotak sebelum difoto agar PDF terlihat bersih dan flat seperti kertas asli
-             pagesToRender[p].style.boxShadow = 'none';
-             pagesToRender[p].style.margin = '0';
-             pagesToRender[p].style.borderRadius = '0';
-             
-             // Ambil 'foto' dari blok elemen (satu halaman)
-             const canvas = await html2canvas(pagesToRender[p], { scale: 2, useCORS: true, logging: false });
-             
-             // Kembalikan style seperti semula untuk tampilan web
-             pagesToRender[p].style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
-             pagesToRender[p].style.marginBottom = '20px';
-             pagesToRender[p].style.borderRadius = '12px';
-
-             const imgData = canvas.toDataURL('image/jpeg', 1.0);
-             const imgProps = doc.getImageProperties(imgData);
-             const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-             // Buat halaman baru di PDF jika ini adalah halaman ke-2, ke-3, dst
-             if (isFirstPageAdded) { doc.addPage(); }
-             
-             let heightLeft = imgHeight;
-             let position = 0;
-
-             // Masukkan gambar ke dalam PDF
-             doc.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
-             heightLeft -= pdfHeight;
-
-             // Fallback: Jika misal isi tabel sangat sangat panjang hingga melewati 1 halaman A4, ia akan dipotong otomatis
-             while (heightLeft > 0) {
-                 position = heightLeft - imgHeight;
-                 doc.addPage();
-                 doc.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
-                 heightLeft -= pdfHeight;
-             }
-             isFirstPageAdded = true;
-         }
-
-         // Jadikan PDF tersebut sebagai ArrayBuffer dan simpan ke dalam folder ZIP
-         const pdfArrayBuffer = doc.output('arraybuffer');
-         folder.file(safeFileName, pdfArrayBuffer);
-     }
-
-     loadingText.innerHTML = `Membungkus ke dalam ZIP...<br><small style="color:#0d9488;">Proses hampir selesai, mohon tunggu.</small>`;
-     
-     // Buat file ZIP dan Trigger Download ke pengguna
-     zip.generateAsync({type:"blob"}).then(function(content) {
-         saveAs(content, `${safeFolderName}.zip`);
-         
-         // Bersihkan / Kembalikan tampilan
-         $('#filter-nama').val(originalName).trigger('change');
-         loadingText.innerHTML = "Memuat Data <span id='load-sekolah'></span>...";
-         document.getElementById('loading').style.display = 'none';
-         
-         alert(`✅ Berhasil!\n\nFile ZIP berisi semua PDF laporan kelas ${fKelas} telah diunduh.`);
-     });
+ if (!fSekolah || !fKelas) {
+ alert("⚠️ Silakan pilih Sekolah dan Grup/Kelas di filter terlebih dahulu!");
+ return;
  }
+
+ let students = allRows.filter(r => 
+ String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && 
+ String(r[colIndices.kolomKelas]).trim() === fKelas
+ );
+
+ students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
+
+ if (students.length === 0) {
+ alert("⚠️ Tidak ada data siswa yang valid di kelas ini.");
+ return;
+ }
+
+ if (!confirm(`Terdapat ${students.length} siswa di kelas ${fKelas}.\n\nSistem akan membuat laporan PDF RAPI (Anti-Terpotong) untuk masing-masing siswa dan membungkusnya ke dalam 1 file ZIP.\n\nProses ini berjalan otomatis. Lanjutkan?`)) {
+ return;
+ }
+
+ document.getElementById('loading').style.display = 'block';
+ const loadingText = document.querySelector('#loading span');
+ 
+ navTo('menu-laporan-individu');
+ const originalName = $('#filter-nama').val();
+
+ const { jsPDF } = window.jspdf;
+ const zip = new JSZip();
+ 
+ const safeFolderName = `Laporan_${fSekolah}_${fKelas}`.replace(/[^a-zA-Z0-9_-]/g, "_");
+ const folder = zip.folder(safeFolderName);
+
+ for (let i = 0; i < students.length; i++) {
+ const studentName = String(students[i][colIndices.kolomNama]).trim();
+ const safeFileName = studentName.replace(/[^a-zA-Z0-9 _-]/g, "") + ".pdf";
+ 
+ loadingText.innerHTML = `Memproses PDF Rapi: <b>${i + 1} dari ${students.length} Siswa</b><br><small style="color:#0d9488;">Siswa: ${studentName}</small>`;
+ 
+ $('#filter-nama').val(studentName).trigger('change');
+ 
+ await new Promise(r => setTimeout(r, 1200));
+
+ const doc = new jsPDF({
+ orientation: 'p',
+ unit: 'mm',
+ format: 'a4',
+ compress: true
+ });
+ 
+ const pdfWidth = doc.internal.pageSize.getWidth(); // 210mm
+ const pdfHeight = doc.internal.pageSize.getHeight(); // 297mm
+ let isFirstPage = true;
+
+ const pagesToRender = document.querySelectorAll('.pdf-page');
+
+ for (let p = 0; p < pagesToRender.length; p++) {
+ const pageEl = pagesToRender[p];
+ 
+ // Sembunyikan elemen kosong jika tidak ada data
+ if (pageEl.offsetHeight < 50) continue;
+
+ // Temporary styling for crisp capture
+ const prevShadow = pageEl.style.boxShadow;
+ const prevMargin = pageEl.style.margin;
+ const prevBorderRadius = pageEl.style.borderRadius;
+
+ pageEl.style.boxShadow = 'none';
+ pageEl.style.margin = '0';
+ pageEl.style.borderRadius = '0';
+ 
+ const canvas = await html2canvas(pageEl, { scale: 2, useCORS: true, logging: false });
+ 
+ pageEl.style.boxShadow = prevShadow;
+ pageEl.style.margin = prevMargin;
+ pageEl.style.borderRadius = prevBorderRadius;
+
+ const imgData = canvas.toDataURL('image/jpeg', 0.95);
+ const imgProps = doc.getImageProperties(imgData);
+ const renderedImgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+ if (!isFirstPage) {
+ doc.addPage();
+ } else {
+ isFirstPage = false;
+ }
+
+ // Fit exactly onto single A4 page to prevent splitting/truncation across pages
+ if (renderedImgHeight <= pdfHeight) {
+ doc.addImage(imgData, 'JPEG', 0, 0, pdfWidth, renderedImgHeight);
+ } else {
+ // If element slightly exceeds single A4 height, scale proportionally to fit inside A4 page height
+ const scaledWidth = (pdfHeight * imgProps.width) / imgProps.height;
+ const xOffset = (pdfWidth - scaledWidth) / 2;
+ doc.addImage(imgData, 'JPEG', xOffset, 0, scaledWidth, pdfHeight);
+ }
+ }
+
+ const pdfArrayBuffer = doc.output('arraybuffer');
+ folder.file(safeFileName, pdfArrayBuffer);
+ }
+
+ loadingText.innerHTML = `Membungkus ke dalam ZIP...<br><small style="color:#0d9488;">Proses hampir selesai, mohon tunggu.</small>`;
+ 
+ zip.generateAsync({type:"blob"}).then(function(content) {
+ saveAs(content, `${safeFolderName}.zip`);
+ 
+ $('#filter-nama').val(originalName).trigger('change');
+ loadingText.innerHTML = "Memuat Data <span id='load-sekolah'></span>...";
+ document.getElementById('loading').style.display = 'none';
+ 
+ alert(`✅ Berhasil!\n\nFile ZIP berisi laporan PDF Rapi (Anti-Terpotong) kelas ${fKelas} telah diunduh.`);
+ });
+ }
+
  </script>
 </body>
 </html>
