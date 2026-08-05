@@ -996,7 +996,7 @@ if (isSuperAdmin) {
  document.getElementById('loading').style.display = 'block';
 
  // 🔥 MENGAMBIL DATA SEGAR LANGSUNG DARI SERVER (TANPA CACHE) 🔥
- // Ini memastikan jika Anda mengedit langsung di Google Sheet, cukup F5 langsung berubah.
+ // Ini memastikan jika kamu mengedit langsung di Google Sheet, cukup F5 langsung berubah.
  callGAS("getSchoolData", { namaSekolah: res.namaSekolah })
  .then(function(jsonString) {
  initDashboard(jsonString);
@@ -1846,28 +1846,41 @@ function renderIndivGroupedChart(dataArray, elementId, colorPalette, isLight = f
  
  let allUploadedRows = [];
  let headerRow = null;
+ let headerKeys = [];
 
- // Loop semua sheet di dalam file Excel
+ // Membaca semua sheet Excel agar format tidak tertukar
  for (let i = 0; i < workbook.SheetNames.length; i++) {
      const sheetName = workbook.SheetNames[i];
-     if (sheetName === "AkunSekolah") continue; // Lewati sheet akun
+     if (sheetName === "AkunSekolah") continue;
      
      const ws = workbook.Sheets[sheetName];
-     const sheetData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+     const sheetData = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
      
      if (sheetData.length > 1) {
-         const headers = sheetData[0].map(h => String(h).trim().toLowerCase());
-         const idxNamaSekolah = headers.indexOf('nama sekolah');
+         const headers = sheetData[0].map(h => String(h).trim());
+         const headersLower = headers.map(h => h.toLowerCase());
+         const idxNamaSekolah = headersLower.indexOf('nama sekolah');
          
-         // Jika sheet ini punya kolom "Nama Sekolah", kita proses
          if (idxNamaSekolah !== -1) {
-             if (!headerRow) headerRow = sheetData[0]; 
+             if (!headerRow) {
+                 headerRow = headers;
+                 headerKeys = headersLower;
+             }
              
              for(let r = 1; r < sheetData.length; r++) {
                   const row = sheetData[r];
-                  // Kirim SEMUA data ke backend selama tidak murni kosong
+                  // Filter: Hanya kirim baris yang benar-benar ada isinya
                   if (row.length > 0 && row.join("").trim() !== "") {
-                      allUploadedRows.push(row);
+                      let alignedRow = [];
+                      for (let k = 0; k < headerKeys.length; k++) {
+                          let localIdx = headersLower.indexOf(headerKeys[k]);
+                          if (localIdx !== -1 && localIdx < row.length) {
+                              alignedRow.push(row[localIdx]);
+                          } else {
+                              alignedRow.push("");
+                          }
+                      }
+                      allUploadedRows.push(alignedRow);
                   }
              }
          }
