@@ -848,98 +848,96 @@ height: 100%;
  <p style="color:#64748b;">Gunakan filter "Pilih Nama" di atas untuk melihat Laporan Lengkap dan Deskripsi Individu.</p>
  </div>
  
-<div id="laporan-isi" style="display:none; padding: 15px 0;">
+ <div id="laporan-isi" style="display:none; padding: 15px 0;">
  
-<!-- HALAMAN 1 PDF: BIODATA & KEPRIBADIAN -->
- <div class="pdf-page">
- <div class="pr-header">
- <img src="" id="dyn-logo-report" alt="Logo">
- <div class="pr-header-text">
- <h1>GANESA.ID</h1>
- <p>Gerbang Asessment Indonesia<br>
- PT. AKARA NATURA NUSANTARA<br>
- Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
- </div>
- </div>
+    <!-- HALAMAN 1 PDF: CORP, BIODATA, & DISCLAIMER -->
+    <div class="pdf-page" id="indiv-sect-cover">
+        <div class="pr-header">
+            <img src="" id="dyn-logo-report" alt="Logo">
+            <div class="pr-header-text">
+                <h1>GANESA.ID</h1>
+                <p>Gerbang Asessment Indonesia<br>
+                PT. AKARA NATURA NUSANTARA<br>
+                Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
+            </div>
+        </div>
 
- <div class="pr-biodata">
- <div>Grup</div><div>:</div><div id="indiv-sekolah-teks">-</div>
- <div>Kelas</div><div>:</div><div id="indiv-kelas-teks">-</div>
- <div>Nama</div><div>:</div><div id="indiv-nama-teks">-</div>
- <div>Jenis Kelamin</div><div>:</div><div id="indiv-jk-teks">-</div>
- </div>
+        <div class="pr-biodata">
+            <div>Grup</div><div>:</div><div id="indiv-sekolah-teks">-</div>
+            <div>Kelas</div><div>:</div><div id="indiv-kelas-teks">-</div>
+            <div>Nama</div><div>:</div><div id="indiv-nama-teks">-</div>
+            <div>Jenis Kelamin</div><div>:</div><div id="indiv-jk-teks">-</div>
+        </div>
 
- <div class="pr-section-title" style="border-bottom: none; margin-bottom: 5px;">DISCLAIMER</div>
- <div style="font-size: 13px; color: #374151; line-height: 1.6; margin-bottom: 40px;">
- <ul style="padding-left: 20px; list-style-type: disc;">
- <li style="margin-bottom: 8px;">Ganesa.id (Gerbang Assessment Indonesia) adalah sebuah sistem pemetaan gaya belajar dan bakat minat untuk memberikan pandangan data tentang potensi diri</li>
- <li style="margin-bottom: 8px;">Peruntukan penggunaan ganesa.id dalam lingkup internal pembinaan ganesa.id dalam pemetaan gaya belajar dan bakat minat</li>
- <li style="margin-bottom: 8px;">Ganesa.id di buat atas pemetaan assessment diagnostik non kognitif</li>
- <li style="margin-bottom: 8px;">Ganesa.id disusun oleh praktisi pendidikan dan konsultan psikolog</li>
- <li style="margin-bottom: 8px;">Hasil dari ganesa.id dapat di gunakan 6 bulan sampai 1 tahun setelah tes dilaksanakan. di luar dari rentang waktu tersebut perlu melakukan tes kembali karena hasil dapat berubah dengan beberapa faktor.</li>
- <li style="margin-bottom: 8px;">Dengan menyetujui pernyataan di atas membebaskan ganesa.id dari tuntutan yang timbul karena penggunaan sistem diluar peruntukan yang di sepakati.</li>
- <li style="margin-bottom: 8px;">Dalam laporan ini akan menampilkan mengenai:
- <ol id="dynamic-disclaimer-list" style="padding-left: 20px; margin-top: 5px; list-style-type: decimal;"></ol>
- </li>
- </ul>
- </div>
+        <div class="pr-section-title" style="border-bottom: none; margin-bottom: 5px;">DISCLAIMER</div>
+        <div style="font-size: 13px; color: #374151; line-height: 1.6; margin-bottom: 40px;">
+            <ul style="padding-left: 20px; list-style-type: disc;">
+                <li style="margin-bottom: 8px;">Ganesa.id (Gerbang Assessment Indonesia) adalah sebuah sistem pemetaan gaya belajar dan bakat minat untuk memberikan pandangan data tentang potensi diri</li>
+                <li style="margin-bottom: 8px;">Peruntukan penggunaan ganesa.id dalam lingkup internal pembinaan ganesa.id dalam pemetaan gaya belajar dan bakat minat</li>
+                <li style="margin-bottom: 8px;">Ganesa.id di buat atas pemetaan assessment diagnostik non kognitif</li>
+                <li style="margin-bottom: 8px;">Ganesa.id disusun oleh praktisi pendidikan dan konsultan psikolog</li>
+                <li style="margin-bottom: 8px;">Hasil dari ganesa.id dapat di gunakan 6 bulan sampai 1 tahun setelah tes dilaksanakan. di luar dari rentang waktu tersebut perlu melakukan tes kembali karena hasil dapat berubah dengan beberapa faktor.</li>
+                <li style="margin-bottom: 8px;">Dengan menyetujui pernyataan di atas membebaskan ganesa.id dari tuntutan yang timbul karena penggunaan sistem diluar peruntukan yang di sepakati.</li>
+                <li style="margin-bottom: 8px;">Dalam laporan ini akan menampilkan mengenai:
+                    <ol id="dynamic-disclaimer-list" style="padding-left: 20px; margin-top: 5px; list-style-type: decimal;"></ol>
+                </li>
+            </ul>
+        </div>
+    </div>
 
- <div id="indiv-sect-kepribadian">
- <div class="pr-section-title">Kecenderungan Kepribadian</div>
- <div class="mbti-container" id="pr-mbti-bars"></div>
- <div class="pr-desc-box">
- <h4>Tipe Kepribadian: <span id="indiv-hasil-kepribadian" style="color:#8b5cf6;"></span></h4>
- <div id="desc-kepribadian"></div>
- </div>
- </div>
- </div>
+    <!-- HALAMAN 2 PDF: KEPRIBADIAN -->
+    <div class="pdf-page" id="indiv-sect-kepribadian">
+        <div class="pr-section-title" style="margin-top: 0;">Kecenderungan Kepribadian</div>
+        <div class="mbti-container" id="pr-mbti-bars"></div>
+        <div class="pr-desc-box">
+            <h4>Tipe Kepribadian: <span id="indiv-hasil-kepribadian" style="color:#8b5cf6;"></span></h4>
+            <div id="desc-kepribadian"></div>
+        </div>
+    </div>
 
- <!-- HALAMAN 2 PDF: KECERDASAN MAJEMUK & GAYA BELAJAR -->
- <div class="pdf-page" id="pdf-page-2">
- <div id="indiv-sect-kecerdasan">
- <div class="pr-section-title">Kecenderungan Majemuk</div>
- <div class="mi-container" id="pr-mi-bars"></div>
- <div id="desc-kecerdasan" style="margin-top:15px; font-size:13px; color:#374151;"></div>
- </div>
+    <!-- HALAMAN 3 PDF: KECERDASAN MAJEMUK -->
+    <div class="pdf-page" id="indiv-sect-kecerdasan">
+        <div class="pr-section-title" style="margin-top: 0;">Kecenderungan Majemuk</div>
+        <div class="mi-container" id="pr-mi-bars"></div>
+        <div id="desc-kecerdasan" style="margin-top:15px; font-size:13px; color:#374151;"></div>
+    </div>
 
- <div id="indiv-sect-gaya">
- <div class="pr-section-title">Kecenderungan Gaya Belajar</div>
- <div id="chart_indiv_gaya" class="chart-div" style="min-height: 350px;"></div>
- <div id="desc-gaya" style="margin-top:5px; font-size:13px; color:#1a1c20; line-height: 1.6;"></div>
- </div>
- </div>
+    <!-- HALAMAN 4 PDF: GAYA BELAJAR -->
+    <div class="pdf-page" id="indiv-sect-gaya">
+        <div class="pr-section-title" style="margin-top: 0;">Kecenderungan Gaya Belajar</div>
+        <div id="chart_indiv_gaya" class="chart-div" style="min-height: 350px;"></div>
+        <div id="desc-gaya" style="margin-top:5px; font-size:13px; color:#1a1c20; line-height: 1.6;"></div>
+    </div>
 
- <!-- HALAMAN 3 PDF: RIASEC, DISC, & AQ -->
- <div class="pdf-page" id="pdf-page-3">
- <div id="indiv-sect-riasec">
- <div class="pr-section-title">Kecenderungan Minat dan Bakat (RIASEC)</div>
- <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Tipe Final: <span id="indiv-hasil-riasec" style="color:#3b82f6;"></span></div>
- <div id="chart_indiv_riasec" class="chart-div" style="min-height: 250px;"></div>
- <div class="pr-desc-box" id="desc-riasec" style="margin-top:15px; border-left-color: #3b82f6;"></div>
- </div>
- 
-<div id="indiv-sect-disc">
- <div class="pr-section-title">Analisis DISC</div>
- <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-disc" style="color:#f59e0b;"></span></div>
- <div id="desc-disc" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
- <div id="chart_indiv_disc" class="chart-div" style="min-height: 250px;"></div>
- </div>
- 
-<div id="indiv-sect-aq">
- <div class="pr-section-title">Ketahanan Diri (AQ)</div>
- <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-aq" style="color:#ef4444;"></span></div>
- <div id="desc-aq" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
- <div id="chart_indiv_aq" class="chart-div" style="min-height: 250px;"></div>
- </div>
- </div>
+    <!-- HALAMAN 5 PDF: RIASEC -->
+    <div class="pdf-page" id="indiv-sect-riasec">
+        <div class="pr-section-title" style="margin-top: 0;">Kecenderungan Minat dan Bakat (RIASEC)</div>
+        <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Tipe Final: <span id="indiv-hasil-riasec" style="color:#3b82f6;"></span></div>
+        <div id="chart_indiv_riasec" class="chart-div" style="min-height: 250px;"></div>
+        <div class="pr-desc-box" id="desc-riasec" style="margin-top:15px; border-left-color: #3b82f6;"></div>
+    </div>
+    
+    <!-- HALAMAN 6 PDF: DISC -->
+    <div class="pdf-page" id="indiv-sect-disc">
+        <div class="pr-section-title" style="margin-top: 0;">Analisis DISC</div>
+        <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-disc" style="color:#f59e0b;"></span></div>
+        <div id="desc-disc" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
+        <div id="chart_indiv_disc" class="chart-div" style="min-height: 250px;"></div>
+    </div>
+    
+    <!-- HALAMAN 7 PDF: AQ -->
+    <div class="pdf-page" id="indiv-sect-aq">
+        <div class="pr-section-title" style="margin-top: 0;">Ketahanan Diri (AQ)</div>
+        <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-aq" style="color:#ef4444;"></span></div>
+        <div id="desc-aq" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
+        <div id="chart_indiv_aq" class="chart-div" style="min-height: 250px;"></div>
+    </div>
 
- <!-- HALAMAN 4 PDF: TABEL LAINNYA (TIDAK AKAN TERPOTONG) -->
- <div class="pdf-page" id="pdf-page-4">
- <div id="indiv-sect-lainnya">
- <div class="pr-section-title">Pemetaan Kesejahteraan & Kebiasaan</div>
- <table class="custom-table-light" id="indiv-tabel-lainnya" style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"><tbody></tbody></table>
- </div>
- </div>
+    <!-- HALAMAN 8 PDF: TABEL LAINNYA -->
+    <div class="pdf-page" id="indiv-sect-lainnya">
+        <div class="pr-section-title" style="margin-top: 0;">Pemetaan Kesejahteraan & Kebiasaan</div>
+        <table class="custom-table-light" id="indiv-tabel-lainnya" style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"><tbody></tbody></table>
+    </div>
 
  </div>
  </div>
@@ -1524,6 +1522,7 @@ let elDisclaimerList = document.getElementById('dynamic-disclaimer-list');
  toggleIndiv('indiv-sect-gaya', hasGaya);
  toggleIndiv('indiv-sect-disc', hasDisc);
  toggleIndiv('indiv-sect-aq', hasAq);
+ toggleIndiv('indiv-sect-lainnya', (hasTaraf || hasKesejahteraan || hasKebiasaan || hasKeluarga || hasPapi));
 
  if (hasKepri) {
  const buildMbtiBar = (lblL, valL, valR, lblR) => {
@@ -2149,7 +2148,7 @@ const pdfWidth = doc.internal.pageSize.getWidth(); // Lebar paten A4
  const pageEl = pagesToRender[p];
  
 // Sembunyikan elemen kosong jika tidak ada data
- if (pageEl.offsetHeight < 50) continue;
+ if (pageEl.offsetHeight < 50 || window.getComputedStyle(pageEl).display === 'none') continue;
 
  // Temporary styling for crisp capture
  const prevShadow = pageEl.style.boxShadow;
