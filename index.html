@@ -166,7 +166,7 @@
  .chart-div-large { min-height: 340px; }
  .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
- .paper-report { padding: 20px 15px; }
+ .pdf-page { padding: 20px 15px !important; }
  .custom-table-light th, .custom-table-light td {
  padding: 8px 6px;
  font-size: 11px;
@@ -320,16 +320,16 @@
  .btn-tampil-semua:hover { background-color: #0f172a; color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
 
  /* =======================================================
- 🔥 TEMA LAPORAN INDIVIDU (DESAIN DOKUMEN / A4) 🔥
+ 🔥 TEMA LAPORAN INDIVIDU (PDF PAGE / MULTI HALAMAN) 🔥
  ======================================================= */
- .paper-report {
+ .pdf-page {
  background-color: #ffffff;
  color: #1a1c20;
  padding: 40px;
  border-radius: 12px;
  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
  max-width: 900px;
- margin: 0 auto;
+ margin: 0 auto 20px auto;
  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
  }
  .pr-header {
@@ -462,7 +462,7 @@ height: 100%;
 .school-header-panel { flex-direction: column; align-items: flex-start; gap: 12px; padding: 15px; }
  .assessment-title { text-align: left; padding-left: 0; border-left: none; border-top: 1px solid #e2e8f0; padding-top: 10px; width: 100%; font-size: 14px; }
  .detail-hint { opacity: 1; }
- .paper-report { padding: 18px; }
+ .pdf-page { padding: 18px; }
  .pr-header img { width: 60px; height: 60px; }
  .pr-header-text h1 { font-size: 20px; }
  .mbti-label-left, .mbti-label-right { font-size: 11px; width: 60px; }
@@ -759,7 +759,7 @@ height: 100%;
  <div class="row"><div class="col-md-6" id="card-disc"><div class="dashboard-card clickable-card" onclick="navTo('menu-disc')"><div class="chart-header"><span>Hasil Asesmen DISC</span> <span class="detail-hint">Lihat Detail ➔</span></div><div id="chart_ringkasan_disc" class="chart-div"></div></div></div><div class="col-md-6" id="card-papi"><div class="dashboard-card clickable-card" onclick="navTo('menu-papi')"><div class="chart-header"><span>Hasil Papi Kostick</span> <span class="detail-hint">Lihat Detail ➔</span></div><div id="chart_ringkasan_papi" class="chart-div"></div></div></div></div>
  </div>
 
- <!-- 🔥 2. TAB RINGKASAN INDIVIDU (KHUSUS 1 NAMA - DESAIN DOKUMEN A4) 🔥 -->
+ <!-- 🔥 2. TAB RINGKASAN INDIVIDU (KHUSUS 1 NAMA - MULTI HALAMAN PDF) 🔥 -->
  <div class="tab-pane fade" id="pills-laporan-individu" role="tabpanel">
  <div id="laporan-kosong" class="dashboard-card text-center py-5">
  <div style="font-size: 50px; margin-bottom: 20px;">🔍</div>
@@ -768,100 +768,98 @@ height: 100%;
  </div>
  
 <div id="laporan-isi" style="display:none; padding: 15px 0;">
- <div class="paper-report">
  
-<!-- Header -->
- <div class="pr-header">
- <img src="" id="dyn-logo-report" alt="Logo">
- <div class="pr-header-text">
- <h1>GANESA.ID</h1>
- <p>Gerbang Asessment Indonesia<br>
- PT. AKARA NATURA NUSANTARA<br>
- Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
- </div>
+ <!-- HALAMAN 1 PDF: BIODATA & KEPRIBADIAN -->
+ <div class="pdf-page">
+     <div class="pr-header">
+     <img src="" id="dyn-logo-report" alt="Logo">
+     <div class="pr-header-text">
+     <h1>GANESA.ID</h1>
+     <p>Gerbang Asessment Indonesia<br>
+     PT. AKARA NATURA NUSANTARA<br>
+     Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
+     </div>
+     </div>
+
+     <div class="pr-biodata">
+     <div>Grup</div><div>:</div><div id="indiv-sekolah-teks">-</div>
+     <div>Kelas</div><div>:</div><div id="indiv-kelas-teks">-</div>
+     <div>Nama</div><div>:</div><div id="indiv-nama-teks">-</div>
+     <div>Jenis Kelamin</div><div>:</div><div id="indiv-jk-teks">-</div>
+     </div>
+
+     <div class="pr-section-title" style="border-bottom: none; margin-bottom: 5px;">DISCLAIMER</div>
+     <div style="font-size: 13px; color: #374151; line-height: 1.6; margin-bottom: 40px;">
+     <ul style="padding-left: 20px; list-style-type: disc;">
+     <li style="margin-bottom: 8px;">Ganesa.id (Gerbang Assessment Indonesia) adalah sebuah sistem pemetaan gaya belajar dan bakat minat untuk memberikan pandangan data tentang potensi diri</li>
+     <li style="margin-bottom: 8px;">Peruntukan penggunaan ganesa.id dalam lingkup internal pembinaan ganesa.id dalam pemetaan gaya belajar dan bakat minat</li>
+     <li style="margin-bottom: 8px;">Ganesa.id di buat atas pemetaan assessment diagnostik non kognitif</li>
+     <li style="margin-bottom: 8px;">Ganesa.id disusun oleh praktisi pendidikan dan konsultan psikolog</li>
+     <li style="margin-bottom: 8px;">Hasil dari ganesa.id dapat di gunakan 6 bulan sampai 1 tahun setelah tes dilaksanakan. di luar dari rentang waktu tersebut perlu melakukan tes kembali karena hasil dapat berubah dengan beberapa faktor.</li>
+     <li style="margin-bottom: 8px;">Dengan menyetujui pernyataan di atas membebaskan ganesa.id dari tuntutan yang timbul karena penggunaan sistem diluar peruntukan yang di sepakati.</li>
+     <li style="margin-bottom: 8px;">Dalam laporan ini akan menampilkan mengenai:
+     <ol id="dynamic-disclaimer-list" style="padding-left: 20px; margin-top: 5px; list-style-type: decimal;"></ol>
+     </li>
+     </ul>
+     </div>
+
+     <div id="indiv-sect-kepribadian">
+     <div class="pr-section-title">Kecenderungan Kepribadian</div>
+     <div class="mbti-container" id="pr-mbti-bars"></div>
+     <div class="pr-desc-box">
+     <h4>Tipe Kepribadian: <span id="indiv-hasil-kepribadian" style="color:#8b5cf6;"></span></h4>
+     <div id="desc-kepribadian"></div>
+     </div>
+     </div>
  </div>
 
- <!-- Biodata -->
- <div class="pr-biodata">
- <div>Grup</div><div>:</div><div id="indiv-sekolah-teks">-</div>
- <div>Kelas</div><div>:</div><div id="indiv-kelas-teks">-</div>
- <div>Nama</div><div>:</div><div id="indiv-nama-teks">-</div>
- <div>Jenis Kelamin</div><div>:</div><div id="indiv-jk-teks">-</div>
+ <!-- HALAMAN 2 PDF: KECERDASAN MAJEMUK & GAYA BELAJAR -->
+ <div class="pdf-page" id="pdf-page-2">
+     <div id="indiv-sect-kecerdasan">
+     <div class="pr-section-title">Kecenderungan Majemuk</div>
+     <div class="mi-container" id="pr-mi-bars"></div>
+     <div id="desc-kecerdasan" style="margin-top:15px; font-size:13px; color:#374151;"></div>
+     </div>
+
+     <div id="indiv-sect-gaya">
+     <div class="pr-section-title">Kecenderungan Gaya Belajar</div>
+     <div id="chart_indiv_gaya" class="chart-div" style="min-height: 350px;"></div>
+     <div id="desc-gaya" style="margin-top:5px; font-size:13px; color:#1a1c20; line-height: 1.6;"></div>
+     </div>
  </div>
 
- <!-- DISCLAIMER SECTION DENGAN LIST DINAMIS -->
- <div class="pr-section-title" style="border-bottom: none; margin-bottom: 5px;">DISCLAIMER</div>
- <div style="font-size: 13px; color: #374151; line-height: 1.6; margin-bottom: 40px;">
- <ul style="padding-left: 20px; list-style-type: disc;">
- <li style="margin-bottom: 8px;">Ganesa.id (Gerbang Assessment Indonesia) adalah sebuah sistem pemetaan gaya belajar dan bakat minat untuk memberikan pandangan data tentang potensi diri</li>
- <li style="margin-bottom: 8px;">Peruntukan penggunaan ganesa.id dalam lingkup internal pembinaan ganesa.id dalam pemetaan gaya belajar dan bakat minat</li>
- <li style="margin-bottom: 8px;">Ganesa.id di buat atas pemetaan assessment diagnostik non kognitif</li>
- <li style="margin-bottom: 8px;">Ganesa.id disusun oleh praktisi pendidikan dan konsultan psikolog</li>
- <li style="margin-bottom: 8px;">Hasil dari ganesa.id dapat di gunakan 6 bulan sampai 1 tahun setelah tes dilaksanakan. di luar dari rentang waktu tersebut perlu melakukan tes kembali karena hasil dapat berubah dengan beberapa faktor (Lingkungan, teman, kondisi keluarga dan lain lain)</li>
- <li style="margin-bottom: 8px;">Dengan menyetujui pernyataan di atas membebaskan ganesa.id dari tuntutan yang timbul karena penggunaan sistem diluar peruntukan yang di sepakati.</li>
- <li style="margin-bottom: 8px;">Dalam laporan ini akan menampilkan mengenai:
- <ol id="dynamic-disclaimer-list" style="padding-left: 20px; margin-top: 5px; list-style-type: decimal;">
- <!-- JS will inject list items here -->
- </ol>
- </li>
- </ul>
+ <!-- HALAMAN 3 PDF: RIASEC, DISC, & AQ -->
+ <div class="pdf-page" id="pdf-page-3">
+     <div id="indiv-sect-riasec">
+     <div class="pr-section-title">Kecenderungan Minat dan Bakat (RIASEC)</div>
+     <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Tipe Final: <span id="indiv-hasil-riasec" style="color:#3b82f6;"></span></div>
+     <div id="chart_indiv_riasec" class="chart-div" style="min-height: 250px;"></div>
+     <div class="pr-desc-box" id="desc-riasec" style="margin-top:15px; border-left-color: #3b82f6;"></div>
+     </div>
+     
+     <div id="indiv-sect-disc">
+     <div class="pr-section-title">Analisis DISC</div>
+     <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-disc" style="color:#f59e0b;"></span></div>
+     <div id="desc-disc" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
+     <div id="chart_indiv_disc" class="chart-div" style="min-height: 250px;"></div>
+     </div>
+     
+     <div id="indiv-sect-aq">
+     <div class="pr-section-title">Ketahanan Diri (AQ)</div>
+     <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-aq" style="color:#ef4444;"></span></div>
+     <div id="desc-aq" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
+     <div id="chart_indiv_aq" class="chart-div" style="min-height: 250px;"></div>
+     </div>
  </div>
 
- <!-- 1. Kepribadian -->
- <div id="indiv-sect-kepribadian">
- <div class="pr-section-title">Kecenderungan Kepribadian</div>
- <div class="mbti-container" id="pr-mbti-bars"></div>
- <div class="pr-desc-box">
- <h4>Tipe Kepribadian: <span id="indiv-hasil-kepribadian" style="color:#8b5cf6;"></span></h4>
- <div id="desc-kepribadian"></div>
- </div>
+ <!-- HALAMAN 4 PDF: TABEL LAINNYA (TIDAK AKAN TERPOTONG) -->
+ <div class="pdf-page" id="pdf-page-4">
+     <div id="indiv-sect-lainnya">
+     <div class="pr-section-title">Pemetaan Kesejahteraan & Kebiasaan</div>
+     <table class="custom-table-light" id="indiv-tabel-lainnya" style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"><tbody></tbody></table>
+     </div>
  </div>
 
- <!-- 2. Kecerdasan Majemuk -->
- <div id="indiv-sect-kecerdasan">
- <div class="pr-section-title">Kecenderungan Majemuk</div>
- <div class="mi-container" id="pr-mi-bars"></div>
- <div id="desc-kecerdasan" style="margin-top:15px; font-size:13px; color:#374151;"></div>
- </div>
-
- <!-- 3. Gaya Belajar -->
- <div id="indiv-sect-gaya">
- <div class="pr-section-title">Kecenderungan Gaya Belajar</div>
- <div id="chart_indiv_gaya" class="chart-div" style="min-height: 350px;"></div>
- <div id="desc-gaya" style="margin-top:5px; font-size:13px; color:#1a1c20; line-height: 1.6;"></div>
- </div>
-
- <!-- 4. RIASEC -->
- <div id="indiv-sect-riasec">
- <div class="pr-section-title">Kecenderungan Minat dan Bakat (RIASEC)</div>
- <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Tipe Final: <span id="indiv-hasil-riasec" style="color:#3b82f6;"></span></div>
- <div id="chart_indiv_riasec" class="chart-div" style="min-height: 250px;"></div>
- <div class="pr-desc-box" id="desc-riasec" style="margin-top:15px; border-left-color: #3b82f6;"></div>
- </div>
- 
-<!-- 5. Analisis DISC -->
- <div id="indiv-sect-disc">
- <div class="pr-section-title">Analisis DISC</div>
- <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-disc" style="color:#f59e0b;"></span></div>
- <div id="desc-disc" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
- <div id="chart_indiv_disc" class="chart-div" style="min-height: 250px;"></div>
- </div>
- 
-<!-- 6. Ketahanan Diri (AQ) -->
- <div id="indiv-sect-aq">
- <div class="pr-section-title">Ketahanan Diri (AQ)</div>
- <div style="font-weight:bold; margin-bottom:10px; font-size:16px;">Kategori: <span id="indiv-hasil-aq" style="color:#ef4444;"></span></div>
- <div id="desc-aq" class="row g-2 mb-3" style="display:none; margin: 0;"></div>
- <div id="chart_indiv_aq" class="chart-div" style="min-height: 250px;"></div>
- </div>
-
- <!-- 7. Hasil Deskriptif Lainnya -->
- <div id="indiv-sect-lainnya" style="margin-top: 30px;">
- <div class="pr-section-title">Pemetaan Kesejahteraan & Kebiasaan</div>
- <table class="custom-table-light" id="indiv-tabel-lainnya" style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"><tbody></tbody></table>
- </div>
-
- </div>
  </div>
  </div>
 
@@ -978,7 +976,7 @@ document.getElementById('dyn-school').innerText = res.namaSekolah;
 
  const btnUpload = document.getElementById('btn-upload-excel');
  const btnCreateUser = document.getElementById('btn-create-user');
- const btnDownloadPdf = document.getElementById('btn-download-pdf'); // TOMBOL PDF BARU
+ const btnDownloadPdf = document.getElementById('btn-download-pdf');
 
  // 🔥 LOGIKA BARU ANTI-TYPO: PENGECEKAN SUPER ADMIN DAN KONSULTAN PSIKOLOG 🔥
  const sek = (sessionSekolah || "").trim().toUpperCase();
@@ -993,7 +991,7 @@ document.getElementById('dyn-school').innerText = res.namaSekolah;
 if (isSuperAdmin) {
  if (btnUpload) btnUpload.style.display = 'flex';
  if (btnCreateUser) btnCreateUser.style.display = 'flex';
- if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex'; // TAMPILKAN TOMBOL PDF
+ if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex';
  } else {
  if (btnUpload) btnUpload.style.display = 'none';
  if (btnCreateUser) btnCreateUser.style.display = 'none';
@@ -1011,7 +1009,7 @@ if (isSuperAdmin) {
  document.getElementById('login-screen').style.display = 'none';
  document.getElementById('loading').style.display = 'block';
 
- // 🔥 MENGAMBIL DATA SEGAR LANGSUNG DARI SERVER (TANPA CACHE) 🔥
+ // MENGAMBIL DATA DARI SERVER
  callGAS("getSchoolData", { namaSekolah: res.namaSekolah })
  .then(function(jsonString) {
  initDashboard(jsonString);
@@ -1249,9 +1247,8 @@ dataObj.headers.forEach((header, index) => {
 
  const btnUpload = document.getElementById('btn-upload-excel');
  const btnCreateUser = document.getElementById('btn-create-user');
- const btnDownloadPdf = document.getElementById('btn-download-pdf'); // TOMBOL PDF BARU
+ const btnDownloadPdf = document.getElementById('btn-download-pdf');
 
- // 🔥 LOGIKA DI INIT DASHBOARD: FILTER SEKOLAH TERBUKA UNTUK ADMIN & KONSULTAN 🔥
  const sek = (sessionSekolah || "").trim().toUpperCase();
  const isSuperAdmin = (sek === "SUPER ADMIN" || sek === "AKTARA_PSIKOLOG");
  const isKonsultan = (sek === "AKTARA_PSIKOLOGI" || sek === "AKATARA_PSIKOLOGI" || sek === "KONSULTAN_AKTARA" || sek === "AKTARA@PSIKOLOG");
@@ -1265,13 +1262,16 @@ dataObj.headers.forEach((header, index) => {
 if (isSuperAdmin) {
  if (btnUpload) btnUpload.style.display = 'flex';
  if (btnCreateUser) btnCreateUser.style.display = 'flex';
- if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex'; // TAMPILKAN TOMBOL PDF
+ if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex';
  } else {
  if (btnUpload) btnUpload.style.display = 'none';
  if (btnCreateUser) btnCreateUser.style.display = 'none';
  if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
  }
  } else {
+ document.getElementById('box-filter-sekolah').style.display = 'none';
+ document.getElementById('box-filter-nama').className = 'col-md-6';
+ document.getElementById('box-filter-kelas').className = 'col-md-6';
  if (btnUpload) btnUpload.style.display = 'none';
  if (btnCreateUser) btnCreateUser.style.display = 'none';
  if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
@@ -2001,7 +2001,7 @@ const modalEl = document.getElementById('modalCreateUser');
  });
  }
 
- // 🔥 FUNGSI DOWNLOAD PDF PER KELAS (DIBUNGKUS DALAM ZIP) 🔥
+ // 🔥 FUNGSI DOWNLOAD PDF PER KELAS (MULTI-HALAMAN & ANTI TERPOTONG) 🔥
  async function downloadPDFKelasZip() {
      const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
      const fKelas = $('#filter-kelas').val();
@@ -2024,7 +2024,7 @@ const modalEl = document.getElementById('modalCreateUser');
          return;
      }
 
-     if (!confirm(`Terdapat ${students.length} siswa di kelas ${fKelas}.\n\nSistem akan membuat laporan PDF untuk masing-masing siswa dan membungkus semuanya ke dalam 1 file ZIP.\n\nProses ini berjalan otomatis dan akan memakan waktu. Lanjutkan?`)) {
+     if (!confirm(`Terdapat ${students.length} siswa di kelas ${fKelas}.\n\nSistem akan membuat laporan PDF untuk masing-masing siswa (setiap laporan berisi 4 halaman agar tidak terpotong) dan membungkus semuanya ke dalam 1 file ZIP.\n\nProses ini berjalan otomatis dan akan memakan waktu. Lanjutkan?`)) {
          return;
      }
 
@@ -2056,30 +2056,53 @@ const modalEl = document.getElementById('modalCreateUser');
          // ⏳ Beri waktu agar grafik (Google Charts) selesai me-render sebelum difoto
          await new Promise(r => setTimeout(r, 1500));
 
-         const reportElement = document.querySelector('.paper-report');
-         
-         // Ambil 'foto' dari elemen laporan
-         const canvas = await html2canvas(reportElement, { scale: 2, useCORS: true, logging: false });
-         const imgData = canvas.toDataURL('image/jpeg', 1.0);
-         
          const doc = new jsPDF('p', 'mm', 'a4');
          const pdfWidth = doc.internal.pageSize.getWidth();
          const pdfHeight = doc.internal.pageSize.getHeight();
-         const imgProps = doc.getImageProperties(imgData);
-         const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+         let isFirstPageAdded = false;
 
-         let heightLeft = imgHeight;
-         let position = 0;
+         // Ambil semua halaman (.pdf-page) yang sudah kita pisah di HTML
+         const pagesToRender = document.querySelectorAll('.pdf-page');
 
-         // Masukkan gambar ke dalam PDF (kalau halamannya panjang, akan terpotong ke halaman 2)
-         doc.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
-         heightLeft -= pdfHeight;
+         for (let p = 0; p < pagesToRender.length; p++) {
+             // Cek jika halaman tersebut kosong (tingginya sangat kecil), lewati saja agar PDF tidak ada kertas kosong.
+             if (pagesToRender[p].offsetHeight < 100 && p > 0) continue;
 
-         while (heightLeft >= 0) {
-             position = heightLeft - imgHeight;
-             doc.addPage();
+             // Sembunyikan bayangan kotak sebelum difoto agar PDF terlihat bersih dan flat seperti kertas asli
+             pagesToRender[p].style.boxShadow = 'none';
+             pagesToRender[p].style.margin = '0';
+             pagesToRender[p].style.borderRadius = '0';
+             
+             // Ambil 'foto' dari blok elemen (satu halaman)
+             const canvas = await html2canvas(pagesToRender[p], { scale: 2, useCORS: true, logging: false });
+             
+             // Kembalikan style seperti semula untuk tampilan web
+             pagesToRender[p].style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+             pagesToRender[p].style.marginBottom = '20px';
+             pagesToRender[p].style.borderRadius = '12px';
+
+             const imgData = canvas.toDataURL('image/jpeg', 1.0);
+             const imgProps = doc.getImageProperties(imgData);
+             const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+             // Buat halaman baru di PDF jika ini adalah halaman ke-2, ke-3, dst
+             if (isFirstPageAdded) { doc.addPage(); }
+             
+             let heightLeft = imgHeight;
+             let position = 0;
+
+             // Masukkan gambar ke dalam PDF
              doc.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
              heightLeft -= pdfHeight;
+
+             // Fallback: Jika misal isi tabel sangat sangat panjang hingga melewati 1 halaman A4, ia akan dipotong otomatis
+             while (heightLeft > 0) {
+                 position = heightLeft - imgHeight;
+                 doc.addPage();
+                 doc.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+                 heightLeft -= pdfHeight;
+             }
+             isFirstPageAdded = true;
          }
 
          // Jadikan PDF tersebut sebagai ArrayBuffer dan simpan ke dalam folder ZIP
