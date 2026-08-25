@@ -757,14 +757,15 @@
 
  <!-- 🔥 2. TAB RINGKASAN INDIVIDU (KHUSUS 1 NAMA - MULTI HALAMAN PDF) 🔥 -->
  <div class="tab-pane fade" id="pills-laporan-individu" role="tabpanel">
-    <div id="laporan-kosong" class="dashboard-card text-center py-5">
-        <div style="font-size: 50px; margin-bottom: 20px;">🔍</div>
-        <h4 style="color:#0f172a;">Pilih 1 Nama <span class="dyn-pelajar">Siswa</span></h4>
-        <p style="color:#64748b;">Gunakan filter "Pilih Nama" di atas untuk melihat Laporan Lengkap dan Deskripsi Individu.</p>
-    </div>
-    <div id="laporan-isi" style="display:none; padding: 15px 0;">
-        <!-- KONTEN INI AKAN DI-GENERATE OTOMATIS OLEH JAVASCRIPT -->
-    </div>
+ <div id="laporan-kosong" class="dashboard-card text-center py-5">
+ <div style="font-size: 50px; margin-bottom: 20px;">🔍</div>
+ <h4 style="color:#0f172a;">Pilih 1 Nama <span class="dyn-pelajar">Siswa</span></h4>
+ <p style="color:#64748b;">Gunakan filter "Pilih Nama" di atas untuk melihat Laporan Lengkap dan Deskripsi Individu.</p>
+ </div>
+ 
+ <div id="laporan-isi" style="display:none; padding: 15px 0;">
+    <!-- KONTEN PDF AKAN DI-GENERATE DISINI OLEH JAVASCRIPT -->
+ </div>
  </div>
 
  <!-- 🔥 3. SEMUA TAB DETAIL (DENGAN TOMBOL TAMPILKAN SEMUA) 🔥 -->
@@ -1007,6 +1008,10 @@
  kolomKelas: "Kelas", 
  kolomGender: "Jenis Kelamin", 
 
+ /* TAMBAHAN UNTUK PDF INDIVIDU BARU */
+ kolomUsia: "Usia",
+ kolomNoUnik: "No. Unik",
+
  kolomKepribadian: "Tipe Kepribadian", 
  kolomKecerdasanMajemuk: "Profil Kecerdasan", 
  kolomGayaBelajar: "Profil Gaya Belajar",
@@ -1084,8 +1089,7 @@
  kolomRiasecDesk: "Deskripsi RIASEC", 
  kolomRiasecJurusan: "Saran Jurusan di Kampus", 
  kolomRiasecMapel: "Mata pelajaran yang mendukung",
- kolomUsia: "Usia",
- kolomNoUnik: "No. Unik"
+ kolomRiasecKarir: "Rekomendasi Karir" 
  };
 
  let allRows = []; let colIndices = {};
@@ -1299,7 +1303,9 @@
 
     let sekolahName = getValStr('kolomNamaSekolah'); 
     if(sekolahName === '-') sekolahName = $('#filter-sekolah').val() || sessionSekolah || "-";
-    let logoSrc = document.getElementById('dyn-logo').src;
+    
+    // 🔥 PERBAIKAN: Memaksa logo PDF selalu menggunakan logo GANESA (Super Admin) 🔥
+    let logoSrc = "https://lh3.googleusercontent.com/d/1Wqpp9soE46uHXkCdJiPF3pzbt8QGTypJ";
 
     let page1Html = `
     <div class="pdf-page">
