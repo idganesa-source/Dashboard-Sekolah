@@ -1304,7 +1304,7 @@
     let sekolahName = getValStr('kolomNamaSekolah'); 
     if(sekolahName === '-') sekolahName = $('#filter-sekolah').val() || sessionSekolah || "-";
     
-    // 🔥 PERBAIKAN: Memaksa logo PDF selalu menggunakan logo GANESA (Super Admin) 🔥
+    // Logo paten Ganesa untuk dicetak
     let logoSrc = "https://lh3.googleusercontent.com/d/1Wqpp9soE46uHXkCdJiPF3pzbt8QGTypJ";
 
     let page1Html = `
@@ -1390,27 +1390,32 @@
         page1Html += `</div>`;
     }
 
+    // 🔥 PERBAIKAN RIASEC: "Kompetensi Kuat" dipindah ke luar grid agar meluas memenuhi kertas 🔥
     if (isVal(siswa[colIndices.kolomTipeRIASEC])) {
         let rArr = [
             {n: 'Realistic', s: getNum('kolomReal')}, {n: 'Investigative', s: getNum('kolomInv')},
             {n: 'Artistic', s: getNum('kolomArt')}, {n: 'Social', s: getNum('kolomSoc')},
             {n: 'Enterprising', s: getNum('kolomEnt')}, {n: 'Conventional', s: getNum('kolomConv')}
         ].sort((a,b) => b.s - a.s).slice(0, 2);
+        
         page1Html += `
         <div class="pr-section-title-new">5. MINAT BAKAT (RIASEC) & KARIR</div>
         <div class="pr-grid-2">
             <div>
                 <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[0].n} (${rArr[0].s}%):</b> Dominan pertama.</p>
                 <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[1].n} (${rArr[1].s}%):</b> Dominan kedua.</p>
-                <p class="pr-text-sm" style="margin-top:10px;"><b>Kompetensi Kuat:</b><br>${safeText('kolomRiasecDesk')}</p>
             </div>
             <div>
                 <p class="pr-text-sm" style="margin-bottom:6px;"><b>Rekomendasi Jurusan:</b><br>${safeText('kolomRiasecJurusan')}</p>
                 <p class="pr-text-sm" style="margin-bottom:6px;"><b>Mata Pelajaran Pendukung:</b><br>${safeText('kolomRiasecMapel')}</p>
             </div>
         </div>
+        <div style="margin-top: 8px;">
+            <p class="pr-text-sm" style="margin-bottom:6px;"><b>Kompetensi Kuat:</b><br>${safeText('kolomRiasecDesk')}</p>
+        </div>
         `;
     }
+    
     page1Html += `</div>`;
 
     let page2Html = `<div class="pdf-page">`;
