@@ -530,7 +530,7 @@
  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
  <div class="modal-body">
- <p style="font-size: 13px; color: #475569; margin-bottom: 15px;">Pilih halaman yang ingin disertakan ke dalam file PDF setiap siswa:</p>
+ <p style="font-size: 13px; color: #475569; margin-bottom: 15px;">Pilih halaman yang ingin disertakan ke dalam file PDF:</p>
  <div class="form-check mb-2">
  <input class="form-check-input page-checkbox" type="checkbox" value="0" id="chkPage1" checked style="cursor: pointer;">
  <label class="form-check-label" for="chkPage1" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 1 (Cover Biodata)</label>
@@ -546,7 +546,8 @@
  </div>
  <div class="modal-footer" style="border-top: 1px solid #e2e8f0;">
  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
- <button type="button" class="btn btn-primary btn-sm" onclick="prosesDownloadPDFZip()" style="background-color: #f59e0b; border: none; color: white;">Mulai Download</button>
+ <button type="button" class="btn btn-info btn-sm" id="btn-download-individu" onclick="prosesDownloadPDFIndividu()" style="background-color: #0ea5e9; border: none; color: white; display: none;">Download 1 Siswa</button>
+ <button type="button" class="btn btn-primary btn-sm" onclick="prosesDownloadPDFZip()" style="background-color: #f59e0b; border: none; color: white;">Download ZIP Kelas</button>
  </div>
  </div>
  </div>
@@ -1772,15 +1773,87 @@
 
  // 🔥 FUNGSI MEMBUKA MODAL DOWNLOAD PDF 🔥
  function openDownloadModal() {
-    const fSekolah = $('#filter-sekolah').val() || sessionSekolah; const fKelas = $('#filter-kelas').val();
+    const fSekolah = $('#filter-sekolah').val() || sessionSekolah; 
+    const fKelas = $('#filter-kelas').val();
+    const fNama = $('#filter-nama').val(); // Cek filter nama
+
     if (!fSekolah || !fKelas) { alert("⚠️ Silakan pilih Sekolah dan Grup/Kelas di filter terlebih dahulu!"); return; }
     let students = allRows.filter(r => String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && String(r[colIndices.kolomKelas]).trim() === fKelas);
     students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
     if (students.length === 0) { alert("⚠️ Tidak ada data siswa yang valid di kelas ini."); return; }
-    const modal = new bootstrap.Modal(document.getElementById('modalDownloadPDF')); modal.show();
+
+    // Tampilkan tombol Download Individu jika ada nama yang di-filter
+    const btnIndividu = document.getElementById('btn-download-individu');
+    if (btnIndividu) {
+        if (fNama && fNama !== "") {
+            btnIndividu.style.display = 'inline-block';
+            btnIndividu.innerText = "Download " + fNama;
+        } else {
+            btnIndividu.style.display = 'none';
+        }
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('modalDownloadPDF')); 
+    modal.show();
  }
 
- // 🔥 FUNGSI PROSES DOWNLOAD PDF MASSAL KE ZIP (SESUAI PILIHAN HALAMAN) 🔥
+ // 🔥 FUNGSI PROSES DOWNLOAD PDF INDIVIDU LANGSUNG (1 SISWA) 🔥
+ async function prosesDownloadPDFIndividu() {
+    const selectedPages = Array.from(document.querySelectorAll('.page-checkbox:checked')).map(cb => parseInt(cb.value));
+    if (selectedPages.length === 0) { alert("⚠️ Silakan centang minimal 1 halaman untuk di-download."); return; }
+
+    const fNama = $('#filter-nama').val();
+    if (!fNama) { alert("⚠️ Tidak ada nama siswa yang dipilih!"); return; }
+
+    const modalEl = document.getElementById('modalDownloadPDF'); 
+    const modal = bootstrap.Modal.getInstance(modalEl); 
+    if (modal) modal.hide();
+
+    document.getElementById('loading').style.display = 'block'; 
+    const loadingText = document.querySelector('#loading span');
+    loadingText.innerHTML = `Memproses PDF: <b>${fNama}</b><br><small style="color:#0d9488;">Mohon tunggu sebentar...</small>`;
+
+    navTo('menu-laporan-individu');
+
+    // Jeda sejenak agar UI HTML selesai render sempurna sebelum difoto
+    await new Promise(r => setTimeout(r, 1000));
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4', compress: true });
+    const pdfWidth = doc.internal.pageSize.getWidth();
+    let isFirstPage = true;
+
+    const pagesToRender = document.querySelectorAll('.pdf-page');
+
+    for (let p = 0; p < pagesToRender.length; p++) {
+        if (!selectedPages.includes(p)) continue;
+
+        const pageEl = pagesToRender[p];
+        if (pageEl.offsetHeight < 50 || window.getComputedStyle(pageEl).display === 'none') continue;
+
+        const prevShadow = pageEl.style.boxShadow; const prevMargin = pageEl.style.margin; const prevBorderRadius = pageEl.style.borderRadius;
+        pageEl.style.boxShadow = 'none'; pageEl.style.margin = '0'; pageEl.style.borderRadius = '0';
+        
+        const canvas = await html2canvas(pageEl, { scale: 2, useCORS: true, logging: false });
+        
+        pageEl.style.boxShadow = prevShadow; pageEl.style.margin = prevMargin; pageEl.style.borderRadius = prevBorderRadius;
+
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        const imgProps = doc.getImageProperties(imgData);
+        const renderedImgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        if (!isFirstPage) { doc.addPage(); } else { isFirstPage = false; }
+        doc.addImage(imgData, 'JPEG', 0, 0, pdfWidth, renderedImgHeight);
+    }
+
+    const safeFileName = fNama.replace(/[^a-zA-Z0-9 _-]/g, "") + ".pdf";
+    doc.save(safeFileName);
+
+    loadingText.innerHTML = "Memuat Data <span id='load-sekolah'></span>...";
+    document.getElementById('loading').style.display = 'none';
+ }
+
+ // 🔥 FUNGSI PROSES DOWNLOAD PDF MASSAL KE ZIP (SEMUA SISWA DI KELAS) 🔥
  async function prosesDownloadPDFZip() {
     const selectedPages = Array.from(document.querySelectorAll('.page-checkbox:checked')).map(cb => parseInt(cb.value));
     if (selectedPages.length === 0) { alert("⚠️ Silakan centang minimal 1 halaman untuk di-download."); return; }
