@@ -536,11 +536,11 @@
  </div>
  <div class="form-check mb-2">
  <input class="form-check-input page-checkbox" type="checkbox" value="1" id="chkPage2" checked style="cursor: pointer;">
- <label class="form-check-label" for="chkPage2" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 2 (Isi Laporan Bagian 1)</label>
+ <label class="form-check-label" for="chkPage2" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 2 (Profil Kepribadian, Gaya Belajar & Kecerdasan)</label>
  </div>
  <div class="form-check mb-2">
  <input class="form-check-input page-checkbox" type="checkbox" value="2" id="chkPage3" checked style="cursor: pointer;">
- <label class="form-check-label" for="chkPage3" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 3 (Isi Laporan Bagian 2 - Jika Ada)</label>
+ <label class="form-check-label" for="chkPage3" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 3 (Lingkungan Keluarga & Asesmen Tambahan)</label>
  </div>
  </div>
  <div class="modal-footer" style="border-top: 1px solid #e2e8f0;">
@@ -1391,10 +1391,16 @@
     `;
 
     // =========================================================================
-    // 🔥 HALAMAN 2 & 3: ISI LAPORAN ASESMEN PSIKOLOGI (DYNAMIC FLOW) 🔥
+    // 🔥 HALAMAN 2: ISI LAPORAN ASESMEN PSIKOLOGI 🔥
     // =========================================================================
-    let sections = [];
-    let secCount = 1;
+    let page1Html = `
+    <div class="pdf-page">
+        <!-- Mini Header Identitas Siswa -->
+        <div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div style="font-size: 14px; font-weight: bold; color: #000; text-transform: uppercase;">HASIL ASESMEN PSIKOLOGI</div>
+            <div style="font-size: 11px; color: #333; text-align: right;"><b>${getValStr('kolomNama')}</b> | ${getValStr('kolomKelas')} | ${sekolahName}</div>
+        </div>
+    `;
 
     if (isVal(siswa[colIndices.kolomKepribadian])) {
         let I = getNum('kolomI'), E = getNum('kolomE'), S = getNum('kolomS'), N = getNum('kolomN');
@@ -1405,51 +1411,42 @@
         domTraits.push(F >= T ? `Feeling ${F}%` : `Thinking ${T}%`);
         domTraits.push(J >= P ? `Judging ${J}%` : `Perceiving ${P}%`);
         
-        sections.push({
-            weight: 18,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. KEPRIBADIAN (${getValStr('kolomKepribadian')})</div>
-            <div class="flex-between" style="align-items: flex-start; gap: 20px;">
-                <div style="flex: 1;">
-                    <p class="pr-text" style="margin-bottom:8px;">${safeText('kolomKepriMenonjol')}</p>
-                    <p class="pr-text"><b>Saran Pengembangan:</b> ${safeText('kolomKepriKembang')}</p>
-                </div>
-                <div style="width: 140px; text-align: right; font-size: 11px; color:#333; line-height: 1.8;">
-                    ${domTraits.join(' | <br>')} |
-                </div>
+        page1Html += `
+        <div class="pr-section-title-new">1. KEPRIBADIAN (${getValStr('kolomKepribadian')})</div>
+        <div class="flex-between" style="align-items: flex-start; gap: 20px;">
+            <div style="flex: 1;">
+                <p class="pr-text" style="margin-bottom:8px;">${safeText('kolomKepriMenonjol')}</p>
+                <p class="pr-text"><b>Saran Pengembangan:</b> ${safeText('kolomKepriKembang')}</p>
             </div>
-            `
-        });
+            <div style="width: 140px; text-align: right; font-size: 11px; color:#333; line-height: 1.8;">
+                ${domTraits.join(' | <br>')} |
+            </div>
+        </div>
+        `;
     }
 
     if (isVal(siswa[colIndices.kolomGayaBelajar])) {
         let gayaArr = [
             {n: 'Visual', s: getNum('kolomVis')}, {n: 'Auditory', s: getNum('kolomAud')}, {n: 'Kinesthetic', s: getNum('kolomKines')}
         ].sort((a,b) => b.s - a.s);
-        sections.push({
-            weight: 15,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. GAYA BELAJAR DOMINAN</div>
-            <p class="pr-text" style="margin-bottom: 8px;">
-                <b>${gayaArr[0].n.toUpperCase()} (${gayaArr[0].s}%)</b> | ${gayaArr[1].n} (${gayaArr[1].s}%) | ${gayaArr[2].n} (${gayaArr[2].s}%)
-            </p>
-            <p class="pr-text">${safeText('kolomGayaCiri')}</p>
-            `
-        });
+        page1Html += `
+        <div class="pr-section-title-new">2. GAYA BELAJAR DOMINAN</div>
+        <p class="pr-text" style="margin-bottom: 8px;">
+            <b>${gayaArr[0].n.toUpperCase()} (${gayaArr[0].s}%)</b> | ${gayaArr[1].n} (${gayaArr[1].s}%) | ${gayaArr[2].n} (${gayaArr[2].s}%)
+        </p>
+        <p class="pr-text">${safeText('kolomGayaCiri')}</p>
+        `;
     }
 
     if (isVal(siswa[colIndices.kolomTarafKecerdasan])) {
-        sections.push({
-            weight: 15,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. PROFIL KECERDASAN (IQ: ${getValStr('kolomTarafKecerdasan')} - KATEGORI ${getValStr('kolomTipeKecerdasan')})</div>
-            <div class="pr-grid-3">
-                <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Ketajaman Diferensiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Kritis mengidentifikasi detail masalah.</p></div>
-                <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Sistematika Berpikir (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Teratur, logis, dan sistematis.</p></div>
-                <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Kemampuan Asosiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Cukup mampu menghubungkan ide.</p></div>
-            </div>
-            `
-        });
+        page1Html += `
+        <div class="pr-section-title-new">3. PROFIL KECERDASAN (IQ: ${getValStr('kolomTarafKecerdasan')} - KATEGORI ${getValStr('kolomTipeKecerdasan')})</div>
+        <div class="pr-grid-3">
+            <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Ketajaman Diferensiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Kritis mengidentifikasi detail masalah.</p></div>
+            <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Sistematika Berpikir (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Teratur, logis, dan sistematis.</p></div>
+            <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Kemampuan Asosiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Cukup mampu menghubungkan ide.</p></div>
+        </div>
+        `;
     }
 
     if (isVal(siswa[colIndices.kolomKecerdasanMajemuk])) {
@@ -1459,22 +1456,17 @@
             {n: 'Musikal', s: getNum('kolomMus')}, {n: 'Interpersonal', s: getNum('kolomInter')},
             {n: 'Intrapersonal', s: getNum('kolomIntra')}, {n: 'Naturalis', s: getNum('kolomNat')}
         ].sort((a,b) => b.s - a.s).slice(0, 3);
-        
-        let miHtml = `
-        <div class="pr-section-title-new">${secCount++}. KECERDASAN MAJEMUK UTAMA</div>
+        page1Html += `
+        <div class="pr-section-title-new">4. KECERDASAN MAJEMUK UTAMA</div>
         <div class="pr-grid-3">
         `;
         miArr.forEach(m => {
-            miHtml += `<div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">${m.n} (${m.s}%):</p><p class="pr-text-xs">Kecerdasan dominan pada bidang ${m.n.toLowerCase()}.</p></div>`;
+            page1Html += `<div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">${m.n} (${m.s}%):</p><p class="pr-text-xs">Kecerdasan dominan pada bidang ${m.n.toLowerCase()}.</p></div>`;
         });
-        miHtml += `</div>`;
-
-        sections.push({
-            weight: 15,
-            html: miHtml
-        });
+        page1Html += `</div>`;
     }
 
+    // 🔥 PERBAIKAN RIASEC: "Kompetensi Kuat" dipindah ke luar grid agar meluas memenuhi kertas 🔥
     if (isVal(siswa[colIndices.kolomTipeRIASEC])) {
         let rArr = [
             {n: 'Realistic', s: getNum('kolomReal')}, {n: 'Investigative', s: getNum('kolomInv')},
@@ -1482,132 +1474,92 @@
             {n: 'Enterprising', s: getNum('kolomEnt')}, {n: 'Conventional', s: getNum('kolomConv')}
         ].sort((a,b) => b.s - a.s).slice(0, 2);
         
-        sections.push({
-            weight: 26,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. MINAT BAKAT (RIASEC) & KARIR</div>
-            <div class="pr-grid-2">
-                <div>
-                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[0].n} (${rArr[0].s}%):</b> Dominan pertama.</p>
-                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[1].n} (${rArr[1].s}%):</b> Dominan kedua.</p>
-                </div>
-                <div>
-                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>Rekomendasi Jurusan:</b><br>${safeText('kolomRiasecJurusan')}</p>
-                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>Mata Pelajaran Pendukung:</b><br>${safeText('kolomRiasecMapel')}</p>
-                </div>
+        page1Html += `
+        <div class="pr-section-title-new">5. MINAT BAKAT (RIASEC) & KARIR</div>
+        <div class="pr-grid-2">
+            <div>
+                <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[0].n} (${rArr[0].s}%):</b> Dominan pertama.</p>
+                <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[1].n} (${rArr[1].s}%):</b> Dominan kedua.</p>
             </div>
-            <div style="margin-top: 8px;">
-                <p class="pr-text-sm" style="margin-bottom:6px;"><b>Kompetensi Kuat:</b><br>${safeText('kolomRiasecDesk')}</p>
+            <div>
+                <p class="pr-text-sm" style="margin-bottom:6px;"><b>Rekomendasi Jurusan:</b><br>${safeText('kolomRiasecJurusan')}</p>
+                <p class="pr-text-sm" style="margin-bottom:6px;"><b>Mata Pelajaran Pendukung:</b><br>${safeText('kolomRiasecMapel')}</p>
             </div>
-            `
-        });
+        </div>
+        <div style="margin-top: 8px;">
+            <p class="pr-text-sm" style="margin-bottom:6px;"><b>Kompetensi Kuat:</b><br>${safeText('kolomRiasecDesk')}</p>
+        </div>
+        `;
     }
+    
+    page1Html += `</div>`;
+
+    let page2Html = `<div class="pdf-page">`;
+    let sectionCount = 6;
 
     if (isVal(siswa[colIndices.kolomCaraMendidikKat])) {
-        sections.push({
-            weight: 25,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. KONDISI LINGKUNGAN KELUARGA</div>
-            <table class="pr-table-compact">
-                <thead><tr><th style="width:25%;">Aspek</th><th style="width:25%;">Skor</th><th>Deskripsi Singkat</th></tr></thead>
-                <tbody>
-                    <tr>
-                        <td><b>Cara Orang Tua Mendidik</b></td>
-                        <td>${getValStr('kolomCaraMendidikSkor')}% (${getValStr('kolomCaraMendidikKat')})</td>
-                        <td>Lingkungan pengasuhan berada pada tahap ${getValStr('kolomCaraMendidikKat').toLowerCase()}.</td>
-                    </tr>
-                    <tr>
-                        <td><b>Relasi Anak & Keluarga</b></td>
-                        <td>${getValStr('kolomRelasiSkor')}% (${getValStr('kolomRelasiKat')})</td>
-                        <td>Hubungan kekeluargaan berada pada tahap ${getValStr('kolomRelasiKat').toLowerCase()}.</td>
-                    </tr>
-                    <tr>
-                        <td><b>Suasana Rumah</b></td>
-                        <td>${getValStr('kolomSuasanaRumahSkor')}% (${getValStr('kolomSuasanaRumahKat')})</td>
-                        <td>Suasana lingkungan rumah ${getValStr('kolomSuasanaRumahKat').toLowerCase()}.</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p class="pr-text" style="margin-top:10px;"><b>Saran untuk Keluarga:</b> Seiring bertambahnya usia, berikan ruang diskusi yang terbuka bagi anak. Hindari sikap menghakimi dan libatkan anak dalam kegiatan keluarga agar mereka merasakan peran serta tanggung jawabnya.</p>
-            `
-        });
+        page2Html += `
+        <div class="pr-section-title-new">${sectionCount}. KONDISI LINGKUNGAN KELUARGA</div>
+        <table class="pr-table-compact">
+            <thead><tr><th style="width:25%;">Aspek</th><th style="width:25%;">Skor</th><th>Deskripsi Singkat</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><b>Cara Orang Tua Mendidik</b></td>
+                    <td>${getValStr('kolomCaraMendidikSkor')}% (${getValStr('kolomCaraMendidikKat')})</td>
+                    <td>Lingkungan pengasuhan berada pada tahap ${getValStr('kolomCaraMendidikKat').toLowerCase()}.</td>
+                </tr>
+                <tr>
+                    <td><b>Relasi Anak & Keluarga</b></td>
+                    <td>${getValStr('kolomRelasiSkor')}% (${getValStr('kolomRelasiKat')})</td>
+                    <td>Hubungan kekeluargaan berada pada tahap ${getValStr('kolomRelasiKat').toLowerCase()}.</td>
+                </tr>
+                <tr>
+                    <td><b>Suasana Rumah</b></td>
+                    <td>${getValStr('kolomSuasanaRumahSkor')}% (${getValStr('kolomSuasanaRumahKat')})</td>
+                    <td>Suasana lingkungan rumah ${getValStr('kolomSuasanaRumahKat').toLowerCase()}.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="pr-text" style="margin-top:10px;"><b>Saran untuk Keluarga:</b> Seiring bertambahnya usia, berikan ruang diskusi yang terbuka bagi anak. Hindari sikap menghakimi dan libatkan anak dalam kegiatan keluarga agar mereka merasakan peran serta tanggung jawabnya.</p>
+        `;
+        sectionCount++;
     }
 
     let hasKes = isVal(siswa[colIndices.kolomKemandirianKat]);
     let hasKeb = isVal(siswa[colIndices.kolomPRKat]);
     if (hasKes || hasKeb) {
-        sections.push({
-            weight: 18,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. KESEJAHTERAAN PSIKOLOGI & KEBIASAAN BELAJAR</div>
-            <div class="pr-grid-2" style="align-items: start;">
-                <div>
-                    <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kesejahteraan Psikologis:</p>
-                    <p class="pr-text">Tingkat kemandirian <b>(${getValStr('kolomKemandirianSkor')}%)</b>, penguasaan lingkungan <b>(${getValStr('kolomPenguasaanSkor')}%)</b>, dan tujuan hidup <b>(${getValStr('kolomTujuanSkor')}%)</b> terpantau dalam batas evaluasi saat asesmen dilakukan.</p>
-                </div>
-                <div>
-                    <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kebiasaan Belajar:</p>
-                    <p class="pr-text">Alokasi waktu <b>(${getValStr('kolomWaktuSkor')}%)</b>, pengerjaan PR <b>(${getValStr('kolomPRSkor')}%)</b>, serta konsentrasi <b>(${getValStr('kolomKonsentrasiSkor')}%)</b> mencerminkan profil belajar harian anak saat ini.</p>
-                </div>
+        page2Html += `
+        <div class="pr-section-title-new">${sectionCount}. KESEJAHTERAAN PSIKOLOGI & KEBIASAAN BELAJAR</div>
+        <div class="pr-grid-2" style="align-items: start;">
+            <div>
+                <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kesejahteraan Psikologis:</p>
+                <p class="pr-text">Tingkat kemandirian <b>(${getValStr('kolomKemandirianSkor')}%)</b>, penguasaan lingkungan <b>(${getValStr('kolomPenguasaanSkor')}%)</b>, dan tujuan hidup <b>(${getValStr('kolomTujuanSkor')}%)</b> terpantau dalam batas evaluasi saat asesmen dilakukan.</p>
             </div>
-            `
-        });
+            <div>
+                <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kebiasaan Belajar:</p>
+                <p class="pr-text">Alokasi waktu <b>(${getValStr('kolomWaktuSkor')}%)</b>, pengerjaan PR <b>(${getValStr('kolomPRSkor')}%)</b>, serta konsentrasi <b>(${getValStr('kolomKonsentrasiSkor')}%)</b> mencerminkan profil belajar harian anak saat ini.</p>
+            </div>
+        </div>
+        `;
+        sectionCount++;
     }
 
     if (isVal(siswa[colIndices.kolomDISC]) || isVal(siswa[colIndices.kolomPapi]) || isVal(siswa[colIndices.kolomKetahananDiri])) {
-        let addHtml = `<div class="pr-section-title-new">${secCount++}. ASESMEN TAMBAHAN</div><div class="pr-grid-3">`;
+        page2Html += `<div class="pr-section-title-new">${sectionCount}. ASESMEN TAMBAHAN</div><div class="pr-grid-3">`;
         if (isVal(siswa[colIndices.kolomDISC])) {
-            addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Analisis DISC:</p><p class="pr-text">Kategori Kepribadian DISC berada pada tipe <b>${getValStr('kolomDISC')}</b>.</p></div>`;
+            page2Html += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Analisis DISC:</p><p class="pr-text">Kategori Kepribadian DISC berada pada tipe <b>${getValStr('kolomDISC')}</b>.</p></div>`;
         }
         if (isVal(siswa[colIndices.kolomPapi])) {
-            addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Papi Kostick:</p><p class="pr-text">Hasil kecenderungan profil berada pada <b>${getValStr('kolomPapi')}</b>.</p></div>`;
+            page2Html += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Papi Kostick:</p><p class="pr-text">Hasil kecenderungan profil berada pada <b>${getValStr('kolomPapi')}</b>.</p></div>`;
         }
         if (isVal(siswa[colIndices.kolomKetahananDiri])) {
-            addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Ketahanan Diri (AQ):</p><p class="pr-text">Profil resiliensi masuk dalam kategori <b>${getValStr('kolomKetahananDiri')}</b>.</p></div>`;
+            page2Html += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Ketahanan Diri (AQ):</p><p class="pr-text">Profil resiliensi masuk dalam kategori <b>${getValStr('kolomKetahananDiri')}</b>.</p></div>`;
         }
-        addHtml += `</div>`;
-        
-        sections.push({
-            weight: 15,
-            html: addHtml
-        });
+        page2Html += `</div>`;
     }
 
-    // Sistem Pendistribusian Dinamis (Dynamic Chunking)
-    let maxWeight = 90; 
-    let currentWeight = 0;
-    let pagesHtml = "";
-    
-    const miniHeader = `
-        <div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
-            <div style="font-size: 14px; font-weight: bold; color: #000; text-transform: uppercase;">HASIL ASESMEN PSIKOLOGI</div>
-            <div style="font-size: 11px; color: #333; text-align: right;"><b>${getValStr('kolomNama')}</b> | ${getValStr('kolomKelas')} | ${sekolahName}</div>
-        </div>
-    `;
-
-    let activePage = `<div class="pdf-page">` + miniHeader;
-
-    for (let i = 0; i < sections.length; i++) {
-        let sec = sections[i];
-        // Jika bobot halaman ini sudah melebihi kapasitas (dan halaman tidak kosong), maka tutup halaman ini & buat baru
-        if (currentWeight + sec.weight > maxWeight && currentWeight > 0) {
-            activePage += `</div>`;
-            pagesHtml += activePage;
-            
-            activePage = `<div class="pdf-page">` + miniHeader;
-            currentWeight = 0;
-        }
-        activePage += sec.html;
-        currentWeight += sec.weight;
-    }
-    
-    // Tambahkan halaman terakhir yang masih terbuka
-    if (currentWeight > 0) {
-        activePage += `</div>`;
-        pagesHtml += activePage;
-    }
-
-    document.getElementById('laporan-isi').innerHTML = coverHtml + pagesHtml;
+    page2Html += `</div>`;
+    document.getElementById('laporan-isi').innerHTML = coverHtml + page1Html + page2Html;
 
  } else {
  document.getElementById('laporan-kosong').style.display = 'block';
@@ -1833,4 +1785,299 @@
  });
  document.addEventListener("visibilitychange", function() { if (document.visibilityState === 'visible' && allRows && allRows.length > 0) { window.dispatchEvent(new Event('resize')); } });
 
- Saya tidak bisa membantu karena saya hanya model bahasa.
+ // 🔥 FUNGSI UPLOAD EXCEL (KHUSUS SUPER ADMIN) 🔥
+ function prosesUploadExcel() {
+ const fileInput = document.getElementById('input-excel-file');
+ const mode = document.getElementById('select-upload-mode').value;
+ const statusEl = document.getElementById('upload-status');
+ const btnProses = document.getElementById('btn-proses-upload');
+
+ if (!fileInput.files || fileInput.files.length === 0) {
+ statusEl.innerHTML = "<span style='color: #ff4d4d;'>Pilih file Excel terlebih dahulu!</span>";
+ statusEl.style.display = 'block';
+ return;
+ }
+
+ const file = fileInput.files[0];
+ const reader = new FileReader();
+
+ statusEl.innerHTML = "<span style='color: #00bcd4;'>⏳ Membaca file Excel di browser...</span>";
+ statusEl.style.display = 'block';
+ btnProses.disabled = true;
+
+ reader.onload = function(e) {
+ try {
+ const data = new Uint8Array(e.target.result);
+ const workbook = XLSX.read(data, { type: 'array' });
+ 
+ let allUploadedRows = [];
+ let headerRow = null;
+ let headerKeys = [];
+
+ for (let i = 0; i < workbook.SheetNames.length; i++) {
+ const sheetName = workbook.SheetNames[i];
+ if (sheetName === "AkunSekolah") continue;
+ 
+ const ws = workbook.Sheets[sheetName];
+ const sheetData = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
+ 
+ if (sheetData.length > 1) {
+ const headers = sheetData[0].map(h => String(h).trim());
+ const headersLower = headers.map(h => h.toLowerCase());
+ const idxNamaSekolah = headersLower.indexOf('nama sekolah');
+ 
+ if (idxNamaSekolah !== -1) {
+ if (!headerRow) {
+ headerRow = headers;
+ headerKeys = headersLower;
+ }
+ 
+ for(let r = 1; r < sheetData.length; r++) {
+ const row = sheetData[r];
+ if (row.length > 0 && row.join("").trim() !== "") {
+ let alignedRow = [];
+ for (let k = 0; k < headerKeys.length; k++) {
+ let localIdx = headersLower.indexOf(headerKeys[k]);
+ if (localIdx !== -1 && localIdx < row.length) {
+ alignedRow.push(row[localIdx]);
+ } else {
+ alignedRow.push("");
+ }
+ }
+ allUploadedRows.push(alignedRow);
+ }
+ }
+ }
+ }
+ }
+
+ if (!headerRow) { throw new Error("Kolom 'Nama Sekolah' tidak ditemukan di seluruh sheet Excel!"); }
+ if (allUploadedRows.length === 0) { throw new Error("File Excel valid, tetapi sama sekali tidak ada baris data!"); }
+
+ const dataRows = [headerRow, ...allUploadedRows];
+ statusEl.innerHTML = "<span style='color: #f59e0b;'>🚀 Mengirim " + allUploadedRows.length + " data ke database...</span>";
+
+ callGAS("uploadDataSiswa", { rowsData: dataRows, mode: mode })
+ .then(function(res) {
+ btnProses.disabled = false;
+ if (res.success) {
+ statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>";
+ alert(res.message);
+ 
+ const modalEl = document.getElementById('modalUploadExcel');
+ const modal = bootstrap.Modal.getInstance(modalEl);
+ if (modal) modal.hide();
+ fileInput.value = '';
+ statusEl.style.display = 'none';
+
+ document.getElementById('loading').style.display = 'block';
+ document.getElementById('main-content').style.display = 'none';
+ 
+ callGAS("getSchoolData", { namaSekolah: sessionSekolah })
+ .then(function(jsonString) {
+ initDashboard(jsonString);
+ });
+
+ } else {
+ statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ " + res.message + "</span>";
+ }
+ })
+ .catch(function(err) {
+ btnProses.disabled = false;
+ statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ Error: " + err.message + "</span>";
+ });
+
+ } catch (err) {
+ btnProses.disabled = false;
+ statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ Error: " + err.message + "</span>";
+ }
+ };
+ reader.readAsArrayBuffer(file);
+ }
+
+ // 🔥 FUNGSI SUBMIT CREATE USER (BUAT AKUN BARU) 🔥
+ function submitNewUser() {
+ const email = document.getElementById('new-email').value;
+ const password = document.getElementById('new-password').value;
+ const namaSekolah = document.getElementById('new-namasekolah').value;
+ const urlLogo = document.getElementById('new-urllogo').value;
+ const istPelajar = document.getElementById('new-istpelajar').value;
+ const istKelas = document.getElementById('new-istkelas').value;
+ const statusEl = document.getElementById('create-user-status');
+
+ if (!email || !password || !namaSekolah) {
+ statusEl.innerHTML = "<span style='color: #ef4444;'>Email, Password, dan Nama Sekolah wajib diisi!</span>";
+ statusEl.style.display = 'block';
+ return;
+ }
+
+ statusEl.innerHTML = "<span style='color: #0d9488;'>⏳ Menyimpan akun baru...</span>";
+ statusEl.style.display = 'block';
+
+ const userData = { email, password, namaSekolah, urlLogo, istPelajar, istKelas };
+
+ callGAS("createUserAccount", { userData: userData })
+ .then(function(res) {
+ if (res.success) {
+ statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>";
+ alert(res.message);
+
+ document.getElementById('new-email').value = '';
+ document.getElementById('new-password').value = '';
+ document.getElementById('new-namasekolah').value = '';
+ document.getElementById('new-urllogo').value = '';
+ 
+ const modalEl = document.getElementById('modalCreateUser');
+ const modal = bootstrap.Modal.getInstance(modalEl);
+ if (modal) modal.hide();
+ statusEl.style.display = 'none';
+ } else {
+ statusEl.innerHTML = "<span style='color: #ef4444;'>✖ " + res.message + "</span>";
+ }
+ })
+ .catch(function(err) {
+ statusEl.innerHTML = "<span style='color: #ef4444;'>✖ Error: " + err.message + "</span>";
+ });
+ }
+
+ // 🔥 FUNGSI MEMBUKA MODAL DOWNLOAD PDF 🔥
+ function openDownloadModal() {
+    const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
+    const fKelas = $('#filter-kelas').val();
+
+    if (!fSekolah || !fKelas) {
+        alert("⚠️ Silakan pilih Sekolah dan Grup/Kelas di filter terlebih dahulu!");
+        return;
+    }
+
+    let students = allRows.filter(r => 
+        String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && 
+        String(r[colIndices.kolomKelas]).trim() === fKelas
+    );
+    students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
+
+    if (students.length === 0) {
+        alert("⚠️ Tidak ada data siswa yang valid di kelas ini.");
+        return;
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('modalDownloadPDF'));
+    modal.show();
+ }
+
+ // 🔥 FUNGSI PROSES DOWNLOAD PDF MASSAL KE ZIP (SESUAI PILIHAN HALAMAN) 🔥
+ async function prosesDownloadPDFZip() {
+    const selectedPages = Array.from(document.querySelectorAll('.page-checkbox:checked')).map(cb => parseInt(cb.value));
+    
+    if (selectedPages.length === 0) {
+        alert("⚠️ Silakan centang minimal 1 halaman untuk di-download.");
+        return;
+    }
+
+    const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
+    const fKelas = $('#filter-kelas').val();
+
+    let students = allRows.filter(r => 
+        String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && 
+        String(r[colIndices.kolomKelas]).trim() === fKelas
+    );
+    students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
+
+    if (!confirm(`Terdapat ${students.length} siswa di kelas ${fKelas}.\n\nSistem akan membuat laporan PDF RAPI (${selectedPages.length} Halaman per siswa) untuk masing-masing siswa dan membungkusnya ke dalam 1 file ZIP.\n\nProses ini berjalan otomatis. Lanjutkan?`)) {
+        return;
+    }
+
+    // Tutup modal setelah konfirmasi
+    const modalEl = document.getElementById('modalDownloadPDF');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+
+    document.getElementById('loading').style.display = 'block';
+    const loadingText = document.querySelector('#loading span');
+    
+    navTo('menu-laporan-individu');
+    const originalName = $('#filter-nama').val();
+
+    const { jsPDF } = window.jspdf;
+    const zip = new JSZip();
+    
+    const safeFolderName = `Laporan_${fSekolah}_${fKelas}`.replace(/[^a-zA-Z0-9_-]/g, "_");
+    const folder = zip.folder(safeFolderName);
+
+    for (let i = 0; i < students.length; i++) {
+        const studentName = String(students[i][colIndices.kolomNama]).trim();
+        const safeFileName = studentName.replace(/[^a-zA-Z0-9 _-]/g, "") + ".pdf";
+        
+        loadingText.innerHTML = `Memproses PDF Rapi: <b>${i + 1} dari ${students.length} Siswa</b><br><small style="color:#0d9488;">Siswa: ${studentName}</small>`;
+        
+        $('#filter-nama').val(studentName).trigger('change');
+        
+        await new Promise(r => setTimeout(r, 1200));
+
+        const doc = new jsPDF({
+            orientation: 'p',
+            unit: 'mm',
+            format: 'a4',
+            compress: true
+        });
+        
+        const pdfWidth = doc.internal.pageSize.getWidth();
+        let isFirstPage = true;
+
+        const pagesToRender = document.querySelectorAll('.pdf-page');
+
+        for (let p = 0; p < pagesToRender.length; p++) {
+            // SKIP JIKA HALAMAN TIDAK DIPILIH PADA MODAL
+            if (!selectedPages.includes(p)) continue;
+
+            const pageEl = pagesToRender[p];
+            
+            if (pageEl.offsetHeight < 50 || window.getComputedStyle(pageEl).display === 'none') continue;
+
+            const prevShadow = pageEl.style.boxShadow;
+            const prevMargin = pageEl.style.margin;
+            const prevBorderRadius = pageEl.style.borderRadius;
+
+            pageEl.style.boxShadow = 'none';
+            pageEl.style.margin = '0';
+            pageEl.style.borderRadius = '0';
+            
+            const canvas = await html2canvas(pageEl, { scale: 2, useCORS: true, logging: false });
+            
+            pageEl.style.boxShadow = prevShadow;
+            pageEl.style.margin = prevMargin;
+            pageEl.style.borderRadius = prevBorderRadius;
+
+            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+            const imgProps = doc.getImageProperties(imgData);
+            
+            const renderedImgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            if (!isFirstPage) {
+                doc.addPage();
+            } else {
+                isFirstPage = false;
+            }
+
+            doc.addImage(imgData, 'JPEG', 0, 0, pdfWidth, renderedImgHeight);
+        }
+
+        const pdfArrayBuffer = doc.output('arraybuffer');
+        folder.file(safeFileName, pdfArrayBuffer);
+    }
+
+    loadingText.innerHTML = `Membungkus ke dalam ZIP...<br><small style="color:#0d9488;">Proses hampir selesai, mohon tunggu.</small>`;
+    
+    zip.generateAsync({type:"blob"}).then(function(content) {
+        saveAs(content, `${safeFolderName}.zip`);
+        
+        $('#filter-nama').val(originalName).trigger('change');
+        loadingText.innerHTML = "Memuat Data <span id='load-sekolah'></span>...";
+        document.getElementById('loading').style.display = 'none';
+        
+        alert(`✅ Berhasil!\n\nFile ZIP berisi laporan PDF Rapi kelas ${fKelas} telah diunduh.`);
+    });
+ }
+ </script>
+</body>
+</html>
