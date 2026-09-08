@@ -481,6 +481,12 @@
  <input type="text" class="form-control form-control-sm" id="new-istkelas" value="Kelas" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
  </div>
  </div>
+ <!-- 🔥 TAMBAHAN INPUT AKSES KELAS KHUSUS GURU BK 🔥 -->
+ <div class="mb-2">
+ <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Akses Kelas Khusus (Opsional):</label>
+ <input type="text" class="form-control form-control-sm" id="new-kelasakses" placeholder="Contoh: X-1, X-2 (Kosongkan jika akses semua)" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+ <small style="font-size: 10px; color: #64748b;">*Untuk Guru BK. Jika diisi, akun hanya bisa melihat kelas tersebut.</small>
+ </div>
  <div id="create-user-status" class="mt-2" style="font-size: 13px; display: none;"></div>
  </div>
  <div class="modal-footer" style="border-top: 1px solid #e2e8f0;">
@@ -683,7 +689,8 @@
           <div style="width: 38px; height: 38px; background: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 1px solid #334155;">👨‍💼</div>
           <div style="line-height: 1.3;">
               <div style="color: #f8fafc; font-size: 13px; font-weight: 600;" id="user-display-name">Akun Administrator</div>
-              <div style="color: #64748b; font-size: 11px;">Akses Penuh</div>
+              <!-- 🔥 BADGE ROLE GURU BK 🔥 -->
+              <div style="color: #64748b; font-size: 11px;" id="user-role-badge">Akses Penuh</div>
           </div>
       </div>
   </div>
@@ -877,6 +884,7 @@
 
  let sessionSekolah = ""; 
  let sessionKelasLabel = "Kelas";
+ let sessionKelasAkses = []; // 🔥 Menyimpan batas akses kelas khusus Guru BK
 
  // GLOBAL VARIABLES TO STORE CHARTS
  window.globalCharts = {};
@@ -904,7 +912,8 @@
  if (res.success) {
  sessionSekolah = res.namaSekolah;
  sessionKelasLabel = res.istKelas;
- 
+ sessionKelasAkses = res.kelasAkses || []; // Menangkap akses kelas dari database jika ada
+
  document.getElementById('dyn-school').innerText = res.namaSekolah;
  document.getElementById('dyn-logo').src = res.logoUrl;
  document.querySelectorAll('.dyn-pelajar').forEach(el => el.innerText = res.istPelajar);
@@ -912,6 +921,13 @@
  document.querySelectorAll('.dyn-kelas-th').forEach(el => el.innerText = res.istKelas);
  document.getElementById('load-sekolah').innerText = res.namaSekolah;
  document.getElementById('user-display-name').innerText = email;
+
+ // 🔥 UPDATE BADGE ROLE GURU BK DI SIDEBAR 🔥
+ if (sessionKelasAkses && sessionKelasAkses.length > 0) {
+     document.getElementById('user-role-badge').innerText = "Guru BK (" + sessionKelasAkses.join(', ') + ")";
+ } else {
+     document.getElementById('user-role-badge').innerText = "Akses Penuh";
+ }
 
  const btnUpload = document.getElementById('btn-upload-excel');
  const btnCreateUser = document.getElementById('btn-create-user');
@@ -981,7 +997,8 @@
  $('#filter-sekolah').val(null).trigger('change');
  $('#filter-nama').val(null).trigger('change');
  $('#filter-kelas').val(null).trigger('change');
- allRows = []; sessionSekolah = "";
+ allRows = []; sessionSekolah = ""; sessionKelasAkses = [];
+ document.getElementById('user-role-badge').innerText = "Akses Penuh";
  }
  }
 
@@ -1182,6 +1199,22 @@
  let cleanHeader = header.trim().toLowerCase();
  for (let key in CONFIG) { if (cleanHeader === CONFIG[key].trim().toLowerCase()) colIndices[key] = index; }
  });
+
+ // 🔥 IMPLEMENTASI ROLE GURU BK (PEMBATASAN AKSES KELAS) 🔥
+ if (sessionKelasAkses && sessionKelasAkses.length > 0) {
+     allRows = allRows.filter(row => {
+         let klsSiswa = String(row[colIndices.kolomKelas] || "").trim().toLowerCase();
+         // Cek apakah kelas siswa ini ada di dalam list yang diizinkan (sessionKelasAkses)
+         return sessionKelasAkses.some(akses => akses.trim().toLowerCase() === klsSiswa);
+     });
+
+     if (allRows.length === 0) {
+         alert("Data siswa dari kelas " + sessionKelasAkses.join(', ') + " tidak ditemukan di database.");
+         document.getElementById('loading').style.display = 'none';
+         document.getElementById('login-screen').style.display = 'flex';
+         return;
+     }
+ }
 
  document.getElementById('loading').style.display = 'none';
  document.getElementById('main-content').style.display = 'flex';
@@ -1756,15 +1789,30 @@
 
  // 🔥 FUNGSI SUBMIT CREATE USER (BUAT AKUN BARU) 🔥
  function submitNewUser() {
- const email = document.getElementById('new-email').value; const password = document.getElementById('new-password').value; const namaSekolah = document.getElementById('new-namasekolah').value; const urlLogo = document.getElementById('new-urllogo').value; const istPelajar = document.getElementById('new-istpelajar').value; const istKelas = document.getElementById('new-istkelas').value; const statusEl = document.getElementById('create-user-status');
+ const email = document.getElementById('new-email').value; 
+ const password = document.getElementById('new-password').value; 
+ const namaSekolah = document.getElementById('new-namasekolah').value; 
+ const urlLogo = document.getElementById('new-urllogo').value; 
+ const istPelajar = document.getElementById('new-istpelajar').value; 
+ const istKelas = document.getElementById('new-istkelas').value; 
+ const aksesVal = document.getElementById('new-kelasakses').value;
+ const statusEl = document.getElementById('create-user-status');
+
  if (!email || !password || !namaSekolah) { statusEl.innerHTML = "<span style='color: #ef4444;'>Email, Password, dan Nama Sekolah wajib diisi!</span>"; statusEl.style.display = 'block'; return; }
  statusEl.innerHTML = "<span style='color: #0d9488;'>⏳ Menyimpan akun baru...</span>"; statusEl.style.display = 'block';
- const userData = { email, password, namaSekolah, urlLogo, istPelajar, istKelas };
+ 
+ let arrAkses = [];
+ if (aksesVal.trim() !== "") {
+     arrAkses = aksesVal.split(',').map(s => s.trim()).filter(s => s !== "");
+ }
+
+ const userData = { email, password, namaSekolah, urlLogo, istPelajar, istKelas, kelasAkses: arrAkses };
+ 
  callGAS("createUserAccount", { userData: userData })
  .then(function(res) {
  if (res.success) {
  statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>"; alert(res.message);
- document.getElementById('new-email').value = ''; document.getElementById('new-password').value = ''; document.getElementById('new-namasekolah').value = ''; document.getElementById('new-urllogo').value = '';
+ document.getElementById('new-email').value = ''; document.getElementById('new-password').value = ''; document.getElementById('new-namasekolah').value = ''; document.getElementById('new-urllogo').value = ''; document.getElementById('new-kelasakses').value = '';
  const modalEl = document.getElementById('modalCreateUser'); const modal = bootstrap.Modal.getInstance(modalEl); if (modal) modal.hide(); statusEl.style.display = 'none';
  } else { statusEl.innerHTML = "<span style='color: #ef4444;'>✖ " + res.message + "</span>"; }
  })
