@@ -520,6 +520,37 @@
  </div>
  </div>
 
+ <!-- 🔥 MODAL PILIH HALAMAN PDF BARU 🔥 -->
+ <div class="modal fade" id="modalDownloadPDF" tabindex="-1" aria-labelledby="modalDownloadPDFLabel" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-centered">
+ <div class="modal-content" style="background-color: #ffffff; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 12px;">
+ <div class="modal-header" style="border-bottom: 1px solid #e2e8f0;">
+ <h5 class="modal-title" id="modalDownloadPDFLabel">📥 Opsi Download PDF</h5>
+ <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ </div>
+ <div class="modal-body">
+ <p style="font-size: 13px; color: #475569; margin-bottom: 15px;">Pilih halaman yang ingin disertakan ke dalam file PDF setiap siswa:</p>
+ <div class="form-check mb-2">
+ <input class="form-check-input page-checkbox" type="checkbox" value="0" id="chkPage1" checked style="cursor: pointer;">
+ <label class="form-check-label" for="chkPage1" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 1 (Cover Biodata)</label>
+ </div>
+ <div class="form-check mb-2">
+ <input class="form-check-input page-checkbox" type="checkbox" value="1" id="chkPage2" checked style="cursor: pointer;">
+ <label class="form-check-label" for="chkPage2" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 2 (Profil Kepribadian, Gaya Belajar & Kecerdasan)</label>
+ </div>
+ <div class="form-check mb-2">
+ <input class="form-check-input page-checkbox" type="checkbox" value="2" id="chkPage3" checked style="cursor: pointer;">
+ <label class="form-check-label" for="chkPage3" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 3 (Lingkungan Keluarga & Asesmen Tambahan)</label>
+ </div>
+ </div>
+ <div class="modal-footer" style="border-top: 1px solid #e2e8f0;">
+ <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+ <button type="button" class="btn btn-primary btn-sm" onclick="prosesDownloadPDFZip()" style="background-color: #f59e0b; border: none; color: white;">Mulai Download</button>
+ </div>
+ </div>
+ </div>
+ </div>
+
  <!-- 🔥 LOGIN SCREEN: SPLIT 2 KOLOM 🔥 -->
  <div id="login-screen">
  <div class="login-left-panel">
@@ -665,8 +696,8 @@
  </div>
  <div class="btn-action-group">
  
-<!-- 🔥 TOMBOL BARU: DOWNLOAD PDF KELAS 🔥 -->
- <button id="btn-download-pdf" class="btn-top" style="display:none; background-color: #f59e0b; color: white; border: 1px solid #d97706;" onclick="downloadPDFKelasZip()">
+<!-- 🔥 TOMBOL DOWNLOAD PDF (MEMANGGIL MODAL) 🔥 -->
+ <button id="btn-download-pdf" class="btn-top" style="display:none; background-color: #f59e0b; color: white; border: 1px solid #d97706;" onclick="openDownloadModal()">
  📥 <span>Download PDF Kelas</span>
  </button>
 
@@ -1290,7 +1321,7 @@
  const toggleIndiv = (id, show) => { const el = document.getElementById(id); if (el) el.style.display = show ? '' : 'none'; };
 
  // =========================================================================
- // 🔥 LOGIKA GENERATOR PDF INDIVIDU (DESAIN BARU COMPACT) 🔥
+ // 🔥 LOGIKA GENERATOR PDF INDIVIDU (DESAIN BARU COMPACT + COVER) 🔥
  // =========================================================================
  if (isNameFiltered && filteredRows.length > 0) {
     const siswa = filteredRows[0];
@@ -1909,114 +1940,143 @@
  });
  }
 
- // 🔥 FUNGSI DOWNLOAD PDF PER KELAS 🔥
- async function downloadPDFKelasZip() {
- const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
- const fKelas = $('#filter-kelas').val();
+ // 🔥 FUNGSI MEMBUKA MODAL DOWNLOAD PDF 🔥
+ function openDownloadModal() {
+    const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
+    const fKelas = $('#filter-kelas').val();
 
- if (!fSekolah || !fKelas) {
- alert("⚠️ Silakan pilih Sekolah dan Grup/Kelas di filter terlebih dahulu!");
- return;
+    if (!fSekolah || !fKelas) {
+        alert("⚠️ Silakan pilih Sekolah dan Grup/Kelas di filter terlebih dahulu!");
+        return;
+    }
+
+    let students = allRows.filter(r => 
+        String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && 
+        String(r[colIndices.kolomKelas]).trim() === fKelas
+    );
+    students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
+
+    if (students.length === 0) {
+        alert("⚠️ Tidak ada data siswa yang valid di kelas ini.");
+        return;
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('modalDownloadPDF'));
+    modal.show();
  }
 
- let students = allRows.filter(r => 
- String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && 
- String(r[colIndices.kolomKelas]).trim() === fKelas
- );
+ // 🔥 FUNGSI PROSES DOWNLOAD PDF MASSAL KE ZIP (SESUAI PILIHAN HALAMAN) 🔥
+ async function prosesDownloadPDFZip() {
+    const selectedPages = Array.from(document.querySelectorAll('.page-checkbox:checked')).map(cb => parseInt(cb.value));
+    
+    if (selectedPages.length === 0) {
+        alert("⚠️ Silakan centang minimal 1 halaman untuk di-download.");
+        return;
+    }
 
- students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
+    const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
+    const fKelas = $('#filter-kelas').val();
 
- if (students.length === 0) {
- alert("⚠️ Tidak ada data siswa yang valid di kelas ini.");
- return;
- }
+    let students = allRows.filter(r => 
+        String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && 
+        String(r[colIndices.kolomKelas]).trim() === fKelas
+    );
+    students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
 
- if (!confirm(`Terdapat ${students.length} siswa di kelas ${fKelas}.\n\nSistem akan membuat laporan PDF RAPI untuk masing-masing siswa dan membungkusnya ke dalam 1 file ZIP.\n\nProses ini berjalan otomatis. Lanjutkan?`)) {
- return;
- }
+    if (!confirm(`Terdapat ${students.length} siswa di kelas ${fKelas}.\n\nSistem akan membuat laporan PDF RAPI (${selectedPages.length} Halaman per siswa) untuk masing-masing siswa dan membungkusnya ke dalam 1 file ZIP.\n\nProses ini berjalan otomatis. Lanjutkan?`)) {
+        return;
+    }
 
- document.getElementById('loading').style.display = 'block';
- const loadingText = document.querySelector('#loading span');
- 
- navTo('menu-laporan-individu');
- const originalName = $('#filter-nama').val();
+    // Tutup modal setelah konfirmasi
+    const modalEl = document.getElementById('modalDownloadPDF');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
 
- const { jsPDF } = window.jspdf;
- const zip = new JSZip();
- 
- const safeFolderName = `Laporan_${fSekolah}_${fKelas}`.replace(/[^a-zA-Z0-9_-]/g, "_");
- const folder = zip.folder(safeFolderName);
+    document.getElementById('loading').style.display = 'block';
+    const loadingText = document.querySelector('#loading span');
+    
+    navTo('menu-laporan-individu');
+    const originalName = $('#filter-nama').val();
 
- for (let i = 0; i < students.length; i++) {
- const studentName = String(students[i][colIndices.kolomNama]).trim();
- const safeFileName = studentName.replace(/[^a-zA-Z0-9 _-]/g, "") + ".pdf";
- 
- loadingText.innerHTML = `Memproses PDF Rapi: <b>${i + 1} dari ${students.length} Siswa</b><br><small style="color:#0d9488;">Siswa: ${studentName}</small>`;
- 
- $('#filter-nama').val(studentName).trigger('change');
- 
- await new Promise(r => setTimeout(r, 1200));
+    const { jsPDF } = window.jspdf;
+    const zip = new JSZip();
+    
+    const safeFolderName = `Laporan_${fSekolah}_${fKelas}`.replace(/[^a-zA-Z0-9_-]/g, "_");
+    const folder = zip.folder(safeFolderName);
 
- const doc = new jsPDF({
- orientation: 'p',
- unit: 'mm',
- format: 'a4',
- compress: true
- });
- 
- const pdfWidth = doc.internal.pageSize.getWidth();
- let isFirstPage = true;
+    for (let i = 0; i < students.length; i++) {
+        const studentName = String(students[i][colIndices.kolomNama]).trim();
+        const safeFileName = studentName.replace(/[^a-zA-Z0-9 _-]/g, "") + ".pdf";
+        
+        loadingText.innerHTML = `Memproses PDF Rapi: <b>${i + 1} dari ${students.length} Siswa</b><br><small style="color:#0d9488;">Siswa: ${studentName}</small>`;
+        
+        $('#filter-nama').val(studentName).trigger('change');
+        
+        await new Promise(r => setTimeout(r, 1200));
 
- const pagesToRender = document.querySelectorAll('.pdf-page');
+        const doc = new jsPDF({
+            orientation: 'p',
+            unit: 'mm',
+            format: 'a4',
+            compress: true
+        });
+        
+        const pdfWidth = doc.internal.pageSize.getWidth();
+        let isFirstPage = true;
 
- for (let p = 0; p < pagesToRender.length; p++) {
- const pageEl = pagesToRender[p];
- 
- if (pageEl.offsetHeight < 50 || window.getComputedStyle(pageEl).display === 'none') continue;
+        const pagesToRender = document.querySelectorAll('.pdf-page');
 
- const prevShadow = pageEl.style.boxShadow;
- const prevMargin = pageEl.style.margin;
- const prevBorderRadius = pageEl.style.borderRadius;
+        for (let p = 0; p < pagesToRender.length; p++) {
+            // SKIP JIKA HALAMAN TIDAK DIPILIH PADA MODAL
+            if (!selectedPages.includes(p)) continue;
 
- pageEl.style.boxShadow = 'none';
- pageEl.style.margin = '0';
- pageEl.style.borderRadius = '0';
- 
- const canvas = await html2canvas(pageEl, { scale: 2, useCORS: true, logging: false });
- 
- pageEl.style.boxShadow = prevShadow;
- pageEl.style.margin = prevMargin;
- pageEl.style.borderRadius = prevBorderRadius;
+            const pageEl = pagesToRender[p];
+            
+            if (pageEl.offsetHeight < 50 || window.getComputedStyle(pageEl).display === 'none') continue;
 
- const imgData = canvas.toDataURL('image/jpeg', 0.95);
- const imgProps = doc.getImageProperties(imgData);
- 
- const renderedImgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            const prevShadow = pageEl.style.boxShadow;
+            const prevMargin = pageEl.style.margin;
+            const prevBorderRadius = pageEl.style.borderRadius;
 
- if (!isFirstPage) {
- doc.addPage();
- } else {
- isFirstPage = false;
- }
+            pageEl.style.boxShadow = 'none';
+            pageEl.style.margin = '0';
+            pageEl.style.borderRadius = '0';
+            
+            const canvas = await html2canvas(pageEl, { scale: 2, useCORS: true, logging: false });
+            
+            pageEl.style.boxShadow = prevShadow;
+            pageEl.style.margin = prevMargin;
+            pageEl.style.borderRadius = prevBorderRadius;
 
- doc.addImage(imgData, 'JPEG', 0, 0, pdfWidth, renderedImgHeight);
- }
+            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+            const imgProps = doc.getImageProperties(imgData);
+            
+            const renderedImgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
- const pdfArrayBuffer = doc.output('arraybuffer');
- folder.file(safeFileName, pdfArrayBuffer);
- }
+            if (!isFirstPage) {
+                doc.addPage();
+            } else {
+                isFirstPage = false;
+            }
 
- loadingText.innerHTML = `Membungkus ke dalam ZIP...<br><small style="color:#0d9488;">Proses hampir selesai, mohon tunggu.</small>`;
- 
- zip.generateAsync({type:"blob"}).then(function(content) {
- saveAs(content, `${safeFolderName}.zip`);
- 
- $('#filter-nama').val(originalName).trigger('change');
- loadingText.innerHTML = "Memuat Data <span id='load-sekolah'></span>...";
- document.getElementById('loading').style.display = 'none';
- 
- alert(`✅ Berhasil!\n\nFile ZIP berisi laporan PDF Rapi kelas ${fKelas} telah diunduh.`);
- });
+            doc.addImage(imgData, 'JPEG', 0, 0, pdfWidth, renderedImgHeight);
+        }
+
+        const pdfArrayBuffer = doc.output('arraybuffer');
+        folder.file(safeFileName, pdfArrayBuffer);
+    }
+
+    loadingText.innerHTML = `Membungkus ke dalam ZIP...<br><small style="color:#0d9488;">Proses hampir selesai, mohon tunggu.</small>`;
+    
+    zip.generateAsync({type:"blob"}).then(function(content) {
+        saveAs(content, `${safeFolderName}.zip`);
+        
+        $('#filter-nama').val(originalName).trigger('change');
+        loadingText.innerHTML = "Memuat Data <span id='load-sekolah'></span>...";
+        document.getElementById('loading').style.display = 'none';
+        
+        alert(`✅ Berhasil!\n\nFile ZIP berisi laporan PDF Rapi kelas ${fKelas} telah diunduh.`);
+    });
  }
  </script>
 </body>
