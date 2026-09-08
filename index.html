@@ -1307,22 +1307,67 @@
     // Logo paten Ganesa untuk dicetak
     let logoSrc = "https://lh3.googleusercontent.com/d/1Wqpp9soE46uHXkCdJiPF3pzbt8QGTypJ";
 
-    let page1Html = `
-    <div class="pdf-page">
-        <div class="pr-header">
-            <img src="${logoSrc}" alt="Logo">
-            <div class="pr-header-text">
-                <h1>GANESA.ID</h1>
-                <p>Gerbang Assessment Indonesia<br>PT. AKARA NATURA NUSANTARA<br>Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
+    // =========================================================================
+    // 🔥 HALAMAN 1: COVER BIODATA 🔥
+    // =========================================================================
+    let coverHtml = `
+    <div class="pdf-page" style="position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; border-left: 3px solid #d4af37; border-right: 3px solid #d4af37; padding: 40px; overflow: hidden; background-color: #ffffff;">
+        
+        <!-- Ornamen Sudut Kanan Atas (Simulasi CSS) -->
+        <div style="position: absolute; top: -70px; right: -70px; width: 220px; height: 220px; background: #7ee2d7; transform: rotate(45deg); z-index: 1;"></div>
+        <div style="position: absolute; top: -100px; right: 0px; width: 150px; height: 150px; background: #000; transform: rotate(45deg); z-index: 2;"></div>
+
+        <!-- Ornamen Sudut Kiri Bawah (Simulasi CSS) -->
+        <div style="position: absolute; bottom: -70px; left: -70px; width: 220px; height: 220px; background: #000; transform: rotate(45deg); z-index: 1;"></div>
+        <div style="position: absolute; bottom: -60px; left: -80px; width: 220px; height: 220px; border: 2px solid #7ee2d7; transform: rotate(45deg); z-index: 2; background: transparent;"></div>
+        
+        <!-- Header Kiri Atas -->
+        <div style="position: absolute; top: 40px; left: 40px; display: flex; align-items: flex-start; z-index: 3;">
+            <img src="${logoSrc}" alt="Logo" style="height: 75px; margin-right: 15px; object-fit: contain;">
+            <div>
+                <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 4px 0; letter-spacing: 1px;">GANESA.ID</h1>
+                <p style="font-size: 11px; color: #555; margin: 0; line-height: 1.3;"><i>Gerbang Assessment Indonesia</i></p>
+                <hr style="margin: 4px 0; border-color: #000; border-width: 2px; width: 100%;">
+                <p style="font-size: 10px; color: #333; margin: 0; line-height: 1.3;"><b>PT. AKARA NATURA NUSANTARA</b><br>Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
             </div>
         </div>
-        <div class="pr-biodata-grid">
-            <div class="pr-bio-row"><span>Grup</span><span>:</span><span>${sekolahName}</span></div>
-            <div class="pr-bio-row"><span>Jenis Kelamin</span><span>:</span><span>${getValStr('kolomGender')}</span></div>
-            <div class="pr-bio-row"><span>Kelas</span><span>:</span><span>${getValStr('kolomKelas')}</span></div>
-            <div class="pr-bio-row"><span>Usia</span><span>:</span><span>${getValStr('kolomUsia')}</span></div>
-            <div class="pr-bio-row"><span>Nama</span><span>:</span><span>${getValStr('kolomNama')}</span></div>
-            <div class="pr-bio-row"><span>No. Unik</span><span>:</span><span>${getValStr('kolomNoUnik')}</span></div>
+
+        <!-- Watermark Tengah -->
+        <img src="${logoSrc}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.04; width: 450px; z-index: 1;">
+
+        <!-- Konten Biodata Tengah -->
+        <div style="z-index: 10; font-size: 15px; color: #000; width: 55%; margin-top: 50px; line-height: 1.5;">
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
+                <strong style="font-weight: 800;">Grup</strong><span>:</span><span>${sekolahName}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
+                <strong style="font-weight: 800;">Kelas</strong><span>:</span><span>${getValStr('kolomKelas')}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
+                <strong style="font-weight: 800;">Nama</strong><span>:</span><span>${getValStr('kolomNama')}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
+                <strong style="font-weight: 800;">Jenis Kelamin</strong><span>:</span><span>${getValStr('kolomGender')}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
+                <strong style="font-weight: 800;">Usia</strong><span>:</span><span>${getValStr('kolomUsia')}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
+                <strong style="font-weight: 800;">No. Unik</strong><span>:</span><span>${getValStr('kolomNoUnik')}</span>
+            </div>
+        </div>
+    </div>
+    `;
+
+    // =========================================================================
+    // 🔥 HALAMAN 2: ISI LAPORAN ASESMEN PSIKOLOGI 🔥
+    // =========================================================================
+    let page1Html = `
+    <div class="pdf-page">
+        <!-- Mini Header Identitas Siswa -->
+        <div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div style="font-size: 14px; font-weight: bold; color: #000; text-transform: uppercase;">HASIL ASESMEN PSIKOLOGI</div>
+            <div style="font-size: 11px; color: #333; text-align: right;"><b>${getValStr('kolomNama')}</b> | ${getValStr('kolomKelas')} | ${sekolahName}</div>
         </div>
     `;
 
@@ -1483,7 +1528,7 @@
     }
 
     page2Html += `</div>`;
-    document.getElementById('laporan-isi').innerHTML = page1Html + page2Html;
+    document.getElementById('laporan-isi').innerHTML = coverHtml + page1Html + page2Html;
 
  } else {
  document.getElementById('laporan-kosong').style.display = 'block';
