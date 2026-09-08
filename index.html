@@ -536,11 +536,11 @@
  </div>
  <div class="form-check mb-2">
  <input class="form-check-input page-checkbox" type="checkbox" value="1" id="chkPage2" checked style="cursor: pointer;">
- <label class="form-check-label" for="chkPage2" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 2 (Profil Kepribadian, Gaya Belajar & Kecerdasan)</label>
+ <label class="form-check-label" for="chkPage2" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 2 (Isi Laporan Bagian 1)</label>
  </div>
  <div class="form-check mb-2">
  <input class="form-check-input page-checkbox" type="checkbox" value="2" id="chkPage3" checked style="cursor: pointer;">
- <label class="form-check-label" for="chkPage3" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 3 (Lingkungan Keluarga & Asesmen Tambahan)</label>
+ <label class="form-check-label" for="chkPage3" style="font-size: 14px; font-weight: 500; cursor: pointer;">Halaman 3 (Isi Laporan Bagian 2 - Jika Ada)</label>
  </div>
  </div>
  <div class="modal-footer" style="border-top: 1px solid #e2e8f0;">
@@ -913,9 +913,8 @@
 
  const btnUpload = document.getElementById('btn-upload-excel');
  const btnCreateUser = document.getElementById('btn-create-user');
- const btnDownloadPdf = document.getElementById('btn-download-pdf'); // TOMBOL PDF BARU
+ const btnDownloadPdf = document.getElementById('btn-download-pdf');
 
- // 🔥 LOGIKA BARU ANTI-TYPO: PENGECEKAN SUPER ADMIN DAN KONSULTAN PSIKOLOG 🔥
  const sek = (sessionSekolah || "").trim().toUpperCase();
  const isSuperAdmin = (sek === "SUPER ADMIN" || sek === "AKTARA_PSIKOLOG");
  const isKonsultan = (sek === "AKTARA_PSIKOLOGI" || sek === "AKATARA_PSIKOLOGI" || sek === "KONSULTAN_AKTARA" || sek === "AKTARA@PSIKOLOG");
@@ -928,7 +927,7 @@
  if (isSuperAdmin) {
  if (btnUpload) btnUpload.style.display = 'flex';
  if (btnCreateUser) btnCreateUser.style.display = 'flex';
- if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex'; // TAMPILKAN TOMBOL PDF
+ if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex';
  } else {
  if (btnUpload) btnUpload.style.display = 'none';
  if (btnCreateUser) btnCreateUser.style.display = 'none';
@@ -946,7 +945,6 @@
  document.getElementById('login-screen').style.display = 'none';
  document.getElementById('loading').style.display = 'block';
 
- // 🔥 MENGAMBIL DATA SEGAR LANGSUNG DARI SERVER (TANPA CACHE) 🔥
  callGAS("getSchoolData", { namaSekolah: res.namaSekolah })
  .then(function(jsonString) {
  initDashboard(jsonString);
@@ -1039,7 +1037,6 @@
  kolomKelas: "Kelas", 
  kolomGender: "Jenis Kelamin", 
 
- /* TAMBAHAN UNTUK PDF INDIVIDU BARU */
  kolomUsia: "Usia",
  kolomNoUnik: "No. Unik",
 
@@ -1220,17 +1217,11 @@
  }
 
  let isUpdating = false;
-
  updateDropdowns('init');
  
  $('#filter-sekolah').on('change', function() { if(isUpdating) return; isUpdating = true; updateDropdowns('sekolah'); updateDashboard(); isUpdating = false; });
  $('#filter-kelas').on('change', function() { if(isUpdating) return; isUpdating = true; updateDropdowns('kelas'); updateDashboard(); isUpdating = false; });
- 
- $('#filter-nama').on('change', function() {
- if(isUpdating) return; isUpdating = true;
- updateDashboard(); 
- isUpdating = false;
- });
+ $('#filter-nama').on('change', function() { if(isUpdating) return; isUpdating = true; updateDashboard(); isUpdating = false; });
  
  google.charts.setOnLoadCallback(updateDashboard);
  }
@@ -1343,16 +1334,11 @@
     // =========================================================================
     let coverHtml = `
     <div class="pdf-page" style="position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; border-left: 3px solid #d4af37; border-right: 3px solid #d4af37; padding: 40px; overflow: hidden; background-color: #ffffff;">
-        
-        <!-- Ornamen Sudut Kanan Atas (Simulasi CSS) -->
         <div style="position: absolute; top: -70px; right: -70px; width: 220px; height: 220px; background: #7ee2d7; transform: rotate(45deg); z-index: 1;"></div>
         <div style="position: absolute; top: -100px; right: 0px; width: 150px; height: 150px; background: #000; transform: rotate(45deg); z-index: 2;"></div>
-
-        <!-- Ornamen Sudut Kiri Bawah (Simulasi CSS) -->
         <div style="position: absolute; bottom: -70px; left: -70px; width: 220px; height: 220px; background: #000; transform: rotate(45deg); z-index: 1;"></div>
         <div style="position: absolute; bottom: -60px; left: -80px; width: 220px; height: 220px; border: 2px solid #7ee2d7; transform: rotate(45deg); z-index: 2; background: transparent;"></div>
         
-        <!-- Header Kiri Atas -->
         <div style="position: absolute; top: 40px; left: 40px; display: flex; align-items: flex-start; z-index: 3;">
             <img src="${logoSrc}" alt="Logo" style="height: 75px; margin-right: 15px; object-fit: contain;">
             <div>
@@ -1362,45 +1348,23 @@
                 <p style="font-size: 10px; color: #333; margin: 0; line-height: 1.3;"><b>PT. AKARA NATURA NUSANTARA</b><br>Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
             </div>
         </div>
-
-        <!-- Watermark Tengah -->
         <img src="${logoSrc}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.04; width: 450px; z-index: 1;">
-
-        <!-- Konten Biodata Tengah -->
         <div style="z-index: 10; font-size: 15px; color: #000; width: 55%; margin-top: 50px; line-height: 1.5;">
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
-                <strong style="font-weight: 800;">Grup</strong><span>:</span><span>${sekolahName}</span>
-            </div>
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
-                <strong style="font-weight: 800;">Kelas</strong><span>:</span><span>${getValStr('kolomKelas')}</span>
-            </div>
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
-                <strong style="font-weight: 800;">Nama</strong><span>:</span><span>${getValStr('kolomNama')}</span>
-            </div>
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
-                <strong style="font-weight: 800;">Jenis Kelamin</strong><span>:</span><span>${getValStr('kolomGender')}</span>
-            </div>
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
-                <strong style="font-weight: 800;">Usia</strong><span>:</span><span>${getValStr('kolomUsia')}</span>
-            </div>
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;">
-                <strong style="font-weight: 800;">No. Unik</strong><span>:</span><span>${getValStr('kolomNoUnik')}</span>
-            </div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Grup</strong><span>:</span><span>${sekolahName}</span></div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Kelas</strong><span>:</span><span>${getValStr('kolomKelas')}</span></div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Nama</strong><span>:</span><span>${getValStr('kolomNama')}</span></div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Jenis Kelamin</strong><span>:</span><span>${getValStr('kolomGender')}</span></div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Usia</strong><span>:</span><span>${getValStr('kolomUsia')}</span></div>
+            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">No. Unik</strong><span>:</span><span>${getValStr('kolomNoUnik')}</span></div>
         </div>
     </div>
     `;
 
     // =========================================================================
-    // 🔥 HALAMAN 2: ISI LAPORAN ASESMEN PSIKOLOGI 🔥
+    // 🔥 HALAMAN 2 & 3: ISI LAPORAN ASESMEN PSIKOLOGI (DYNAMIC FLOW) 🔥
     // =========================================================================
-    let page1Html = `
-    <div class="pdf-page">
-        <!-- Mini Header Identitas Siswa -->
-        <div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
-            <div style="font-size: 14px; font-weight: bold; color: #000; text-transform: uppercase;">HASIL ASESMEN PSIKOLOGI</div>
-            <div style="font-size: 11px; color: #333; text-align: right;"><b>${getValStr('kolomNama')}</b> | ${getValStr('kolomKelas')} | ${sekolahName}</div>
-        </div>
-    `;
+    let sections = [];
+    let secCount = 1;
 
     if (isVal(siswa[colIndices.kolomKepribadian])) {
         let I = getNum('kolomI'), E = getNum('kolomE'), S = getNum('kolomS'), N = getNum('kolomN');
@@ -1411,42 +1375,51 @@
         domTraits.push(F >= T ? `Feeling ${F}%` : `Thinking ${T}%`);
         domTraits.push(J >= P ? `Judging ${J}%` : `Perceiving ${P}%`);
         
-        page1Html += `
-        <div class="pr-section-title-new">1. KEPRIBADIAN (${getValStr('kolomKepribadian')})</div>
-        <div class="flex-between" style="align-items: flex-start; gap: 20px;">
-            <div style="flex: 1;">
-                <p class="pr-text" style="margin-bottom:8px;">${safeText('kolomKepriMenonjol')}</p>
-                <p class="pr-text"><b>Saran Pengembangan:</b> ${safeText('kolomKepriKembang')}</p>
+        sections.push({
+            weight: 18,
+            html: `
+            <div class="pr-section-title-new">${secCount++}. KEPRIBADIAN (${getValStr('kolomKepribadian')})</div>
+            <div class="flex-between" style="align-items: flex-start; gap: 20px;">
+                <div style="flex: 1;">
+                    <p class="pr-text" style="margin-bottom:8px;">${safeText('kolomKepriMenonjol')}</p>
+                    <p class="pr-text"><b>Saran Pengembangan:</b> ${safeText('kolomKepriKembang')}</p>
+                </div>
+                <div style="width: 140px; text-align: right; font-size: 11px; color:#333; line-height: 1.8;">
+                    ${domTraits.join(' | <br>')} |
+                </div>
             </div>
-            <div style="width: 140px; text-align: right; font-size: 11px; color:#333; line-height: 1.8;">
-                ${domTraits.join(' | <br>')} |
-            </div>
-        </div>
-        `;
+            `
+        });
     }
 
     if (isVal(siswa[colIndices.kolomGayaBelajar])) {
         let gayaArr = [
             {n: 'Visual', s: getNum('kolomVis')}, {n: 'Auditory', s: getNum('kolomAud')}, {n: 'Kinesthetic', s: getNum('kolomKines')}
         ].sort((a,b) => b.s - a.s);
-        page1Html += `
-        <div class="pr-section-title-new">2. GAYA BELAJAR DOMINAN</div>
-        <p class="pr-text" style="margin-bottom: 8px;">
-            <b>${gayaArr[0].n.toUpperCase()} (${gayaArr[0].s}%)</b> | ${gayaArr[1].n} (${gayaArr[1].s}%) | ${gayaArr[2].n} (${gayaArr[2].s}%)
-        </p>
-        <p class="pr-text">${safeText('kolomGayaCiri')}</p>
-        `;
+        sections.push({
+            weight: 15,
+            html: `
+            <div class="pr-section-title-new">${secCount++}. GAYA BELAJAR DOMINAN</div>
+            <p class="pr-text" style="margin-bottom: 8px;">
+                <b>${gayaArr[0].n.toUpperCase()} (${gayaArr[0].s}%)</b> | ${gayaArr[1].n} (${gayaArr[1].s}%) | ${gayaArr[2].n} (${gayaArr[2].s}%)
+            </p>
+            <p class="pr-text">${safeText('kolomGayaCiri')}</p>
+            `
+        });
     }
 
     if (isVal(siswa[colIndices.kolomTarafKecerdasan])) {
-        page1Html += `
-        <div class="pr-section-title-new">3. PROFIL KECERDASAN (IQ: ${getValStr('kolomTarafKecerdasan')} - KATEGORI ${getValStr('kolomTipeKecerdasan')})</div>
-        <div class="pr-grid-3">
-            <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Ketajaman Diferensiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Kritis mengidentifikasi detail masalah.</p></div>
-            <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Sistematika Berpikir (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Teratur, logis, dan sistematis.</p></div>
-            <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Kemampuan Asosiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Cukup mampu menghubungkan ide.</p></div>
-        </div>
-        `;
+        sections.push({
+            weight: 15,
+            html: `
+            <div class="pr-section-title-new">${secCount++}. PROFIL KECERDASAN (IQ: ${getValStr('kolomTarafKecerdasan')} - KATEGORI ${getValStr('kolomTipeKecerdasan')})</div>
+            <div class="pr-grid-3">
+                <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Ketajaman Diferensiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Kritis mengidentifikasi detail masalah.</p></div>
+                <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Sistematika Berpikir (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Teratur, logis, dan sistematis.</p></div>
+                <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Kemampuan Asosiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Cukup mampu menghubungkan ide.</p></div>
+            </div>
+            `
+        });
     }
 
     if (isVal(siswa[colIndices.kolomKecerdasanMajemuk])) {
@@ -1456,17 +1429,22 @@
             {n: 'Musikal', s: getNum('kolomMus')}, {n: 'Interpersonal', s: getNum('kolomInter')},
             {n: 'Intrapersonal', s: getNum('kolomIntra')}, {n: 'Naturalis', s: getNum('kolomNat')}
         ].sort((a,b) => b.s - a.s).slice(0, 3);
-        page1Html += `
-        <div class="pr-section-title-new">4. KECERDASAN MAJEMUK UTAMA</div>
+        
+        let miHtml = `
+        <div class="pr-section-title-new">${secCount++}. KECERDASAN MAJEMUK UTAMA</div>
         <div class="pr-grid-3">
         `;
         miArr.forEach(m => {
-            page1Html += `<div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">${m.n} (${m.s}%):</p><p class="pr-text-xs">Kecerdasan dominan pada bidang ${m.n.toLowerCase()}.</p></div>`;
+            miHtml += `<div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">${m.n} (${m.s}%):</p><p class="pr-text-xs">Kecerdasan dominan pada bidang ${m.n.toLowerCase()}.</p></div>`;
         });
-        page1Html += `</div>`;
+        miHtml += `</div>`;
+
+        sections.push({
+            weight: 15,
+            html: miHtml
+        });
     }
 
-    // 🔥 PERBAIKAN RIASEC: "Kompetensi Kuat" dipindah ke luar grid agar meluas memenuhi kertas 🔥
     if (isVal(siswa[colIndices.kolomTipeRIASEC])) {
         let rArr = [
             {n: 'Realistic', s: getNum('kolomReal')}, {n: 'Investigative', s: getNum('kolomInv')},
@@ -1474,92 +1452,130 @@
             {n: 'Enterprising', s: getNum('kolomEnt')}, {n: 'Conventional', s: getNum('kolomConv')}
         ].sort((a,b) => b.s - a.s).slice(0, 2);
         
-        page1Html += `
-        <div class="pr-section-title-new">5. MINAT BAKAT (RIASEC) & KARIR</div>
-        <div class="pr-grid-2">
-            <div>
-                <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[0].n} (${rArr[0].s}%):</b> Dominan pertama.</p>
-                <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[1].n} (${rArr[1].s}%):</b> Dominan kedua.</p>
+        sections.push({
+            weight: 26,
+            html: `
+            <div class="pr-section-title-new">${secCount++}. MINAT BAKAT (RIASEC) & KARIR</div>
+            <div class="pr-grid-2">
+                <div>
+                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[0].n} (${rArr[0].s}%):</b> Dominan pertama.</p>
+                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[1].n} (${rArr[1].s}%):</b> Dominan kedua.</p>
+                </div>
+                <div>
+                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>Rekomendasi Jurusan:</b><br>${safeText('kolomRiasecJurusan')}</p>
+                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>Mata Pelajaran Pendukung:</b><br>${safeText('kolomRiasecMapel')}</p>
+                </div>
             </div>
-            <div>
-                <p class="pr-text-sm" style="margin-bottom:6px;"><b>Rekomendasi Jurusan:</b><br>${safeText('kolomRiasecJurusan')}</p>
-                <p class="pr-text-sm" style="margin-bottom:6px;"><b>Mata Pelajaran Pendukung:</b><br>${safeText('kolomRiasecMapel')}</p>
+            <div style="margin-top: 8px;">
+                <p class="pr-text-sm" style="margin-bottom:6px;"><b>Kompetensi Kuat:</b><br>${safeText('kolomRiasecDesk')}</p>
             </div>
-        </div>
-        <div style="margin-top: 8px;">
-            <p class="pr-text-sm" style="margin-bottom:6px;"><b>Kompetensi Kuat:</b><br>${safeText('kolomRiasecDesk')}</p>
-        </div>
-        `;
+            `
+        });
     }
-    
-    page1Html += `</div>`;
-
-    let page2Html = `<div class="pdf-page">`;
-    let sectionCount = 6;
 
     if (isVal(siswa[colIndices.kolomCaraMendidikKat])) {
-        page2Html += `
-        <div class="pr-section-title-new">${sectionCount}. KONDISI LINGKUNGAN KELUARGA</div>
-        <table class="pr-table-compact">
-            <thead><tr><th style="width:25%;">Aspek</th><th style="width:25%;">Skor</th><th>Deskripsi Singkat</th></tr></thead>
-            <tbody>
-                <tr>
-                    <td><b>Cara Orang Tua Mendidik</b></td>
-                    <td>${getValStr('kolomCaraMendidikSkor')}% (${getValStr('kolomCaraMendidikKat')})</td>
-                    <td>Lingkungan pengasuhan berada pada tahap ${getValStr('kolomCaraMendidikKat').toLowerCase()}.</td>
-                </tr>
-                <tr>
-                    <td><b>Relasi Anak & Keluarga</b></td>
-                    <td>${getValStr('kolomRelasiSkor')}% (${getValStr('kolomRelasiKat')})</td>
-                    <td>Hubungan kekeluargaan berada pada tahap ${getValStr('kolomRelasiKat').toLowerCase()}.</td>
-                </tr>
-                <tr>
-                    <td><b>Suasana Rumah</b></td>
-                    <td>${getValStr('kolomSuasanaRumahSkor')}% (${getValStr('kolomSuasanaRumahKat')})</td>
-                    <td>Suasana lingkungan rumah ${getValStr('kolomSuasanaRumahKat').toLowerCase()}.</td>
-                </tr>
-            </tbody>
-        </table>
-        <p class="pr-text" style="margin-top:10px;"><b>Saran untuk Keluarga:</b> Seiring bertambahnya usia, berikan ruang diskusi yang terbuka bagi anak. Hindari sikap menghakimi dan libatkan anak dalam kegiatan keluarga agar mereka merasakan peran serta tanggung jawabnya.</p>
-        `;
-        sectionCount++;
+        sections.push({
+            weight: 25,
+            html: `
+            <div class="pr-section-title-new">${secCount++}. KONDISI LINGKUNGAN KELUARGA</div>
+            <table class="pr-table-compact">
+                <thead><tr><th style="width:25%;">Aspek</th><th style="width:25%;">Skor</th><th>Deskripsi Singkat</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><b>Cara Orang Tua Mendidik</b></td>
+                        <td>${getValStr('kolomCaraMendidikSkor')}% (${getValStr('kolomCaraMendidikKat')})</td>
+                        <td>Lingkungan pengasuhan berada pada tahap ${getValStr('kolomCaraMendidikKat').toLowerCase()}.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Relasi Anak & Keluarga</b></td>
+                        <td>${getValStr('kolomRelasiSkor')}% (${getValStr('kolomRelasiKat')})</td>
+                        <td>Hubungan kekeluargaan berada pada tahap ${getValStr('kolomRelasiKat').toLowerCase()}.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Suasana Rumah</b></td>
+                        <td>${getValStr('kolomSuasanaRumahSkor')}% (${getValStr('kolomSuasanaRumahKat')})</td>
+                        <td>Suasana lingkungan rumah ${getValStr('kolomSuasanaRumahKat').toLowerCase()}.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="pr-text" style="margin-top:10px;"><b>Saran untuk Keluarga:</b> Seiring bertambahnya usia, berikan ruang diskusi yang terbuka bagi anak. Hindari sikap menghakimi dan libatkan anak dalam kegiatan keluarga agar mereka merasakan peran serta tanggung jawabnya.</p>
+            `
+        });
     }
 
     let hasKes = isVal(siswa[colIndices.kolomKemandirianKat]);
     let hasKeb = isVal(siswa[colIndices.kolomPRKat]);
     if (hasKes || hasKeb) {
-        page2Html += `
-        <div class="pr-section-title-new">${sectionCount}. KESEJAHTERAAN PSIKOLOGI & KEBIASAAN BELAJAR</div>
-        <div class="pr-grid-2" style="align-items: start;">
-            <div>
-                <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kesejahteraan Psikologis:</p>
-                <p class="pr-text">Tingkat kemandirian <b>(${getValStr('kolomKemandirianSkor')}%)</b>, penguasaan lingkungan <b>(${getValStr('kolomPenguasaanSkor')}%)</b>, dan tujuan hidup <b>(${getValStr('kolomTujuanSkor')}%)</b> terpantau dalam batas evaluasi saat asesmen dilakukan.</p>
+        sections.push({
+            weight: 18,
+            html: `
+            <div class="pr-section-title-new">${secCount++}. KESEJAHTERAAN PSIKOLOGI & KEBIASAAN BELAJAR</div>
+            <div class="pr-grid-2" style="align-items: start;">
+                <div>
+                    <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kesejahteraan Psikologis:</p>
+                    <p class="pr-text">Tingkat kemandirian <b>(${getValStr('kolomKemandirianSkor')}%)</b>, penguasaan lingkungan <b>(${getValStr('kolomPenguasaanSkor')}%)</b>, dan tujuan hidup <b>(${getValStr('kolomTujuanSkor')}%)</b> terpantau dalam batas evaluasi saat asesmen dilakukan.</p>
+                </div>
+                <div>
+                    <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kebiasaan Belajar:</p>
+                    <p class="pr-text">Alokasi waktu <b>(${getValStr('kolomWaktuSkor')}%)</b>, pengerjaan PR <b>(${getValStr('kolomPRSkor')}%)</b>, serta konsentrasi <b>(${getValStr('kolomKonsentrasiSkor')}%)</b> mencerminkan profil belajar harian anak saat ini.</p>
+                </div>
             </div>
-            <div>
-                <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kebiasaan Belajar:</p>
-                <p class="pr-text">Alokasi waktu <b>(${getValStr('kolomWaktuSkor')}%)</b>, pengerjaan PR <b>(${getValStr('kolomPRSkor')}%)</b>, serta konsentrasi <b>(${getValStr('kolomKonsentrasiSkor')}%)</b> mencerminkan profil belajar harian anak saat ini.</p>
-            </div>
-        </div>
-        `;
-        sectionCount++;
+            `
+        });
     }
 
     if (isVal(siswa[colIndices.kolomDISC]) || isVal(siswa[colIndices.kolomPapi]) || isVal(siswa[colIndices.kolomKetahananDiri])) {
-        page2Html += `<div class="pr-section-title-new">${sectionCount}. ASESMEN TAMBAHAN</div><div class="pr-grid-3">`;
+        let addHtml = `<div class="pr-section-title-new">${secCount++}. ASESMEN TAMBAHAN</div><div class="pr-grid-3">`;
         if (isVal(siswa[colIndices.kolomDISC])) {
-            page2Html += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Analisis DISC:</p><p class="pr-text">Kategori Kepribadian DISC berada pada tipe <b>${getValStr('kolomDISC')}</b>.</p></div>`;
+            addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Analisis DISC:</p><p class="pr-text">Kategori Kepribadian DISC berada pada tipe <b>${getValStr('kolomDISC')}</b>.</p></div>`;
         }
         if (isVal(siswa[colIndices.kolomPapi])) {
-            page2Html += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Papi Kostick:</p><p class="pr-text">Hasil kecenderungan profil berada pada <b>${getValStr('kolomPapi')}</b>.</p></div>`;
+            addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Papi Kostick:</p><p class="pr-text">Hasil kecenderungan profil berada pada <b>${getValStr('kolomPapi')}</b>.</p></div>`;
         }
         if (isVal(siswa[colIndices.kolomKetahananDiri])) {
-            page2Html += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Ketahanan Diri (AQ):</p><p class="pr-text">Profil resiliensi masuk dalam kategori <b>${getValStr('kolomKetahananDiri')}</b>.</p></div>`;
+            addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Ketahanan Diri (AQ):</p><p class="pr-text">Profil resiliensi masuk dalam kategori <b>${getValStr('kolomKetahananDiri')}</b>.</p></div>`;
         }
-        page2Html += `</div>`;
+        addHtml += `</div>`;
+        
+        sections.push({
+            weight: 15,
+            html: addHtml
+        });
     }
 
-    page2Html += `</div>`;
-    document.getElementById('laporan-isi').innerHTML = coverHtml + page1Html + page2Html;
+    // 🔥 Sistem Pendistribusian Dinamis (Dynamic Chunking) YANG DIPERBAIKI 🔥
+    let maxWeight = 140; // Ditingkatkan agar halaman diisi penuh sebelum membuat halaman baru
+    let currentWeight = 0;
+    let pagesHtml = "";
+    
+    const miniHeader = `
+        <div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div style="font-size: 14px; font-weight: bold; color: #000; text-transform: uppercase;">HASIL ASESMEN PSIKOLOGI</div>
+            <div style="font-size: 11px; color: #333; text-align: right;"><b>${getValStr('kolomNama')}</b> | ${getValStr('kolomKelas')} | ${sekolahName}</div>
+        </div>
+    `;
+
+    let activePage = `<div class="pdf-page">` + miniHeader;
+
+    for (let i = 0; i < sections.length; i++) {
+        let sec = sections[i];
+        if (currentWeight + sec.weight > maxWeight && currentWeight > 0) {
+            activePage += `</div>`;
+            pagesHtml += activePage;
+            
+            activePage = `<div class="pdf-page">` + miniHeader;
+            currentWeight = 0;
+        }
+        activePage += sec.html;
+        currentWeight += sec.weight;
+    }
+    
+    if (currentWeight > 0) {
+        activePage += `</div>`;
+        pagesHtml += activePage;
+    }
+
+    document.getElementById('laporan-isi').innerHTML = coverHtml + pagesHtml;
 
  } else {
  document.getElementById('laporan-kosong').style.display = 'block';
@@ -1629,145 +1645,22 @@
  if(hasData(counts.disc)) renderReportDISC(filteredRows, counts.disc);
  if(hasData(counts.papi)) renderGenericReport(filteredRows, counts.papi, 'papi', 'kolomPapi');
 
- if(hasData(counts.tipeKecerdasan)) {
- renderDonutChart(counts.tipeKecerdasan, 'chart_profil_kecerdasan_detail', warnaTaraf, 'profil_kecerdasan');
- const summaryProfilKec = document.querySelector('#summary-profil_kecerdasan-table tbody');
- if(summaryProfilKec) {
- let shtml = [];
- Object.keys(counts.tipeKecerdasan).sort((a,b) => counts.tipeKecerdasan[b] - counts.tipeKecerdasan[a]).forEach(kat => {
- shtml.push(`<tr><td class="text-start">${kat}</td><td class="cell-score">${counts.tipeKecerdasan[kat]}</td></tr>`);
- });
- summaryProfilKec.innerHTML = shtml.join('');
- }
- const tbodyProfilKec = document.querySelector('#detail-profil_kecerdasan-table tbody');
- if(tbodyProfilKec) {
- let phtml = [];
- filteredRows.forEach(row => {
- let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-';
- let taraf = colIndices.kolomTarafKecerdasan !== undefined ? row[colIndices.kolomTarafKecerdasan] : '-'; let tipe = colIndices.kolomTipeKecerdasan !== undefined ? row[colIndices.kolomTipeKecerdasan] : '-';
- if (isVal(taraf)) phtml.push(`<tr data-category="${tipe}"><td class="text-start">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td><td class="cell-score" style="background-color: #f1f5f9">${taraf}</td><td style="font-weight:bold; color:#0d9488">${tipe}</td></tr>`);
- }); tbodyProfilKec.innerHTML = phtml.join('');
- }
- }
-
- if(hasData(counts.ketahananDiri)) {
- renderDonutChart(counts.ketahananDiri, 'chart_ketahanan_diri_detail', ['#10b981', '#f59e0b', '#ef4444'], 'ketahanan_diri');
- const summaryKetahanan = document.querySelector('#summary-ketahanan_diri-table tbody');
- if(summaryKetahanan) { let shtml = []; Object.keys(counts.ketahananDiri).sort((a,b) => counts.ketahananDiri[b] - counts.ketahananDiri[a]).forEach(kat => { shtml.push(`<tr><td class="text-start">${kat}</td><td class="cell-score">${counts.ketahananDiri[kat]}</td></tr>`); }); summaryKetahanan.innerHTML = shtml.join(''); }
- const detailKetahanan = document.querySelector('#detail-ketahanan_diri-table tbody');
- if(detailKetahanan) {
- let dhtml = [];
- filteredRows.forEach(row => {
- let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let kategori = colIndices.kolomKetahananDiri !== undefined ? row[colIndices.kolomKetahananDiri] : '-';
- let bgColor = '#f1f5f9'; let kLow = String(kategori).toLowerCase(); if (kLow.includes('tinggi') || kLow.includes('climber')) bgColor = '#d1fae5'; else if (kLow.includes('sedang') || kLow.includes('camper')) bgColor = '#fef3c7'; else if (kLow.includes('rendah') || kLow.includes('quitter')) bgColor = '#fee2e2'; 
- if (isVal(kategori)) dhtml.push(`<tr data-category="${kategori}"><td class="text-start">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td><td class="cell-score" style="background-color: ${bgColor};">${kategori}</td></tr>`);
- }); detailKetahanan.innerHTML = dhtml.join('');
- }
- }
+ if(hasData(counts.tipeKecerdasan)) { renderDonutChart(counts.tipeKecerdasan, 'chart_profil_kecerdasan_detail', warnaTaraf, 'profil_kecerdasan'); const sumT = document.querySelector('#summary-profil_kecerdasan-table tbody'); if(sumT) { let shtml = []; Object.keys(counts.tipeKecerdasan).sort((a,b) => counts.tipeKecerdasan[b] - counts.tipeKecerdasan[a]).forEach(kat => { shtml.push(`<tr><td class="text-start">${kat}</td><td class="cell-score">${counts.tipeKecerdasan[kat]}</td></tr>`); }); sumT.innerHTML = shtml.join(''); } const detT = document.querySelector('#detail-profil_kecerdasan-table tbody'); if(detT) { let phtml = []; filteredRows.forEach(row => { let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let taraf = colIndices.kolomTarafKecerdasan !== undefined ? row[colIndices.kolomTarafKecerdasan] : '-'; let tipe = colIndices.kolomTipeKecerdasan !== undefined ? row[colIndices.kolomTipeKecerdasan] : '-'; if (isVal(taraf)) phtml.push(`<tr data-category="${tipe}"><td class="text-start">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td><td class="cell-score" style="background-color: #f1f5f9">${taraf}</td><td style="font-weight:bold; color:#0d9488">${tipe}</td></tr>`); }); detT.innerHTML = phtml.join(''); } }
+ if(hasData(counts.ketahananDiri)) { renderDonutChart(counts.ketahananDiri, 'chart_ketahanan_diri_detail', ['#10b981', '#f59e0b', '#ef4444'], 'ketahanan_diri'); const sumK = document.querySelector('#summary-ketahanan_diri-table tbody'); if(sumK) { let shtml = []; Object.keys(counts.ketahananDiri).sort((a,b) => counts.ketahananDiri[b] - counts.ketahananDiri[a]).forEach(kat => { shtml.push(`<tr><td class="text-start">${kat}</td><td class="cell-score">${counts.ketahananDiri[kat]}</td></tr>`); }); sumK.innerHTML = shtml.join(''); } const detK = document.querySelector('#detail-ketahanan_diri-table tbody'); if(detK) { let dhtml = []; filteredRows.forEach(row => { let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let kategori = colIndices.kolomKetahananDiri !== undefined ? row[colIndices.kolomKetahananDiri] : '-'; let bgColor = '#f1f5f9'; let kLow = String(kategori).toLowerCase(); if (kLow.includes('tinggi') || kLow.includes('climber')) bgColor = '#d1fae5'; else if (kLow.includes('sedang') || kLow.includes('camper')) bgColor = '#fef3c7'; else if (kLow.includes('rendah') || kLow.includes('quitter')) bgColor = '#fee2e2'; if (isVal(kategori)) dhtml.push(`<tr data-category="${kategori}"><td class="text-start">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td><td class="cell-score" style="background-color: ${bgColor};">${kategori}</td></tr>`); }); detK.innerHTML = dhtml.join(''); } }
 
  if(hasData(counts.kemandirian)) renderSubKategori(filteredRows, counts.kemandirian, 'kemandirian', 'kolomKemandirianSkor', 'kolomKemandirianKat'); if(hasData(counts.penguasaan)) renderSubKategori(filteredRows, counts.penguasaan, 'penguasaan', 'kolomPenguasaanSkor', 'kolomPenguasaanKat'); if(hasData(counts.pertumbuhan)) renderSubKategori(filteredRows, counts.pertumbuhan, 'pertumbuhan', 'kolomPertumbuhanSkor', 'kolomPertumbuhanKat'); if(hasData(counts.hubungan)) renderSubKategori(filteredRows, counts.hubungan, 'hubungan', 'kolomHubunganSkor', 'kolomHubunganKat'); if(hasData(counts.tujuan)) renderSubKategori(filteredRows, counts.tujuan, 'tujuan', 'kolomTujuanSkor', 'kolomTujuanKat'); if(hasData(counts.penerimaan)) renderSubKategori(filteredRows, counts.penerimaan, 'penerimaan', 'kolomPenerimaanSkor', 'kolomPenerimaanKat');
  if(hasData(counts.pr)) renderSubKategori(filteredRows, counts.pr, 'pr', 'kolomPRSkor', 'kolomPRKat'); if(hasData(counts.waktu)) renderSubKategori(filteredRows, counts.waktu, 'waktu', 'kolomWaktuSkor', 'kolomWaktuKat'); if(hasData(counts.membaca)) renderSubKategori(filteredRows, counts.membaca, 'membaca', 'kolomMembacaSkor', 'kolomMembacaKat'); if(hasData(counts.prosedur)) renderSubKategori(filteredRows, counts.prosedur, 'prosedur', 'kolomProsedurSkor', 'kolomProsedurKat'); if(hasData(counts.konsentrasi)) renderSubKategori(filteredRows, counts.konsentrasi, 'konsentrasi', 'kolomKonsentrasiSkor', 'kolomKonsentrasiKat');
  if(hasData(counts.caraMendidik)) renderSubKategori(filteredRows, counts.caraMendidik, 'cara_mendidik', 'kolomCaraMendidikSkor', 'kolomCaraMendidikKat'); if(hasData(counts.relasi)) renderSubKategori(filteredRows, counts.relasi, 'relasi', 'kolomRelasiSkor', 'kolomRelasiKat'); if(hasData(counts.suasanaRumah)) renderSubKategori(filteredRows, counts.suasanaRumah, 'suasana_rumah', 'kolomSuasanaRumahSkor', 'kolomSuasanaRumahKat');
  }
 
- window.resetTable = function(prefix) {
- try {
- $('#detail-' + prefix + '-table tbody tr').show();
- if(window.globalCharts['mychart_chart_ringkasan_' + prefix]) window.globalCharts['mychart_chart_ringkasan_' + prefix].setSelection([]); 
- if(window.globalCharts['mychart_chart_' + prefix + '_detail']) window.globalCharts['mychart_chart_' + prefix + '_detail'].setSelection([]); 
- } catch (e) { console.log(e); }
- };
+ window.resetTable = function(prefix) { try { $('#detail-' + prefix + '-table tbody tr').show(); if(window.globalCharts['mychart_chart_ringkasan_' + prefix]) window.globalCharts['mychart_chart_ringkasan_' + prefix].setSelection([]); if(window.globalCharts['mychart_chart_' + prefix + '_detail']) window.globalCharts['mychart_chart_' + prefix + '_detail'].setSelection([]); } catch (e) { console.log(e); } };
 
- function renderSingleColumnChart(frequencyObj, elementId, colorHex, xLabel, prefix, menuId) { 
- if(!document.getElementById(elementId)) return; 
- const dataArray = [[xLabel, 'Jumlah', { role: 'style' }]]; 
- const sortedKeys = Object.keys(frequencyObj).sort((a,b) => frequencyObj[b] - frequencyObj[a]);
- sortedKeys.forEach(key => dataArray.push([key, frequencyObj[key], `color: ${colorHex}`])); 
- if (dataArray.length === 1) dataArray.push(['Kosong', 0, `color: ${colorHex}`]); 
-
- const chart = new google.visualization.ColumnChart(document.getElementById(elementId));
- if (prefix) window.globalCharts['mychart_' + elementId] = chart;
- 
- if (prefix) {
- google.visualization.events.addListener(chart, 'select', function() {
- const sel = chart.getSelection();
- const tbody = document.querySelector('#detail-' + prefix + '-table tbody');
- 
- if (sel.length > 0 && sel[0].row !== null && sel[0].row !== undefined && tbody) {
- const category = sortedKeys[sel[0].row];
- if (elementId.includes('ringkasan') && menuId) navTo(menuId);
- 
- $(tbody).find('tr').hide();
- $(tbody).find('tr').each(function() {
- if($(this).attr('data-category') === String(category)) $(this).fadeIn(200);
- });
- } else if (tbody) {
- $(tbody).find('tr').fadeIn(200);
- }
- });
- }
- setTimeout(() => { chart.draw(google.visualization.arrayToDataTable(dataArray), getChartOptions('single', true)); }, 50);
- }
- 
- function renderGroupedColumnChart(dataArray, elementId, colorPalette) { 
- if(!document.getElementById(elementId)) return; 
- const chart = new google.visualization.ColumnChart(document.getElementById(elementId));
- let opts = getChartOptions('grouped', true); opts.colors = colorPalette;
- setTimeout(() => { chart.draw(google.visualization.arrayToDataTable(dataArray), opts); }, 50);
- }
- 
- function renderDonutChart(frequencyObj, elementId, colorPalette, prefix, menuId) { 
- if(!document.getElementById(elementId)) return; 
- const dataArray = [['Kategori', 'Jumlah']]; 
- const keys = [];
- for (let key in frequencyObj) { dataArray.push([key, frequencyObj[key]]); keys.push(key); }
- if (dataArray.length === 1) dataArray.push(['Kosong', 1]); 
-
- const chart = new google.visualization.PieChart(document.getElementById(elementId));
- if (prefix) window.globalCharts['mychart_' + elementId] = chart;
- 
- if (prefix) {
- google.visualization.events.addListener(chart, 'select', function() {
- const sel = chart.getSelection();
- const tbody = document.querySelector('#detail-' + prefix + '-table tbody');
- 
- if (sel.length > 0 && sel[0].row !== null && sel[0].row !== undefined && tbody) {
- const category = keys[sel[0].row];
- if (elementId.includes('ringkasan') && menuId) navTo(menuId);
- 
- $(tbody).find('tr').hide();
- $(tbody).find('tr').each(function() {
- if($(this).attr('data-category') === String(category)) $(this).fadeIn(200);
- });
- } else if (tbody) {
- $(tbody).find('tr').fadeIn(200);
- }
- });
- }
- let opts = getChartOptions('donut', true); opts.colors = colorPalette;
- setTimeout(() => { chart.draw(google.visualization.arrayToDataTable(dataArray), opts); }, 50);
- }
-
- function renderReportDISC(filteredRows, dataKategori) {
- renderDonutChart(dataKategori, 'chart_disc_detail', ['#ef4444', '#f59e0b', '#10b981', '#3b82f6'], 'disc', 'menu-disc');
- const summaryBody = document.querySelector('#summary-disc-table tbody'); if(summaryBody) { let shtml = []; Object.keys(dataKategori).sort((a,b)=>dataKategori[b]-dataKategori[a]).forEach(k => { shtml.push(`<tr><td class="text-start">${k}</td><td class="cell-score">${dataKategori[k]}</td></tr>`); }); summaryBody.innerHTML = shtml.join(''); }
- const detailBody = document.querySelector('#detail-disc-table tbody');
- if(detailBody) {
- let dhtml = [];
- filteredRows.forEach(r => {
- const getVal = (key) => colIndices[key] !== undefined ? r[colIndices[key]] : '-';
- let n = getVal('kolomNama'); let kl = getVal('kolomKelas'); let jk = getVal('kolomGender'); let kd = getVal('k_d'); let ki = getVal('k_i'); let ks = getVal('k_s'); let kc = getVal('k_c'); let pd = getVal('p_d'); let pi = getVal('p_i'); let ps = getVal('p_s'); let pc = getVal('p_c'); let hasil = getVal('kolomDISC');
- if (isVal(hasil)) dhtml.push(`<tr data-category="${hasil}"><td class="text-start" style="white-space:nowrap;">${n}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kl}</td><td class="cell-score" style="background-color: #f1f5f9">${kd}</td><td class="cell-score" style="background-color: #f1f5f9">${ki}</td><td class="cell-score" style="background-color: #f1f5f9">${ks}</td><td class="cell-score" style="background-color: #f1f5f9">${kc}</td><td class="cell-score" style="background-color: #f1f5f9">${pd}</td><td class="cell-score" style="background-color: #f1f5f9">${pi}</td><td class="cell-score" style="background-color: #f1f5f9">${ps}</td><td class="cell-score" style="background-color: #f1f5f9">${pc}</td><td style="font-weight:bold; background-color: #0d9488; color:#fff">${hasil}</td></tr>`);
- }); detailBody.innerHTML = dhtml.join('');
- }
- }
-
+ function renderSingleColumnChart(frequencyObj, elementId, colorHex, xLabel, prefix, menuId) { if(!document.getElementById(elementId)) return; const dataArray = [[xLabel, 'Jumlah', { role: 'style' }]]; const sortedKeys = Object.keys(frequencyObj).sort((a,b) => frequencyObj[b] - frequencyObj[a]); sortedKeys.forEach(key => dataArray.push([key, frequencyObj[key], `color: ${colorHex}`])); if (dataArray.length === 1) dataArray.push(['Kosong', 0, `color: ${colorHex}`]); const chart = new google.visualization.ColumnChart(document.getElementById(elementId)); if (prefix) window.globalCharts['mychart_' + elementId] = chart; if (prefix) { google.visualization.events.addListener(chart, 'select', function() { const sel = chart.getSelection(); const tbody = document.querySelector('#detail-' + prefix + '-table tbody'); if (sel.length > 0 && sel[0].row !== null && sel[0].row !== undefined && tbody) { const category = sortedKeys[sel[0].row]; if (elementId.includes('ringkasan') && menuId) navTo(menuId); $(tbody).find('tr').hide(); $(tbody).find('tr').each(function() { if($(this).attr('data-category') === String(category)) $(this).fadeIn(200); }); } else if (tbody) { $(tbody).find('tr').fadeIn(200); } }); } setTimeout(() => { chart.draw(google.visualization.arrayToDataTable(dataArray), getChartOptions('single', true)); }, 50); }
+ function renderGroupedColumnChart(dataArray, elementId, colorPalette) { if(!document.getElementById(elementId)) return; const chart = new google.visualization.ColumnChart(document.getElementById(elementId)); let opts = getChartOptions('grouped', true); opts.colors = colorPalette; setTimeout(() => { chart.draw(google.visualization.arrayToDataTable(dataArray), opts); }, 50); }
+ function renderDonutChart(frequencyObj, elementId, colorPalette, prefix, menuId) { if(!document.getElementById(elementId)) return; const dataArray = [['Kategori', 'Jumlah']]; const keys = []; for (let key in frequencyObj) { dataArray.push([key, frequencyObj[key]]); keys.push(key); } if (dataArray.length === 1) dataArray.push(['Kosong', 1]); const chart = new google.visualization.PieChart(document.getElementById(elementId)); if (prefix) window.globalCharts['mychart_' + elementId] = chart; if (prefix) { google.visualization.events.addListener(chart, 'select', function() { const sel = chart.getSelection(); const tbody = document.querySelector('#detail-' + prefix + '-table tbody'); if (sel.length > 0 && sel[0].row !== null && sel[0].row !== undefined && tbody) { const category = keys[sel[0].row]; if (elementId.includes('ringkasan') && menuId) navTo(menuId); $(tbody).find('tr').hide(); $(tbody).find('tr').each(function() { if($(this).attr('data-category') === String(category)) $(this).fadeIn(200); }); } else if (tbody) { $(tbody).find('tr').fadeIn(200); } }); } let opts = getChartOptions('donut', true); opts.colors = colorPalette; setTimeout(() => { chart.draw(google.visualization.arrayToDataTable(dataArray), opts); }, 50); }
+ function renderReportDISC(filteredRows, dataKategori) { renderDonutChart(dataKategori, 'chart_disc_detail', ['#ef4444', '#f59e0b', '#10b981', '#3b82f6'], 'disc', 'menu-disc'); const summaryBody = document.querySelector('#summary-disc-table tbody'); if(summaryBody) { let shtml = []; Object.keys(dataKategori).sort((a,b)=>dataKategori[b]-dataKategori[a]).forEach(k => { shtml.push(`<tr><td class="text-start">${k}</td><td class="cell-score">${dataKategori[k]}</td></tr>`); }); summaryBody.innerHTML = shtml.join(''); } const detailBody = document.querySelector('#detail-disc-table tbody'); if(detailBody) { let dhtml = []; filteredRows.forEach(r => { const getVal = (key) => colIndices[key] !== undefined ? r[colIndices[key]] : '-'; let n = getVal('kolomNama'); let kl = getVal('kolomKelas'); let jk = getVal('kolomGender'); let kd = getVal('k_d'); let ki = getVal('k_i'); let ks = getVal('k_s'); let kc = getVal('k_c'); let pd = getVal('p_d'); let pi = getVal('p_i'); let ps = getVal('p_s'); let pc = getVal('p_c'); let hasil = getVal('kolomDISC'); if (isVal(hasil)) dhtml.push(`<tr data-category="${hasil}"><td class="text-start" style="white-space:nowrap;">${n}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kl}</td><td class="cell-score" style="background-color: #f1f5f9">${kd}</td><td class="cell-score" style="background-color: #f1f5f9">${ki}</td><td class="cell-score" style="background-color: #f1f5f9">${ks}</td><td class="cell-score" style="background-color: #f1f5f9">${kc}</td><td class="cell-score" style="background-color: #f1f5f9">${pd}</td><td class="cell-score" style="background-color: #f1f5f9">${pi}</td><td class="cell-score" style="background-color: #f1f5f9">${ps}</td><td class="cell-score" style="background-color: #f1f5f9">${pc}</td><td style="font-weight:bold; background-color: #0d9488; color:#fff">${hasil}</td></tr>`); }); detailBody.innerHTML = dhtml.join(''); } }
  function renderGenericReport(filteredRows, dataKategori, prefix, keyKolom) { renderDonutChart(dataKategori, 'chart_'+prefix+'_detail', ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6'], prefix, 'menu-'+prefix); const summaryBody = document.querySelector('#summary-'+prefix+'-table tbody'); if(summaryBody) { let shtml = []; Object.keys(dataKategori).sort((a,b)=>dataKategori[b]-dataKategori[a]).forEach(k => { shtml.push(`<tr><td class="text-start">${k}</td><td class="cell-score">${dataKategori[k]}</td></tr>`); }); summaryBody.innerHTML = shtml.join(''); } const detailBody = document.querySelector('#detail-'+prefix+'-table tbody'); if(detailBody) { let dhtml = []; filteredRows.forEach(r => { let n = colIndices.kolomNama !== undefined ? r[colIndices.kolomNama] : '-'; let kl = colIndices.kolomKelas !== undefined ? r[colIndices.kolomKelas] : '-'; let jk = colIndices.kolomGender !== undefined ? r[colIndices.kolomGender] : '-'; let hasil = colIndices[keyKolom] !== undefined ? r[colIndices[keyKolom]] : '-'; if (isVal(hasil)) dhtml.push(`<tr data-category="${hasil}"><td class="text-start">${n}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kl}</td><td class="cell-score" style="background-color: #0d9488; color:#fff">${hasil}</td></tr>`); }); detailBody.innerHTML = dhtml.join(''); } }
- 
- function renderReportMinatBakat(filteredRows, dataKategori, customColors) { 
- renderDonutChart(dataKategori, 'chart_minat_detail', customColors, 'minat', 'menu-minatbakat'); 
- const summaryBody = document.querySelector('#summary-minat-table tbody'); if(summaryBody) { let shtml = []; Object.keys(dataKategori).sort((a,b)=>dataKategori[b]-dataKategori[a]).forEach(k => { shtml.push(`<tr><td class="text-start">${k}</td><td class="cell-score">${dataKategori[k]}</td></tr>`); }); summaryBody.innerHTML = shtml.join(''); } const detailBody = document.querySelector('#detail-minat-table tbody'); if(detailBody) { let dhtml = []; filteredRows.forEach(r => { let n = colIndices.kolomNama !== undefined ? r[colIndices.kolomNama] : '-'; let kl = colIndices.kolomKelas !== undefined ? r[colIndices.kolomKelas] : '-'; let jk = colIndices.kolomGender !== undefined ? r[colIndices.kolomGender] : '-'; let rl = colIndices.kolomReal !== undefined ? r[colIndices.kolomReal] : '-'; let inv = colIndices.kolomInv !== undefined ? r[colIndices.kolomInv] : '-'; let art = colIndices.kolomArt !== undefined ? r[colIndices.kolomArt] : '-'; let soc = colIndices.kolomSoc !== undefined ? r[colIndices.kolomSoc] : '-'; let ent = colIndices.kolomEnt !== undefined ? r[colIndices.kolomEnt] : '-'; let conv = colIndices.kolomConv !== undefined ? r[colIndices.kolomConv] : '-'; let tf = colIndices.kolomTipeRIASEC !== undefined ? r[colIndices.kolomTipeRIASEC] : '-'; if (isVal(tf)) dhtml.push(`<tr data-category="${tf}"><td class="text-start">${n}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kl}</td><td class="cell-score" style="background-color: #f1f5f9">${rl}</td><td class="cell-score" style="background-color: #f1f5f9">${inv}</td><td class="cell-score" style="background-color: #f1f5f9">${art}</td><td class="cell-score" style="background-color: #f1f5f9">${soc}</td><td class="cell-score" style="background-color: #f1f5f9">${ent}</td><td class="cell-score" style="background-color: #f1f5f9">${conv}</td><td style="font-weight:bold; color:#0d9488">${tf}</td></tr>`); }); detailBody.innerHTML = dhtml.join(''); } }
- 
+ function renderReportMinatBakat(filteredRows, dataKategori, customColors) { renderDonutChart(dataKategori, 'chart_minat_detail', customColors, 'minat', 'menu-minatbakat'); const summaryBody = document.querySelector('#summary-minat-table tbody'); if(summaryBody) { let shtml = []; Object.keys(dataKategori).sort((a,b)=>dataKategori[b]-dataKategori[a]).forEach(k => { shtml.push(`<tr><td class="text-start">${k}</td><td class="cell-score">${dataKategori[k]}</td></tr>`); }); summaryBody.innerHTML = shtml.join(''); } const detailBody = document.querySelector('#detail-minat-table tbody'); if(detailBody) { let dhtml = []; filteredRows.forEach(r => { let n = colIndices.kolomNama !== undefined ? r[colIndices.kolomNama] : '-'; let kl = colIndices.kolomKelas !== undefined ? r[colIndices.kolomKelas] : '-'; let jk = colIndices.kolomGender !== undefined ? r[colIndices.kolomGender] : '-'; let rl = colIndices.kolomReal !== undefined ? r[colIndices.kolomReal] : '-'; let inv = colIndices.kolomInv !== undefined ? r[colIndices.kolomInv] : '-'; let art = colIndices.kolomArt !== undefined ? r[colIndices.kolomArt] : '-'; let soc = colIndices.kolomSoc !== undefined ? r[colIndices.kolomSoc] : '-'; let ent = colIndices.kolomEnt !== undefined ? r[colIndices.kolomEnt] : '-'; let conv = colIndices.kolomConv !== undefined ? r[colIndices.kolomConv] : '-'; let tf = colIndices.kolomTipeRIASEC !== undefined ? r[colIndices.kolomTipeRIASEC] : '-'; if (isVal(tf)) dhtml.push(`<tr data-category="${tf}"><td class="text-start">${n}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kl}</td><td class="cell-score" style="background-color: #f1f5f9">${rl}</td><td class="cell-score" style="background-color: #f1f5f9">${inv}</td><td class="cell-score" style="background-color: #f1f5f9">${art}</td><td class="cell-score" style="background-color: #f1f5f9">${soc}</td><td class="cell-score" style="background-color: #f1f5f9">${ent}</td><td class="cell-score" style="background-color: #f1f5f9">${conv}</td><td style="font-weight:bold; color:#0d9488">${tf}</td></tr>`); }); detailBody.innerHTML = dhtml.join(''); } }
  function renderSubKategori(filteredRows, dataKategori, prefix, keySkor, keyKategori) { renderDonutChart(dataKategori, 'chart_'+prefix+'_detail', ['#3b82f6', '#06b6d4', '#ec4899', '#f59e0b'], prefix, 'menu-'+prefix); const summaryTableBody = document.querySelector('#summary-'+prefix+'-table tbody'); if(summaryTableBody){ let shtml = []; Object.keys(dataKategori).sort((a,b) => dataKategori[b] - dataKategori[a]).forEach(kat => { shtml.push(`<tr><td class="text-start">${kat}</td><td class="cell-score">${dataKategori[kat]}</td></tr>`); }); summaryTableBody.innerHTML = shtml.join(''); } const detailTableBody = document.querySelector('#detail-'+prefix+'-table tbody'); if(detailTableBody){ let dhtml = []; filteredRows.forEach(row => { let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let kategori = colIndices[keyKategori] !== undefined ? row[colIndices[keyKategori]] : '-'; let skor = colIndices[keySkor] !== undefined ? row[colIndices[keySkor]] : '0'; let bgColor = '#f1f5f9'; let katLower = String(kategori).toLowerCase(); if (katLower.includes('sangat')) bgColor = '#ccfbf1'; else if (katLower.includes('sesuai')) bgColor = '#e0f2fe'; else if (katLower.includes('sedang')) bgColor = 'rgba(245, 158, 11, 0.15)'; else if (katLower.includes('mulai')) bgColor = '#fee2e2'; if (isVal(kategori)) dhtml.push(`<tr data-category="${kategori}"><td class="text-start" style="white-space:nowrap;">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td><td>${kategori}</td><td class="cell-score" style="background-color: ${bgColor};">${skor}</td></tr>`); }); detailTableBody.innerHTML = dhtml.join(''); } }
  function renderReportKepribadian(filteredRows, dataKepribadian) { renderSingleColumnChart(dataKepribadian, 'chart_kepribadian_detail', '#f59e0b', 'Tipe', 'kepribadian', 'menu-kepribadian'); const summaryTableBody = document.querySelector('#summary-kepribadian-table tbody'); if(!summaryTableBody) return; let shtml = []; Object.keys(dataKepribadian).sort((a,b) => dataKepribadian[b] - dataKepribadian[a]).forEach(tipe => { shtml.push(`<tr><td class="text-start">${tipe}</td><td class="cell-score">${dataKepribadian[tipe]}</td></tr>`); }); summaryTableBody.innerHTML = shtml.join(''); const detailTableBody = document.querySelector('#detail-kepribadian-table tbody'); let dhtml = []; filteredRows.forEach(row => { let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let tipe = colIndices.kolomKepribadian !== undefined ? row[colIndices.kolomKepribadian] : '-'; const getCell = (colKey, bgColor) => { let val = colIndices[colKey] !== undefined ? row[colIndices[colKey]] : '-'; let colorStyle = isVal(val) ? `background-color: ${bgColor};` : ''; return `<td class="cell-score" style="${colorStyle}">${val}</td>`; }; if (isVal(tipe)) dhtml.push(`<tr data-category="${tipe}"><td class="text-start" style="white-space:nowrap;">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td>${getCell('kolomE', '#f1f5f9')}${getCell('kolomI', '#f1f5f9')}${getCell('kolomS', '#f1f5f9')}${getCell('kolomN', '#f1f5f9')}${getCell('kolomT', '#f1f5f9')}${getCell('kolomF', '#f1f5f9')}${getCell('kolomJ', '#f1f5f9')}${getCell('kolomP', '#f1f5f9')}<td style="font-weight:bold; color:#0d9488;">${tipe}</td></tr>`); }); detailTableBody.innerHTML = dhtml.join(''); }
  function renderReportKecerdasan(filteredRows, dataKecerdasan) { renderSingleColumnChart(dataKecerdasan, 'chart_kecerdasan_detail', '#3b82f6', 'Kecerdasan', 'kecerdasan', 'menu-kecerdasan'); const summaryTableBody = document.querySelector('#summary-kecerdasan-table tbody'); if(!summaryTableBody) return; let shtml = []; Object.keys(dataKecerdasan).sort((a,b) => dataKecerdasan[b] - dataKecerdasan[a]).forEach(kec => { shtml.push(`<tr><td class="text-start">${kec}</td><td class="cell-score">${dataKecerdasan[kec]}</td></tr>`); }); summaryTableBody.innerHTML = shtml.join(''); const detailTableBody = document.querySelector('#detail-kecerdasan-table tbody'); let dhtml = []; filteredRows.forEach(row => { let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let tipe = colIndices.kolomKecerdasanMajemuk !== undefined ? row[colIndices.kolomKecerdasanMajemuk] : '-'; const getCell = (colKey, bgColor) => { let val = colIndices[colKey] !== undefined ? row[colIndices[colKey]] : '-'; let colorStyle = isVal(val) ? `background-color: ${bgColor};` : ''; return `<td class="cell-score" style="${colorStyle}">${val}</td>`; }; if (isVal(tipe)) dhtml.push(`<tr data-category="${tipe}"><td class="text-start" style="white-space:nowrap;">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td>${getCell('kolomLing', '#f1f5f9')}${getCell('kolomMat', '#f1f5f9')}${getCell('kolomSpa', '#f1f5f9')}${getCell('kolomKin', '#f1f5f9')}${getCell('kolomMus', '#f1f5f9')}${getCell('kolomInter', '#f1f5f9')}${getCell('kolomIntra', '#f1f5f9')}${getCell('kolomNat', '#f1f5f9')}<td style="font-weight:bold; color:#0d9488;">${tipe}</td></tr>`); }); detailTableBody.innerHTML = dhtml.join(''); }
@@ -1778,9 +1671,7 @@
  window.addEventListener('resize', function() {
  clearTimeout(resizeTimer);
  resizeTimer = setTimeout(function() {
- if (allRows && allRows.length > 0 && document.visibilityState === 'visible') {
- updateDashboard();
- }
+ if (allRows && allRows.length > 0 && document.visibilityState === 'visible') { updateDashboard(); }
  }, 300);
  });
  document.addEventListener("visibilitychange", function() { if (document.visibilityState === 'visible' && allRows && allRows.length > 0) { window.dispatchEvent(new Event('resize')); } });
@@ -1793,26 +1684,20 @@
  const btnProses = document.getElementById('btn-proses-upload');
 
  if (!fileInput.files || fileInput.files.length === 0) {
- statusEl.innerHTML = "<span style='color: #ff4d4d;'>Pilih file Excel terlebih dahulu!</span>";
- statusEl.style.display = 'block';
- return;
+ statusEl.innerHTML = "<span style='color: #ff4d4d;'>Pilih file Excel terlebih dahulu!</span>"; statusEl.style.display = 'block'; return;
  }
 
  const file = fileInput.files[0];
  const reader = new FileReader();
 
- statusEl.innerHTML = "<span style='color: #00bcd4;'>⏳ Membaca file Excel di browser...</span>";
- statusEl.style.display = 'block';
- btnProses.disabled = true;
+ statusEl.innerHTML = "<span style='color: #00bcd4;'>⏳ Membaca file Excel di browser...</span>"; statusEl.style.display = 'block'; btnProses.disabled = true;
 
  reader.onload = function(e) {
  try {
  const data = new Uint8Array(e.target.result);
  const workbook = XLSX.read(data, { type: 'array' });
  
- let allUploadedRows = [];
- let headerRow = null;
- let headerKeys = [];
+ let allUploadedRows = []; let headerRow = null; let headerKeys = [];
 
  for (let i = 0; i < workbook.SheetNames.length; i++) {
  const sheetName = workbook.SheetNames[i];
@@ -1822,15 +1707,10 @@
  const sheetData = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
  
  if (sheetData.length > 1) {
- const headers = sheetData[0].map(h => String(h).trim());
- const headersLower = headers.map(h => h.toLowerCase());
- const idxNamaSekolah = headersLower.indexOf('nama sekolah');
+ const headers = sheetData[0].map(h => String(h).trim()); const headersLower = headers.map(h => h.toLowerCase()); const idxNamaSekolah = headersLower.indexOf('nama sekolah');
  
  if (idxNamaSekolah !== -1) {
- if (!headerRow) {
- headerRow = headers;
- headerKeys = headersLower;
- }
+ if (!headerRow) { headerRow = headers; headerKeys = headersLower; }
  
  for(let r = 1; r < sheetData.length; r++) {
  const row = sheetData[r];
@@ -1838,11 +1718,7 @@
  let alignedRow = [];
  for (let k = 0; k < headerKeys.length; k++) {
  let localIdx = headersLower.indexOf(headerKeys[k]);
- if (localIdx !== -1 && localIdx < row.length) {
- alignedRow.push(row[localIdx]);
- } else {
- alignedRow.push("");
- }
+ if (localIdx !== -1 && localIdx < row.length) { alignedRow.push(row[localIdx]); } else { alignedRow.push(""); }
  }
  allUploadedRows.push(alignedRow);
  }
@@ -1861,146 +1737,65 @@
  .then(function(res) {
  btnProses.disabled = false;
  if (res.success) {
- statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>";
- alert(res.message);
- 
- const modalEl = document.getElementById('modalUploadExcel');
- const modal = bootstrap.Modal.getInstance(modalEl);
- if (modal) modal.hide();
- fileInput.value = '';
- statusEl.style.display = 'none';
-
- document.getElementById('loading').style.display = 'block';
- document.getElementById('main-content').style.display = 'none';
- 
- callGAS("getSchoolData", { namaSekolah: sessionSekolah })
- .then(function(jsonString) {
- initDashboard(jsonString);
- });
-
+ statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>"; alert(res.message);
+ const modalEl = document.getElementById('modalUploadExcel'); const modal = bootstrap.Modal.getInstance(modalEl); if (modal) modal.hide();
+ fileInput.value = ''; statusEl.style.display = 'none';
+ document.getElementById('loading').style.display = 'block'; document.getElementById('main-content').style.display = 'none';
+ callGAS("getSchoolData", { namaSekolah: sessionSekolah }).then(function(jsonString) { initDashboard(jsonString); });
  } else {
  statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ " + res.message + "</span>";
  }
  })
- .catch(function(err) {
- btnProses.disabled = false;
- statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ Error: " + err.message + "</span>";
- });
-
- } catch (err) {
- btnProses.disabled = false;
- statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ Error: " + err.message + "</span>";
- }
+ .catch(function(err) { btnProses.disabled = false; statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ Error: " + err.message + "</span>"; });
+ } catch (err) { btnProses.disabled = false; statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ Error: " + err.message + "</span>"; }
  };
  reader.readAsArrayBuffer(file);
  }
 
  // 🔥 FUNGSI SUBMIT CREATE USER (BUAT AKUN BARU) 🔥
  function submitNewUser() {
- const email = document.getElementById('new-email').value;
- const password = document.getElementById('new-password').value;
- const namaSekolah = document.getElementById('new-namasekolah').value;
- const urlLogo = document.getElementById('new-urllogo').value;
- const istPelajar = document.getElementById('new-istpelajar').value;
- const istKelas = document.getElementById('new-istkelas').value;
- const statusEl = document.getElementById('create-user-status');
-
- if (!email || !password || !namaSekolah) {
- statusEl.innerHTML = "<span style='color: #ef4444;'>Email, Password, dan Nama Sekolah wajib diisi!</span>";
- statusEl.style.display = 'block';
- return;
- }
-
- statusEl.innerHTML = "<span style='color: #0d9488;'>⏳ Menyimpan akun baru...</span>";
- statusEl.style.display = 'block';
-
+ const email = document.getElementById('new-email').value; const password = document.getElementById('new-password').value; const namaSekolah = document.getElementById('new-namasekolah').value; const urlLogo = document.getElementById('new-urllogo').value; const istPelajar = document.getElementById('new-istpelajar').value; const istKelas = document.getElementById('new-istkelas').value; const statusEl = document.getElementById('create-user-status');
+ if (!email || !password || !namaSekolah) { statusEl.innerHTML = "<span style='color: #ef4444;'>Email, Password, dan Nama Sekolah wajib diisi!</span>"; statusEl.style.display = 'block'; return; }
+ statusEl.innerHTML = "<span style='color: #0d9488;'>⏳ Menyimpan akun baru...</span>"; statusEl.style.display = 'block';
  const userData = { email, password, namaSekolah, urlLogo, istPelajar, istKelas };
-
  callGAS("createUserAccount", { userData: userData })
  .then(function(res) {
  if (res.success) {
- statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>";
- alert(res.message);
-
- document.getElementById('new-email').value = '';
- document.getElementById('new-password').value = '';
- document.getElementById('new-namasekolah').value = '';
- document.getElementById('new-urllogo').value = '';
- 
- const modalEl = document.getElementById('modalCreateUser');
- const modal = bootstrap.Modal.getInstance(modalEl);
- if (modal) modal.hide();
- statusEl.style.display = 'none';
- } else {
- statusEl.innerHTML = "<span style='color: #ef4444;'>✖ " + res.message + "</span>";
- }
+ statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>"; alert(res.message);
+ document.getElementById('new-email').value = ''; document.getElementById('new-password').value = ''; document.getElementById('new-namasekolah').value = ''; document.getElementById('new-urllogo').value = '';
+ const modalEl = document.getElementById('modalCreateUser'); const modal = bootstrap.Modal.getInstance(modalEl); if (modal) modal.hide(); statusEl.style.display = 'none';
+ } else { statusEl.innerHTML = "<span style='color: #ef4444;'>✖ " + res.message + "</span>"; }
  })
- .catch(function(err) {
- statusEl.innerHTML = "<span style='color: #ef4444;'>✖ Error: " + err.message + "</span>";
- });
+ .catch(function(err) { statusEl.innerHTML = "<span style='color: #ef4444;'>✖ Error: " + err.message + "</span>"; });
  }
 
  // 🔥 FUNGSI MEMBUKA MODAL DOWNLOAD PDF 🔥
  function openDownloadModal() {
-    const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
-    const fKelas = $('#filter-kelas').val();
-
-    if (!fSekolah || !fKelas) {
-        alert("⚠️ Silakan pilih Sekolah dan Grup/Kelas di filter terlebih dahulu!");
-        return;
-    }
-
-    let students = allRows.filter(r => 
-        String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && 
-        String(r[colIndices.kolomKelas]).trim() === fKelas
-    );
+    const fSekolah = $('#filter-sekolah').val() || sessionSekolah; const fKelas = $('#filter-kelas').val();
+    if (!fSekolah || !fKelas) { alert("⚠️ Silakan pilih Sekolah dan Grup/Kelas di filter terlebih dahulu!"); return; }
+    let students = allRows.filter(r => String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && String(r[colIndices.kolomKelas]).trim() === fKelas);
     students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
-
-    if (students.length === 0) {
-        alert("⚠️ Tidak ada data siswa yang valid di kelas ini.");
-        return;
-    }
-
-    const modal = new bootstrap.Modal(document.getElementById('modalDownloadPDF'));
-    modal.show();
+    if (students.length === 0) { alert("⚠️ Tidak ada data siswa yang valid di kelas ini."); return; }
+    const modal = new bootstrap.Modal(document.getElementById('modalDownloadPDF')); modal.show();
  }
 
  // 🔥 FUNGSI PROSES DOWNLOAD PDF MASSAL KE ZIP (SESUAI PILIHAN HALAMAN) 🔥
  async function prosesDownloadPDFZip() {
     const selectedPages = Array.from(document.querySelectorAll('.page-checkbox:checked')).map(cb => parseInt(cb.value));
-    
-    if (selectedPages.length === 0) {
-        alert("⚠️ Silakan centang minimal 1 halaman untuk di-download.");
-        return;
-    }
+    if (selectedPages.length === 0) { alert("⚠️ Silakan centang minimal 1 halaman untuk di-download."); return; }
 
-    const fSekolah = $('#filter-sekolah').val() || sessionSekolah;
-    const fKelas = $('#filter-kelas').val();
-
-    let students = allRows.filter(r => 
-        String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && 
-        String(r[colIndices.kolomKelas]).trim() === fKelas
-    );
+    const fSekolah = $('#filter-sekolah').val() || sessionSekolah; const fKelas = $('#filter-kelas').val();
+    let students = allRows.filter(r => String(r[colIndices.kolomNamaSekolah]).trim() === fSekolah && String(r[colIndices.kolomKelas]).trim() === fKelas);
     students = students.filter(r => r[colIndices.kolomNama] && String(r[colIndices.kolomNama]).trim() !== "");
 
-    if (!confirm(`Terdapat ${students.length} siswa di kelas ${fKelas}.\n\nSistem akan membuat laporan PDF RAPI (${selectedPages.length} Halaman per siswa) untuk masing-masing siswa dan membungkusnya ke dalam 1 file ZIP.\n\nProses ini berjalan otomatis. Lanjutkan?`)) {
-        return;
-    }
+    if (!confirm(`Terdapat ${students.length} siswa di kelas ${fKelas}.\n\nSistem akan membuat laporan PDF RAPI (${selectedPages.length} Halaman per siswa) untuk masing-masing siswa dan membungkusnya ke dalam 1 file ZIP.\n\nProses ini berjalan otomatis. Lanjutkan?`)) { return; }
 
-    // Tutup modal setelah konfirmasi
-    const modalEl = document.getElementById('modalDownloadPDF');
-    const modal = bootstrap.Modal.getInstance(modalEl);
-    if (modal) modal.hide();
+    const modalEl = document.getElementById('modalDownloadPDF'); const modal = bootstrap.Modal.getInstance(modalEl); if (modal) modal.hide();
 
-    document.getElementById('loading').style.display = 'block';
-    const loadingText = document.querySelector('#loading span');
-    
-    navTo('menu-laporan-individu');
-    const originalName = $('#filter-nama').val();
+    document.getElementById('loading').style.display = 'block'; const loadingText = document.querySelector('#loading span');
+    navTo('menu-laporan-individu'); const originalName = $('#filter-nama').val();
 
-    const { jsPDF } = window.jspdf;
-    const zip = new JSZip();
-    
+    const { jsPDF } = window.jspdf; const zip = new JSZip();
     const safeFolderName = `Laporan_${fSekolah}_${fKelas}`.replace(/[^a-zA-Z0-9_-]/g, "_");
     const folder = zip.folder(safeFolderName);
 
@@ -2009,56 +1804,34 @@
         const safeFileName = studentName.replace(/[^a-zA-Z0-9 _-]/g, "") + ".pdf";
         
         loadingText.innerHTML = `Memproses PDF Rapi: <b>${i + 1} dari ${students.length} Siswa</b><br><small style="color:#0d9488;">Siswa: ${studentName}</small>`;
-        
         $('#filter-nama').val(studentName).trigger('change');
         
         await new Promise(r => setTimeout(r, 1200));
 
-        const doc = new jsPDF({
-            orientation: 'p',
-            unit: 'mm',
-            format: 'a4',
-            compress: true
-        });
-        
+        const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4', compress: true });
         const pdfWidth = doc.internal.pageSize.getWidth();
         let isFirstPage = true;
 
         const pagesToRender = document.querySelectorAll('.pdf-page');
 
         for (let p = 0; p < pagesToRender.length; p++) {
-            // SKIP JIKA HALAMAN TIDAK DIPILIH PADA MODAL
             if (!selectedPages.includes(p)) continue;
 
             const pageEl = pagesToRender[p];
-            
             if (pageEl.offsetHeight < 50 || window.getComputedStyle(pageEl).display === 'none') continue;
 
-            const prevShadow = pageEl.style.boxShadow;
-            const prevMargin = pageEl.style.margin;
-            const prevBorderRadius = pageEl.style.borderRadius;
-
-            pageEl.style.boxShadow = 'none';
-            pageEl.style.margin = '0';
-            pageEl.style.borderRadius = '0';
+            const prevShadow = pageEl.style.boxShadow; const prevMargin = pageEl.style.margin; const prevBorderRadius = pageEl.style.borderRadius;
+            pageEl.style.boxShadow = 'none'; pageEl.style.margin = '0'; pageEl.style.borderRadius = '0';
             
             const canvas = await html2canvas(pageEl, { scale: 2, useCORS: true, logging: false });
             
-            pageEl.style.boxShadow = prevShadow;
-            pageEl.style.margin = prevMargin;
-            pageEl.style.borderRadius = prevBorderRadius;
+            pageEl.style.boxShadow = prevShadow; pageEl.style.margin = prevMargin; pageEl.style.borderRadius = prevBorderRadius;
 
             const imgData = canvas.toDataURL('image/jpeg', 0.95);
             const imgProps = doc.getImageProperties(imgData);
-            
             const renderedImgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-            if (!isFirstPage) {
-                doc.addPage();
-            } else {
-                isFirstPage = false;
-            }
-
+            if (!isFirstPage) { doc.addPage(); } else { isFirstPage = false; }
             doc.addImage(imgData, 'JPEG', 0, 0, pdfWidth, renderedImgHeight);
         }
 
@@ -2070,11 +1843,9 @@
     
     zip.generateAsync({type:"blob"}).then(function(content) {
         saveAs(content, `${safeFolderName}.zip`);
-        
         $('#filter-nama').val(originalName).trigger('change');
         loadingText.innerHTML = "Memuat Data <span id='load-sekolah'></span>...";
         document.getElementById('loading').style.display = 'none';
-        
         alert(`✅ Berhasil!\n\nFile ZIP berisi laporan PDF Rapi kelas ${fKelas} telah diunduh.`);
     });
  }
