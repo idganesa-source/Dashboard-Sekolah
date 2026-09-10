@@ -176,7 +176,7 @@
  .sidebar-logo-text { color: #38bdf8; font-size: 24px; font-weight: 900; letter-spacing: 1px; }
  
  .sidebar-nav { padding: 10px 15px; }
- .sidebar-nav .nav-link { color: #94a3b8; padding: 12px 15px; border-radius: 8px; margin-bottom: 4px; font-weight: 500; font-size: 14px; display: flex; align-items: center; border: 1px solid transparent; width: 100%; transition: 0.2s; background: transparent; }
+ .sidebar-nav .nav-link { color: #94a3b8; padding: 12px 15px; border-radius: 8px; margin-bottom: 4px; font-weight: 500; font-size: 14px; display: flex; align-items: center; border: 1px solid transparent; width: 100%; transition: 0.2s; background: transparent; text-align: left; }
  .sidebar-nav .nav-link:hover { color: #e2e8f0; background: rgba(255,255,255,0.03); }
  
  /* Tombol Active Utama (Glow Effect) */
@@ -201,6 +201,7 @@
  .text-green { color: #34d399; }
  .text-blue { color: #60a5fa; }
  .text-red { color: #f87171; }
+ .text-purple { color: #c084fc; }
  
  .submenu-group { position: relative; margin-left: 22px; padding-left: 15px; margin-bottom: 15px; }
  
@@ -273,10 +274,6 @@
  
  .btn-action-group { display: flex; gap: 10px; }
  .btn-top { padding: 6px 12px; font-size: 13px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s; white-space: nowrap; }
- .btn-create-user { background-color: #0d9488; color: white; }
- .btn-create-user:hover { background-color: #0f766e; }
- .btn-upload { background-color: #3b82f6; color: white; }
- .btn-upload:hover { background-color: #2563eb; }
  .btn-logout { background-color: #ef4444; color: white; }
  .btn-logout:hover { background-color: #dc2626; }
  .btn-back { background-color: #10b981; color: white; border: 1px solid #059669; }
@@ -320,67 +317,15 @@
  /* =========================================================================
  🔥 PERBAIKAN SELECT2 TOTAL (SPESIFISITAS TEGAS UNTUK SEMUA ITEM OPTION)
  ========================================================================= */
- .select2-container--default .select2-selection--single {
- background-color: #ffffff !important;
- border: 1px solid #cbd5e1 !important;
- border-radius: 8px !important;
- height: 40px !important;
- outline: none;
- }
- .select2-container--default .select2-selection--single .select2-selection__rendered {
- color: #1e293b !important;
- line-height: 38px !important;
- padding-left: 12px !important;
- }
- .select2-container--default .select2-selection--single .select2-selection__arrow {
- height: 38px !important;
- }
- .select2-dropdown {
- background-color: #ffffff !important;
- border: 1px solid #cbd5e1 !important;
- border-radius: 8px !important;
- box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
- }
- .select2-search--dropdown .select2-search__field {
- background-color: #f8fafc !important;
- color: #1e293b !important;
- border: 1px solid #cbd5e1 !important;
- border-radius: 6px;
- outline: none;
- }
-
- .select2-container .select2-results__option,
- .select2-container--default .select2-results__option {
- color: #1e293b !important;
- background-color: #ffffff !important;
- padding: 8px 12px !important;
- font-weight: 500 !important;
- }
-
- .select2-container .select2-results__option--highlighted,
- .select2-container--default .select2-results__option--highlighted,
- .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
- .select2-container--default .select2-results__option--highlighted[aria-selected],
- .select2-container--default .select2-results__option[aria-selected="true"],
- .select2-container--default .select2-results__option--selected {
- background-color: #0d9488 !important;
- color: #ffffff !important;
- font-weight: 600 !important;
- }
-
- .select2-results__option[aria-selected=true]:hover,
- .select2-container--default .select2-results__option[aria-selected=true]:hover {
- background-color: #0f766e !important;
- color: #ffffff !important;
- }
-
- .select2-container--default .select2-selection--single .select2-selection__clear {
- color: #64748b !important;
- font-size: 20px !important;
- font-weight: bold !important;
- margin-right: 15px !important;
- margin-top: 2px !important;
- }
+ .select2-container--default .select2-selection--single { background-color: #ffffff !important; border: 1px solid #cbd5e1 !important; border-radius: 8px !important; height: 40px !important; outline: none; }
+ .select2-container--default .select2-selection--single .select2-selection__rendered { color: #1e293b !important; line-height: 38px !important; padding-left: 12px !important; }
+ .select2-container--default .select2-selection--single .select2-selection__arrow { height: 38px !important; }
+ .select2-dropdown { background-color: #ffffff !important; border: 1px solid #cbd5e1 !important; border-radius: 8px !important; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+ .select2-search--dropdown .select2-search__field { background-color: #f8fafc !important; color: #1e293b !important; border: 1px solid #cbd5e1 !important; border-radius: 6px; outline: none; }
+ .select2-container .select2-results__option, .select2-container--default .select2-results__option { color: #1e293b !important; background-color: #ffffff !important; padding: 8px 12px !important; font-weight: 500 !important; }
+ .select2-container .select2-results__option--highlighted, .select2-container--default .select2-results__option--highlighted, .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable, .select2-container--default .select2-results__option--highlighted[aria-selected], .select2-container--default .select2-results__option[aria-selected="true"], .select2-container--default .select2-results__option--selected { background-color: #0d9488 !important; color: #ffffff !important; font-weight: 600 !important; }
+ .select2-results__option[aria-selected=true]:hover, .select2-container--default .select2-results__option[aria-selected=true]:hover { background-color: #0f766e !important; color: #ffffff !important; }
+ .select2-container--default .select2-selection--single .select2-selection__clear { color: #64748b !important; font-size: 20px !important; font-weight: bold !important; margin-right: 15px !important; margin-top: 2px !important; }
 
  .btn-reset-filter { background-color: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; font-size: 11px; font-weight: bold; border-radius: 4px; padding: 2px 8px; cursor: pointer; transition: 0.2s; white-space: nowrap; }
  .btn-reset-filter:hover { background-color: #ef4444; color: white; border-color: #ef4444; }
@@ -390,26 +335,8 @@
  /* =======================================================
  🔥 TEMA LAPORAN INDIVIDU (PDF PAGE - DESAIN COMPACT) 🔥
  ======================================================= */
- .pdf-page {
-    background-color: #ffffff;
-    color: #1a1c20;
-    padding: 45px 55px; /* Margin rapih atas-bawah dan kanan-kiri yang lebih lega */
-    font-family: 'Arial', sans-serif;
-    width: 210mm;
-    height: 297mm; /* Set tinggi presisi A4 yang pasti */
-    max-width: 100%;
-    margin: 0 auto 25px auto;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    box-sizing: border-box;
-    position: relative;
-    page-break-after: always;
-    overflow: hidden; /* Pastikan tidak ada konten yang bocor/melebihi batas kertas A4 */
- }
- @media print {
-    body { background-color: #ffffff !important; }
-    .no-print, .top-navbar, .sidebar, #login-screen, .btn-action-group, .dashboard-card:not(#laporan-isi) { display: none !important; }
-    .pdf-page { box-shadow: none !important; margin: 0 !important; width: 100% !important; min-height: 100vh !important; page-break-after: always !important; page-break-inside: avoid !important; padding: 15mm 15mm !important; }
- }
+ .pdf-page { background-color: #ffffff; color: #1a1c20; padding: 45px 55px; font-family: 'Arial', sans-serif; width: 210mm; height: 297mm; max-width: 100%; margin: 0 auto 25px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.08); box-sizing: border-box; position: relative; page-break-after: always; overflow: hidden; }
+ @media print { body { background-color: #ffffff !important; } .no-print, .top-navbar, .sidebar, #login-screen, .btn-action-group, .dashboard-card:not(#laporan-isi) { display: none !important; } .pdf-page { box-shadow: none !important; margin: 0 !important; width: 100% !important; min-height: 100vh !important; page-break-after: always !important; page-break-inside: avoid !important; padding: 15mm 15mm !important; } }
  .pr-header { display: flex; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 15px; }
  .pr-header img { width: auto; height: 60px; margin-right: 15px; object-fit: contain; }
  .pr-header-text h1 { font-size: 20px; font-weight: bold; color: #000; margin: 0 0 5px 0; letter-spacing: 0.5px; }
@@ -429,147 +356,19 @@
  .flex-between { display: flex; justify-content: space-between; align-items: center; }
 
  @media (max-width: 768px) {
-    .top-navbar { padding: 12px 15px; }
-    .hamburger-btn { margin-right: 12px; font-size: 22px; }
-    .top-title { font-size: 16px; }
-    .btn-action-group { gap: 6px; }
-    .btn-top { padding: 8px 10px; font-size: 16px; }
-    .btn-top span { display: none; } 
-    .school-header-panel { flex-direction: column; align-items: flex-start; gap: 12px; padding: 15px; }
-    .assessment-title { text-align: left; padding-left: 0; border-left: none; border-top: 1px solid #e2e8f0; padding-top: 10px; width: 100%; font-size: 14px; }
-    .detail-hint { opacity: 1; }
-    .pdf-page { padding: 20px 15px; }
-    .pr-biodata-grid { grid-template-columns: 1fr; gap: 5px;}
-    .pr-grid-3, .pr-grid-2 { grid-template-columns: 1fr; gap: 10px; }
+    .top-navbar { padding: 12px 15px; } .hamburger-btn { margin-right: 12px; font-size: 22px; } .top-title { font-size: 16px; } .btn-action-group { gap: 6px; } .btn-top { padding: 8px 10px; font-size: 16px; } .btn-top span { display: none; } 
+    .school-header-panel { flex-direction: column; align-items: flex-start; gap: 12px; padding: 15px; } .assessment-title { text-align: left; padding-left: 0; border-left: none; border-top: 1px solid #e2e8f0; padding-top: 10px; width: 100%; font-size: 14px; } .detail-hint { opacity: 1; } .pdf-page { padding: 20px 15px; } .pr-biodata-grid { grid-template-columns: 1fr; gap: 5px;} .pr-grid-3, .pr-grid-2 { grid-template-columns: 1fr; gap: 10px; }
  }
+ 
+ /* STYLE LOG TRACKER */
+ .log-container { height: 350px; overflow-y: auto; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 13px; line-height: 1.5;}
+ .log-entry { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #cbd5e1; }
+ .log-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
  </style>
 </head>
 <body>
 
- <!-- MODAL CREATE USER (BUAT AKUN SEKOLAH INDUK) -->
- <div class="modal fade" id="modalCreateUser" tabindex="-1" aria-labelledby="modalCreateUserLabel" aria-hidden="true">
- <div class="modal-dialog modal-dialog-centered">
- <div class="modal-content" style="background-color: #ffffff; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 12px;">
- <div class="modal-header" style="border-bottom: 1px solid #e2e8f0;">
- <h5 class="modal-title" id="modalCreateUserLabel">👤 Buat Akun Sekolah Baru</h5>
- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
- </div>
- <div class="modal-body">
- <div class="mb-2">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Email Login:</label>
- <input type="email" class="form-control form-control-sm" id="new-email" placeholder="contoh: admin@sekolah.com" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- </div>
- <div class="mb-2">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Password:</label>
- <input type="text" class="form-control form-control-sm" id="new-password" placeholder="kata sandi" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- </div>
- <div class="mb-2">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Nama Sekolah Asli:</label>
- <input type="text" class="form-control form-control-sm" id="new-namasekolah" placeholder="contoh: SMAN 1 BANDUNG" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- </div>
- <div class="mb-2">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">URL Logo:</label>
- <input type="text" class="form-control form-control-sm" id="new-urllogo" placeholder="link gambar logo" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- </div>
- <div class="row mb-2">
- <div class="col-6">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Istilah Pelajar:</label>
- <input type="text" class="form-control form-control-sm" id="new-istpelajar" value="Siswa" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- </div>
- <div class="col-6">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Istilah Kelas:</label>
- <input type="text" class="form-control form-control-sm" id="new-istkelas" value="Kelas" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- </div>
- </div>
- <div id="create-user-status" class="mt-2" style="font-size: 13px; display: none;"></div>
- </div>
- <div class="modal-footer" style="border-top: 1px solid #e2e8f0;">
- <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
- <button type="button" class="btn btn-primary btn-sm" onclick="submitNewUser()" style="background-color: #0d9488; border: none;">Simpan Akun</button>
- </div>
- </div>
- </div>
- </div>
-
- <!-- 🔥 MODAL CREATE ROLE (BUAT AKUN STAFF KHUSUS) 🔥 -->
- <div class="modal fade" id="modalCreateRole" tabindex="-1" aria-labelledby="modalCreateRoleLabel" aria-hidden="true">
- <div class="modal-dialog modal-dialog-centered">
- <div class="modal-content" style="background-color: #ffffff; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 12px;">
- <div class="modal-header" style="border-bottom: 1px solid #e2e8f0;">
- <h5 class="modal-title" id="modalCreateRoleLabel">🛡️ Buat Role Staff Khusus</h5>
- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
- </div>
- <div class="modal-body">
- <div class="mb-2">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Nama Guru/Staff:</label>
- <input type="text" class="form-control form-control-sm" id="role-nama" placeholder="Contoh: Budi Santoso" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- </div>
- <div class="mb-2">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Sekolah:</label>
- <input type="text" class="form-control form-control-sm" id="role-sekolah" placeholder="Nama Sekolah untuk akses data" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- </div>
- <div class="mb-2">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">User (Email):</label>
- <input type="email" class="form-control form-control-sm" id="role-user" placeholder="Email untuk login" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- </div>
- <div class="mb-2">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Password:</label>
- <input type="text" class="form-control form-control-sm" id="role-password" placeholder="Kata sandi" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- </div>
- <div class="mb-2">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Pilihan Staff:</label>
- <select id="role-tipe" class="form-select form-select-sm" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
-     <option value="Guru BK">Guru BK</option>
-     <option value="Kesiswaan">Kesiswaan</option>
-     <option value="Kepala Sekolah">Kepala Sekolah</option>
- </select>
- </div>
- <div class="mb-2">
- <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Akses Kelas (Opsional untuk Guru BK):</label>
- <input type="text" class="form-control form-control-sm" id="role-kelas" placeholder="Contoh: X-1, X-2 (Pisahkan dengan koma)" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
- <small style="font-size: 10px; color: #64748b;">*Kosongkan jika bisa melihat seluruh kelas di sekolah tersebut.</small>
- </div>
- <div id="create-role-status" class="mt-2" style="font-size: 13px; display: none;"></div>
- </div>
- <div class="modal-footer" style="border-top: 1px solid #e2e8f0;">
- <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
- <button type="button" class="btn btn-primary btn-sm" onclick="submitNewRole()" style="background-color: #8b5cf6; border: none;">Simpan Role</button>
- </div>
- </div>
- </div>
- </div>
-
- <!-- MODAL UPLOAD EXCEL -->
- <div class="modal fade" id="modalUploadExcel" tabindex="-1" aria-labelledby="modalUploadLabel" aria-hidden="true">
- <div class="modal-dialog modal-dialog-centered">
- <div class="modal-content" style="background-color: #ffffff; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 12px;">
- <div class="modal-header" style="border-bottom: 1px solid #e2e8f0;">
- <h5 class="modal-title" id="modalUploadLabel">📂 Upload Database Data Siswa</h5>
- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
- </div>
- <div class="modal-body">
- <div class="mb-3">
- <label for="input-excel-file" class="form-label" style="font-size: 14px; color: #475569;">Pilih File Excel (.xlsx / .xls):</label>
- <input class="form-control" type="file" id="input-excel-file" accept=".xlsx, .xls, .csv" style="background-color: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1;">
- </div>
- <div class="mb-3">
- <label class="form-label" style="font-size: 14px; color: #475569;">Metode Simpan:</label>
- <select id="select-upload-mode" class="form-select" style="background-color: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1;">
- <option value="append">➕ Tambahkan ke Data yang Sudah Ada (Append)</option>
- <option value="replace">⚠️ Timpa Semua Data Lama (Replace)</option>
- </select>
- </div>
- <div id="upload-status" class="mt-2" style="font-size: 13px; display: none;"></div>
- </div>
- <div class="modal-footer" style="border-top: 1px solid #e2e8f0;">
- <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
- <button type="button" class="btn btn-primary btn-sm" id="btn-proses-upload" onclick="prosesUploadExcel()" style="background-color: #0d9488; border: none;">Proses Upload</button>
- </div>
- </div>
- </div>
- </div>
-
- <!-- 🔥 MODAL PILIH HALAMAN PDF BARU 🔥 -->
+ <!-- 🔥 MODAL PILIH HALAMAN PDF 🔥 -->
  <div class="modal fade" id="modalDownloadPDF" tabindex="-1" aria-labelledby="modalDownloadPDFLabel" aria-hidden="true">
  <div class="modal-dialog modal-dialog-centered">
  <div class="modal-content" style="background-color: #ffffff; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 12px;">
@@ -667,9 +466,19 @@
     <button class="nav-link" id="menu-laporan-individu" data-bs-toggle="pill" data-bs-target="#pills-laporan-individu" type="button">
       <span class="nav-icon">👤</span> Ringkasan Individu
     </button>
+
+    <!-- 🔥 MENU PENGATURAN ADMIN KHUSUS SUPER ADMIN 🔥 -->
+    <div id="admin-menu-section" style="display: none;">
+      <div class="category-title text-purple" style="margin-top: 20px;">⚙️ PENGATURAN ADMIN</div>
+      <div class="submenu-group" style="margin-bottom: 5px;">
+        <button class="nav-link" id="menu-upload" data-bs-toggle="pill" data-bs-target="#pills-upload" type="button" style="padding-left: 0;"><span class="nav-icon" style="margin-right: 5px;">📂</span> Upload Data</button>
+        <button class="nav-link" id="menu-buat-akun" data-bs-toggle="pill" data-bs-target="#pills-buat-akun" type="button" style="padding-left: 0;"><span class="nav-icon" style="margin-right: 5px;">🏫</span> Buat Akun Sekolah</button>
+        <button class="nav-link" id="menu-buat-role" data-bs-toggle="pill" data-bs-target="#pills-buat-role" type="button" style="padding-left: 0;"><span class="nav-icon" style="margin-right: 5px;">🛡️</span> Buat Role Staff</button>
+      </div>
+    </div>
     
     <!-- WRAPPER DROPDOWN REPORT ASESMEN -->
-    <div id="wrap-report" style="width: 100%; margin-top: 5px;">
+    <div id="wrap-report" style="width: 100%; margin-top: 15px;">
       <a class="nav-link collapsed" data-bs-toggle="collapse" href="#collapseReportAsesmen" style="font-weight:600;">
         <div><span class="nav-icon">📁</span> Report Asesmen</div>
         <span class="dropdown-icon">▼</span>
@@ -731,7 +540,6 @@
           <div style="width: 38px; height: 38px; background: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 1px solid #334155;">👨‍💼</div>
           <div style="line-height: 1.3;">
               <div style="color: #f8fafc; font-size: 13px; font-weight: 600;" id="user-display-name">Akun Administrator</div>
-              <!-- 🔥 BADGE ROLE GURU BK / STAFF 🔥 -->
               <div style="color: #64748b; font-size: 11px;" id="user-role-badge">Akses Penuh</div>
           </div>
       </div>
@@ -747,24 +555,11 @@
  </div>
  <div class="btn-action-group">
  
-<!-- 🔥 TOMBOL DOWNLOAD PDF (MEMANGGIL MODAL) 🔥 -->
+ <!-- TOMBOL DOWNLOAD PDF (MEMANGGIL MODAL) -->
  <button id="btn-download-pdf" class="btn-top" style="display:none; background-color: #f59e0b; color: white; border: 1px solid #d97706;" onclick="openDownloadModal()">
- 📥 <span>Download PDF Kelas</span>
+ 📥 <span>Download PDF</span>
  </button>
 
- <!-- TOMBOL BUAT ROLE STAFF (KHUSUS SUPER ADMIN) -->
- <button id="btn-create-role" class="btn-top" style="display:none; background-color: #8b5cf6; color: white; border: none;" data-bs-toggle="modal" data-bs-target="#modalCreateRole">
- 🛡️ <span>Buat Role</span>
- </button>
-
- <!-- TOMBOL BUAT AKUN SEKOLAH INDUK (KHUSUS SUPER ADMIN) -->
- <button id="btn-create-user" class="btn-top btn-create-user" style="display:none;" data-bs-toggle="modal" data-bs-target="#modalCreateUser">
- ➕ <span>Buat Akun</span>
- </button>
- <!-- TOMBOL UPLOAD EXCEL -->
- <button id="btn-upload-excel" class="btn-top btn-upload" style="display:none;" data-bs-toggle="modal" data-bs-target="#modalUploadExcel">
- 📂 <span>Upload Data</span>
- </button>
  <!-- TOMBOL KEMBALI KE DASHBOARD UTAMA -->
  <button id="btn-back" class="btn-top btn-back" style="display:none;" onclick="window.resetAllAndGoHome()">⬅️ <span>Dashboard Utama</span></button>
  <button class="btn-top btn-logout" onclick="doLogout()">🚪 <span>Logout</span></button>
@@ -855,6 +650,132 @@
  </div>
  </div>
 
+ <!-- 🔥 NEW: TAB UPLOAD DATA 🔥 -->
+ <div class="tab-pane fade" id="pills-upload" role="tabpanel">
+     <div class="row">
+         <div class="col-md-6">
+             <div class="dashboard-card">
+                 <div class="chart-header"><span>📂 Upload Database Data Siswa</span></div>
+                 <div class="mb-3">
+                     <label for="input-excel-file" class="form-label" style="font-size: 14px; color: #475569;">Pilih File Excel (.xlsx / .xls):</label>
+                     <input class="form-control" type="file" id="input-excel-file" accept=".xlsx, .xls, .csv" style="background-color: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1;">
+                 </div>
+                 <div class="mb-3">
+                     <label class="form-label" style="font-size: 14px; color: #475569;">Metode Simpan:</label>
+                     <select id="select-upload-mode" class="form-select" style="background-color: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1;">
+                         <option value="append">➕ Tambahkan ke Data yang Sudah Ada (Append)</option>
+                         <option value="replace">⚠️ Timpa Semua Data Lama (Replace)</option>
+                     </select>
+                 </div>
+                 <button type="button" class="btn w-100" id="btn-proses-upload" onclick="prosesUploadExcel()" style="background-color: #0d9488; color: white; border: none; padding: 10px; font-weight: 600; border-radius: 8px;">Mulai Upload Data</button>
+             </div>
+         </div>
+         <div class="col-md-6">
+             <div class="dashboard-card" style="height: 100%;">
+                 <div class="chart-header"><span>📊 Tracker Pipeline / Log Aktivitas</span></div>
+                 <div id="log-upload" class="log-container">
+                     <div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+
+ <!-- 🔥 NEW: TAB BUAT AKUN SEKOLAH 🔥 -->
+ <div class="tab-pane fade" id="pills-buat-akun" role="tabpanel">
+     <div class="row">
+         <div class="col-md-6">
+             <div class="dashboard-card">
+                 <div class="chart-header"><span>🏫 Buat Akun Sekolah Baru (Induk)</span></div>
+                 <div class="mb-2">
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Email Login:</label>
+                     <input type="email" class="form-control form-control-sm" id="new-email" placeholder="contoh: admin@sekolah.com" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                 </div>
+                 <div class="mb-2">
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Password:</label>
+                     <input type="text" class="form-control form-control-sm" id="new-password" placeholder="kata sandi" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                 </div>
+                 <div class="mb-2">
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Nama Sekolah Asli:</label>
+                     <input type="text" class="form-control form-control-sm" id="new-namasekolah" placeholder="contoh: SMAN 1 BANDUNG" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                 </div>
+                 <div class="mb-2">
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">URL Logo:</label>
+                     <input type="text" class="form-control form-control-sm" id="new-urllogo" placeholder="link gambar logo" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                 </div>
+                 <div class="row mb-3">
+                     <div class="col-6">
+                         <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Istilah Pelajar:</label>
+                         <input type="text" class="form-control form-control-sm" id="new-istpelajar" value="Siswa" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                     </div>
+                     <div class="col-6">
+                         <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Istilah Kelas:</label>
+                         <input type="text" class="form-control form-control-sm" id="new-istkelas" value="Kelas" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                     </div>
+                 </div>
+                 <button type="button" class="btn w-100" onclick="submitNewUser()" style="background-color: #0ea5e9; color: white; border: none; padding: 10px; font-weight: 600; border-radius: 8px;">Simpan Akun Sekolah</button>
+             </div>
+         </div>
+         <div class="col-md-6">
+             <div class="dashboard-card" style="height: 100%;">
+                 <div class="chart-header"><span>📊 Tracker Pipeline / Log Aktivitas</span></div>
+                 <div id="log-buat-akun" class="log-container">
+                     <div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+
+ <!-- 🔥 NEW: TAB BUAT ROLE STAFF 🔥 -->
+ <div class="tab-pane fade" id="pills-buat-role" role="tabpanel">
+     <div class="row">
+         <div class="col-md-6">
+             <div class="dashboard-card">
+                 <div class="chart-header"><span>🛡️ Buat Role Staff Khusus</span></div>
+                 <div class="mb-2">
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Nama Guru/Staff:</label>
+                     <input type="text" class="form-control form-control-sm" id="role-nama" placeholder="Contoh: Budi Santoso" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                 </div>
+                 <div class="mb-2">
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Sekolah Induk:</label>
+                     <input type="text" class="form-control form-control-sm" id="role-sekolah" placeholder="Pastikan sekolah sudah ada di sistem" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                 </div>
+                 <div class="mb-2">
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">User (Email):</label>
+                     <input type="email" class="form-control form-control-sm" id="role-user" placeholder="Email untuk login staff" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                 </div>
+                 <div class="mb-2">
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Password:</label>
+                     <input type="text" class="form-control form-control-sm" id="role-password" placeholder="Kata sandi" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                 </div>
+                 <div class="mb-2">
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Pilihan Staff:</label>
+                     <select id="role-tipe" class="form-select form-select-sm" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                         <option value="Guru BK">Guru BK</option>
+                         <option value="Kesiswaan">Kesiswaan</option>
+                         <option value="Kepala Sekolah">Kepala Sekolah</option>
+                     </select>
+                 </div>
+                 <div class="mb-3">
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Akses Kelas (Opsional untuk Guru BK):</label>
+                     <input type="text" class="form-control form-control-sm" id="role-kelas" placeholder="Contoh: X-1, X-2 (Pisahkan dengan koma)" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                     <small style="font-size: 10px; color: #64748b;">*Kosongkan jika bisa melihat seluruh kelas di sekolah tersebut.</small>
+                 </div>
+                 <button type="button" class="btn w-100" onclick="submitNewRole()" style="background-color: #8b5cf6; color: white; border: none; padding: 10px; font-weight: 600; border-radius: 8px;">Simpan Role Staff</button>
+             </div>
+         </div>
+         <div class="col-md-6">
+             <div class="dashboard-card" style="height: 100%;">
+                 <div class="chart-header"><span>📊 Tracker Pipeline / Log Aktivitas</span></div>
+                 <div id="log-buat-role" class="log-container">
+                     <div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+
  <!-- 🔥 3. SEMUA TAB DETAIL (DENGAN TOMBOL TAMPILKAN SEMUA) 🔥 -->
  <div class="tab-pane fade" id="pills-minatbakat" role="tabpanel"><div class="dashboard-card mb-4"><div class="chart-header"><span>Profil Minat Bakat (RIASEC)</span> <button class="btn-tampil-semua" onclick="window.resetTable('minat')">👁️ Tampilkan Semua</button></div><div class="row"><div class="col-md-4"><div class="table-container" style="max-height: 380px;"><table class="custom-table" id="summary-minat-table"><thead><tr><th>Tipe RIASEC</th><th>Jumlah</th></tr></thead><tbody></tbody></table></div></div><div class="col-md-8"><div id="chart_minat_detail" class="chart-div-large"></div></div></div></div><div class="dashboard-card"><div class="table-container"><table class="custom-table" id="detail-minat-table"><thead><tr><th class="text-start">Nama</th><th>L/P</th><th class="dyn-kelas-th">Kelas</th><th style="background-color: #3b82f6;">Realistic</th><th style="background-color: #06b6d4;">Investigative</th><th style="background-color: #ec4899;">Artistic</th><th style="background-color: #f59e0b;">Social</th><th style="background-color: #8b5cf6;">Enterprising</th><th style="background-color: #10b981;">Conventional</th><th>Tipe Final</th></tr></thead><tbody></tbody></table></div></div></div>
  <div class="tab-pane fade" id="pills-kepribadian" role="tabpanel"><div class="dashboard-card mb-4"><div class="chart-header"><span>Report Analisis Kepribadian</span> <button class="btn-tampil-semua" onclick="window.resetTable('kepribadian')">👁️ Tampilkan Semua</button></div><div class="row"><div class="col-md-4"><div class="table-container" style="max-height: 380px;"><table class="custom-table" id="summary-kepribadian-table"><thead><tr><th>Tipe Kepribadian</th><th>Jumlah</th></tr></thead><tbody></tbody></table></div></div><div class="col-md-8"><div id="chart_kepribadian_detail" class="chart-div-large"></div></div></div></div><div class="dashboard-card"><div class="table-container"><table class="custom-table" id="detail-kepribadian-table"><thead><tr><th class="text-start">Nama</th><th>L/P</th><th class="dyn-kelas-th">Kelas</th><th style="background-color: #3b82f6;">Extrovert (E)</th><th style="background-color: #06b6d4;">Introvert (I)</th><th style="background-color: #ec4899;">Sensing (S)</th><th style="background-color: #f59e0b;">Intuition (N)</th><th style="background-color: #8b5cf6;">Thinking (T)</th><th style="background-color: #10b981;">Feeling (F)</th><th style="background-color: #6366f1;">Judging (J)</th><th style="background-color: #0284c7;">Perceiving (P)</th><th>Tipe Final</th></tr></thead><tbody></tbody></table></div></div></div>
@@ -936,6 +857,23 @@
  // GLOBAL VARIABLES TO STORE CHARTS
  window.globalCharts = {};
 
+ // FUNGSI LOG TRACKER (Menambahkan Riwayat Aktivitas)
+ function addLog(targetId, message, isSuccess) {
+     const logContainer = document.getElementById(targetId);
+     const time = new Date().toLocaleTimeString('id-ID');
+     const color = isSuccess ? '#10b981' : '#ef4444';
+     const icon = isSuccess ? '✅' : '❌';
+     const logEntry = `<div class="log-entry" style="border-left: 3px solid ${color}; padding-left: 10px;">
+                         <small style="color: #64748b; font-weight: 600;">${time}</small><br>
+                         <span style="color: #1e293b;">${icon} ${message}</span>
+                       </div>`;
+     
+     if (logContainer.innerHTML.includes("Belum ada aktivitas")) {
+         logContainer.innerHTML = '';
+     }
+     logContainer.insertAdjacentHTML('afterbegin', logEntry);
+ }
+
  function handleEnter(e) { if(e.key === 'Enter') doLogin(); }
 
  function togglePasswordVisibility() {
@@ -959,7 +897,7 @@
  if (res.success) {
  sessionSekolah = res.namaSekolah;
  sessionKelasLabel = res.istKelas;
- sessionKelasAkses = res.kelasAkses || []; // Menangkap akses kelas dari database jika ada
+ sessionKelasAkses = res.kelasAkses || []; 
 
  document.getElementById('dyn-school').innerText = res.namaSekolah;
  document.getElementById('dyn-logo').src = res.logoUrl;
@@ -969,46 +907,38 @@
  document.getElementById('load-sekolah').innerText = res.namaSekolah;
  document.getElementById('user-display-name').innerText = email;
 
- // 🔥 UPDATE BADGE ROLE GURU BK DI SIDEBAR 🔥
+ // UPDATE BADGE ROLE GURU BK DI SIDEBAR
  if (sessionKelasAkses && sessionKelasAkses.length > 0) {
      document.getElementById('user-role-badge').innerText = "Guru BK (" + sessionKelasAkses.join(', ') + ")";
  } else {
      document.getElementById('user-role-badge').innerText = "Akses Penuh";
  }
 
- const btnUpload = document.getElementById('btn-upload-excel');
- const btnCreateUser = document.getElementById('btn-create-user');
- const btnCreateRole = document.getElementById('btn-create-role');
  const btnDownloadPdf = document.getElementById('btn-download-pdf');
+ const adminMenuSection = document.getElementById('admin-menu-section');
 
  const sek = (sessionSekolah || "").trim().toUpperCase();
  const isSuperAdmin = (sek === "SUPER ADMIN" || sek === "AKTARA_PSIKOLOG");
  const isKonsultan = (sek === "AKTARA_PSIKOLOGI" || sek === "AKATARA_PSIKOLOGI" || sek === "KONSULTAN_AKTARA" || sek === "AKTARA@PSIKOLOG");
 
  if (isSuperAdmin || isKonsultan) {
- document.getElementById('box-filter-sekolah').style.display = 'block';
- document.getElementById('box-filter-nama').className = 'col-md-4';
- document.getElementById('box-filter-kelas').className = 'col-md-4';
- 
- if (isSuperAdmin) {
- if (btnUpload) btnUpload.style.display = 'flex';
- if (btnCreateUser) btnCreateUser.style.display = 'flex';
- if (btnCreateRole) btnCreateRole.style.display = 'flex';
- if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex';
+     document.getElementById('box-filter-sekolah').style.display = 'block';
+     document.getElementById('box-filter-nama').className = 'col-md-4';
+     document.getElementById('box-filter-kelas').className = 'col-md-4';
+     
+     if (isSuperAdmin) {
+         if (adminMenuSection) adminMenuSection.style.display = 'block'; // Tampilkan menu sidebar khusus Super Admin
+         if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex';
+     } else {
+         if (adminMenuSection) adminMenuSection.style.display = 'none';
+         if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
+     }
  } else {
- if (btnUpload) btnUpload.style.display = 'none';
- if (btnCreateUser) btnCreateUser.style.display = 'none';
- if (btnCreateRole) btnCreateRole.style.display = 'none';
- if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
- }
- } else {
- document.getElementById('box-filter-sekolah').style.display = 'none';
- document.getElementById('box-filter-nama').className = 'col-md-6';
- document.getElementById('box-filter-kelas').className = 'col-md-6';
- if (btnUpload) btnUpload.style.display = 'none';
- if (btnCreateUser) btnCreateUser.style.display = 'none';
- if (btnCreateRole) btnCreateRole.style.display = 'none';
- if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
+     document.getElementById('box-filter-sekolah').style.display = 'none';
+     document.getElementById('box-filter-nama').className = 'col-md-6';
+     document.getElementById('box-filter-kelas').className = 'col-md-6';
+     if (adminMenuSection) adminMenuSection.style.display = 'none';
+     if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
  }
 
  document.getElementById('login-screen').style.display = 'none';
@@ -1050,6 +980,10 @@
  $('#filter-kelas').val(null).trigger('change');
  allRows = []; sessionSekolah = ""; sessionKelasAkses = [];
  document.getElementById('user-role-badge').innerText = "Akses Penuh";
+ // Reset logs
+ document.getElementById('log-upload').innerHTML = '<div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>';
+ document.getElementById('log-buat-akun').innerHTML = '<div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>';
+ document.getElementById('log-buat-role').innerHTML = '<div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>';
  }
  }
 
@@ -1270,11 +1204,6 @@
  document.getElementById('loading').style.display = 'none';
  document.getElementById('main-content').style.display = 'flex';
 
- const btnUpload = document.getElementById('btn-upload-excel');
- const btnCreateUser = document.getElementById('btn-create-user');
- const btnCreateRole = document.getElementById('btn-create-role');
- const btnDownloadPdf = document.getElementById('btn-download-pdf');
-
  const sek = (sessionSekolah || "").trim().toUpperCase();
  const isSuperAdmin = (sek === "SUPER ADMIN" || sek === "AKTARA_PSIKOLOG");
  const isKonsultan = (sek === "AKTARA_PSIKOLOGI" || sek === "AKATARA_PSIKOLOGI" || sek === "KONSULTAN_AKTARA" || sek === "AKTARA@PSIKOLOG");
@@ -1284,27 +1213,7 @@
  allRows.forEach(row => { if (isVal(row[colIndices.kolomNamaSekolah])) setSekolah.add(String(row[colIndices.kolomNamaSekolah]).trim()); });
  populateDropdown('filter-sekolah', setSekolah, "-- Semua Sekolah --");
  $('#filter-sekolah').select2({ placeholder: "-- Semua Sekolah --", allowClear: false, width: '100%' });
- 
- if (isSuperAdmin) {
- if (btnUpload) btnUpload.style.display = 'flex';
- if (btnCreateUser) btnCreateUser.style.display = 'flex';
- if (btnCreateRole) btnCreateRole.style.display = 'flex';
- if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex';
- } else {
- if (btnUpload) btnUpload.style.display = 'none';
- if (btnCreateUser) btnCreateUser.style.display = 'none';
- if (btnCreateRole) btnCreateRole.style.display = 'none';
- if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
- }
- } else {
- document.getElementById('box-filter-sekolah').style.display = 'none';
- document.getElementById('box-filter-nama').className = 'col-md-6';
- document.getElementById('box-filter-kelas').className = 'col-md-6';
- if (btnUpload) btnUpload.style.display = 'none';
- if (btnCreateUser) btnCreateUser.style.display = 'none';
- if (btnCreateRole) btnCreateRole.style.display = 'none';
- if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
- }
+ } 
 
  let isUpdating = false;
  updateDropdowns('init');
@@ -1770,17 +1679,17 @@
  function prosesUploadExcel() {
  const fileInput = document.getElementById('input-excel-file');
  const mode = document.getElementById('select-upload-mode').value;
- const statusEl = document.getElementById('upload-status');
  const btnProses = document.getElementById('btn-proses-upload');
 
  if (!fileInput.files || fileInput.files.length === 0) {
- statusEl.innerHTML = "<span style='color: #ff4d4d;'>Pilih file Excel terlebih dahulu!</span>"; statusEl.style.display = 'block'; return;
+ addLog('log-upload', "Pilih file Excel terlebih dahulu!", false); return;
  }
 
  const file = fileInput.files[0];
  const reader = new FileReader();
 
- statusEl.innerHTML = "<span style='color: #00bcd4;'>⏳ Membaca file Excel di browser...</span>"; statusEl.style.display = 'block'; btnProses.disabled = true;
+ addLog('log-upload', "Membaca file Excel di browser...", true);
+ btnProses.disabled = true;
 
  reader.onload = function(e) {
  try {
@@ -1791,7 +1700,7 @@
 
  for (let i = 0; i < workbook.SheetNames.length; i++) {
  const sheetName = workbook.SheetNames[i];
- if (sheetName === "AkunSekolah") continue;
+ if (sheetName === "AkunSekolah" || sheetName === "AkunRole") continue;
  
  const ws = workbook.Sheets[sheetName];
  const sheetData = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
@@ -1821,42 +1730,42 @@
  if (allUploadedRows.length === 0) { throw new Error("File Excel valid, tetapi sama sekali tidak ada baris data!"); }
 
  const dataRows = [headerRow, ...allUploadedRows];
- statusEl.innerHTML = "<span style='color: #f59e0b;'>🚀 Mengirim " + allUploadedRows.length + " data ke database...</span>";
+ addLog('log-upload', "Mengirim " + allUploadedRows.length + " data ke database server...", true);
 
  callGAS("uploadDataSiswa", { rowsData: dataRows, mode: mode })
  .then(function(res) {
  btnProses.disabled = false;
  if (res.success) {
- statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>"; alert(res.message);
- const modalEl = document.getElementById('modalUploadExcel'); const modal = bootstrap.Modal.getInstance(modalEl); if (modal) modal.hide();
- fileInput.value = ''; statusEl.style.display = 'none';
- document.getElementById('loading').style.display = 'block'; document.getElementById('main-content').style.display = 'none';
+ addLog('log-upload', res.message, true);
+ fileInput.value = ''; 
+ // Refresh dashboard data automatically
  callGAS("getSchoolData", { namaSekolah: sessionSekolah }).then(function(jsonString) { initDashboard(jsonString); });
  } else {
- statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ " + res.message + "</span>";
+ addLog('log-upload', "Error: " + res.message, false);
  }
  })
- .catch(function(err) { btnProses.disabled = false; statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ Error: " + err.message + "</span>"; });
- } catch (err) { btnProses.disabled = false; statusEl.innerHTML = "<span style='color: #ff4d4d;'>✖ Error: " + err.message + "</span>"; }
+ .catch(function(err) { btnProses.disabled = false; addLog('log-upload', "System Error: " + err.message, false); });
+ } catch (err) { btnProses.disabled = false; addLog('log-upload', "File Error: " + err.message, false); }
  };
  reader.readAsArrayBuffer(file);
  }
 
  // 🔥 FUNGSI SUBMIT CREATE USER (BUAT AKUN SEKOLAH INDUK) 🔥
  function submitNewUser() {
- const email = document.getElementById('new-email').value; const password = document.getElementById('new-password').value; const namaSekolah = document.getElementById('new-namasekolah').value; const urlLogo = document.getElementById('new-urllogo').value; const istPelajar = document.getElementById('new-istpelajar').value; const istKelas = document.getElementById('new-istkelas').value; const statusEl = document.getElementById('create-user-status');
- if (!email || !password || !namaSekolah) { statusEl.innerHTML = "<span style='color: #ef4444;'>Email, Password, dan Nama Sekolah wajib diisi!</span>"; statusEl.style.display = 'block'; return; }
- statusEl.innerHTML = "<span style='color: #0d9488;'>⏳ Menyimpan akun baru...</span>"; statusEl.style.display = 'block';
+ const email = document.getElementById('new-email').value; const password = document.getElementById('new-password').value; const namaSekolah = document.getElementById('new-namasekolah').value; const urlLogo = document.getElementById('new-urllogo').value; const istPelajar = document.getElementById('new-istpelajar').value; const istKelas = document.getElementById('new-istkelas').value; 
+ if (!email || !password || !namaSekolah) { addLog('log-buat-akun', "Email, Password, dan Nama Sekolah wajib diisi!", false); return; }
+ 
+ addLog('log-buat-akun', "Mengirim permintaan pembuatan akun ke server...", true);
  const userData = { email, password, namaSekolah, urlLogo, istPelajar, istKelas };
+ 
  callGAS("createUserAccount", { userData: userData })
  .then(function(res) {
  if (res.success) {
- statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>"; alert(res.message);
+ addLog('log-buat-akun', res.message, true);
  document.getElementById('new-email').value = ''; document.getElementById('new-password').value = ''; document.getElementById('new-namasekolah').value = ''; document.getElementById('new-urllogo').value = '';
- const modalEl = document.getElementById('modalCreateUser'); const modal = bootstrap.Modal.getInstance(modalEl); if (modal) modal.hide(); statusEl.style.display = 'none';
- } else { statusEl.innerHTML = "<span style='color: #ef4444;'>✖ " + res.message + "</span>"; }
+ } else { addLog('log-buat-akun', "Gagal: " + res.message, false); }
  })
- .catch(function(err) { statusEl.innerHTML = "<span style='color: #ef4444;'>✖ Error: " + err.message + "</span>"; });
+ .catch(function(err) { addLog('log-buat-akun', "System Error: " + err.message, false); });
  }
 
  // 🔥 FUNGSI SUBMIT CREATE ROLE (STAFF KHUSUS) 🔥
@@ -1867,16 +1776,13 @@
  const pass = document.getElementById('role-password').value;
  const tipe = document.getElementById('role-tipe').value;
  const aksesKelas = document.getElementById('role-kelas').value;
- const statusEl = document.getElementById('create-role-status');
 
  if (!namaGuru || !sekolah || !user || !pass) {
-     statusEl.innerHTML = "<span style='color: #ef4444;'>Semua kolom wajib diisi (kecuali Akses Kelas)!</span>";
-     statusEl.style.display = 'block';
+     addLog('log-buat-role', "Semua kolom wajib diisi (kecuali Akses Kelas)!", false);
      return;
  }
 
- statusEl.innerHTML = "<span style='color: #0d9488;'>⏳ Menyimpan role baru...</span>";
- statusEl.style.display = 'block';
+ addLog('log-buat-role', "Memproses pendaftaran role staff baru...", true);
 
  let arrAkses = [];
  if (aksesKelas.trim() !== "") {
@@ -1888,23 +1794,18 @@
  callGAS("createRoleAccount", { roleData: roleData })
  .then(function(res) {
      if (res.success) {
-         statusEl.innerHTML = "<span style='color: #10b981;'>✔ " + res.message + "</span>";
-         alert(res.message);
+         addLog('log-buat-role', res.message, true);
          document.getElementById('role-nama').value = '';
          document.getElementById('role-sekolah').value = '';
          document.getElementById('role-user').value = '';
          document.getElementById('role-password').value = '';
          document.getElementById('role-kelas').value = '';
-         const modalEl = document.getElementById('modalCreateRole');
-         const modal = bootstrap.Modal.getInstance(modalEl);
-         if (modal) modal.hide();
-         statusEl.style.display = 'none';
      } else {
-         statusEl.innerHTML = "<span style='color: #ef4444;'>✖ " + res.message + "</span>";
+         addLog('log-buat-role', "Gagal: " + res.message, false);
      }
  })
  .catch(function(err) {
-     statusEl.innerHTML = "<span style='color: #ef4444;'>✖ Error: " + err.message + "</span>";
+     addLog('log-buat-role', "System Error: " + err.message, false);
  });
  }
 
