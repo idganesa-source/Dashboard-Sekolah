@@ -175,7 +175,7 @@
  .sidebar-header { padding: 20px 25px; display: flex; align-items: center; justify-content: space-between; }
  .sidebar-logo-text { color: #38bdf8; font-size: 24px; font-weight: 900; letter-spacing: 1px; }
  
- .sidebar-nav { padding: 10px 15px; }
+ .sidebar-nav { padding: 10px 15px; flex-grow: 1; overflow-y: auto; }
  .sidebar-nav .nav-link { color: #94a3b8; padding: 12px 15px; border-radius: 8px; margin-bottom: 4px; font-weight: 500; font-size: 14px; display: flex; align-items: center; border: 1px solid transparent; width: 100%; transition: 0.2s; background: transparent; text-align: left; }
  .sidebar-nav .nav-link:hover { color: #e2e8f0; background: rgba(255,255,255,0.03); }
  
@@ -218,6 +218,7 @@
  .group-green::before { background-color: rgba(52, 211, 153, 0.2); }
  .group-blue::before { background-color: rgba(96, 165, 250, 0.2); }
  .group-red::before { background-color: rgba(248, 113, 113, 0.2); }
+ .group-purple::before { background-color: rgba(192, 132, 252, 0.2); }
  
  .submenu-group .nav-link {
      position: relative;
@@ -266,6 +267,11 @@
  .group-red .nav-link.active { color: #f87171 !important; }
  .group-red .nav-link.active .icon { opacity: 1; filter: drop-shadow(0 0 2px rgba(248,113,113,0.5)); }
 
+ .group-purple .nav-link::before { background-color: #c084fc; box-shadow: 0 0 0px #c084fc; opacity: 0.4; }
+ .group-purple .nav-link:hover::before, .group-purple .nav-link.active::before { opacity: 1; box-shadow: 0 0 8px #c084fc; }
+ .group-purple .nav-link.active { color: #c084fc !important; }
+ .group-purple .nav-link.active .icon { opacity: 1; filter: drop-shadow(0 0 2px rgba(192,132,252,0.5)); }
+
  /* MAIN KONTEN & TOP NAV BAR */
  .main-wrapper { flex-grow: 1; height: 100vh; overflow-y: auto; background-color: #f8fafc; transition: width 0.3s ease-in-out; display: flex; flex-direction: column; scroll-behavior: smooth; }
  .top-navbar { display: flex; align-items: center; justify-content: space-between; padding: 15px 25px; background-color: #ffffff; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
@@ -274,10 +280,12 @@
  
  .btn-action-group { display: flex; gap: 10px; }
  .btn-top { padding: 6px 12px; font-size: 13px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s; white-space: nowrap; }
- .btn-logout { background-color: #ef4444; color: white; }
- .btn-logout:hover { background-color: #dc2626; }
  .btn-back { background-color: #10b981; color: white; border: 1px solid #059669; }
  .btn-back:hover { background-color: #059669; color: white; }
+
+ /* LOGOUT BUTTON SIDEBAR DIBAWAH */
+ .btn-logout-sidebar { background-color: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; font-size: 14px;}
+ .btn-logout-sidebar:hover { background-color: #ef4444; color: white; }
 
  /* PANEL HEADER & KARTU BERSIH (PUTIH) */
  .content-container { padding: 20px 25px; flex-grow: 1; }
@@ -458,27 +466,16 @@
 <!-- SIDEBAR MENU -->
 <nav id="sidebar" class="sidebar">
   <div class="sidebar-header"><div class="sidebar-logo-text">GANESA</div></div>
+  
   <div class="sidebar-nav nav flex-column" id="v-pills-tab" role="tablist">
     
+    <!-- 1. DASHBOARD UTAMA -->
     <button class="nav-link active" id="menu-ringkasan" data-bs-toggle="pill" data-bs-target="#pills-ringkasan" type="button">
       <span class="nav-icon">㗊</span> Dashboard Utama
     </button>
-    <button class="nav-link" id="menu-laporan-individu" data-bs-toggle="pill" data-bs-target="#pills-laporan-individu" type="button">
-      <span class="nav-icon">👤</span> Ringkasan Individu
-    </button>
-
-    <!-- 🔥 MENU PENGATURAN ADMIN KHUSUS SUPER ADMIN 🔥 -->
-    <div id="admin-menu-section" style="display: none;">
-      <div class="category-title text-purple" style="margin-top: 20px;">⚙️ PENGATURAN ADMIN</div>
-      <div class="submenu-group" style="margin-bottom: 5px;">
-        <button class="nav-link" id="menu-upload" data-bs-toggle="pill" data-bs-target="#pills-upload" type="button" style="padding-left: 0;"><span class="nav-icon" style="margin-right: 5px;">📂</span> Upload Data</button>
-        <button class="nav-link" id="menu-buat-akun" data-bs-toggle="pill" data-bs-target="#pills-buat-akun" type="button" style="padding-left: 0;"><span class="nav-icon" style="margin-right: 5px;">🏫</span> Buat Akun Sekolah</button>
-        <button class="nav-link" id="menu-buat-role" data-bs-toggle="pill" data-bs-target="#pills-buat-role" type="button" style="padding-left: 0;"><span class="nav-icon" style="margin-right: 5px;">🛡️</span> Buat Role Staff</button>
-      </div>
-    </div>
     
-    <!-- WRAPPER DROPDOWN REPORT ASESMEN -->
-    <div id="wrap-report" style="width: 100%; margin-top: 15px;">
+    <!-- 2. REPORT ASESMEN -->
+    <div id="wrap-report" style="width: 100%; margin-top: 5px;">
       <a class="nav-link collapsed" data-bs-toggle="collapse" href="#collapseReportAsesmen" style="font-weight:600;">
         <div><span class="nav-icon">📁</span> Report Asesmen</div>
         <span class="dropdown-icon">▼</span>
@@ -486,7 +483,6 @@
       
       <div class="collapse" id="collapseReportAsesmen">
         <div class="nav-submenu d-flex flex-column">
-          
           <!-- KELOMPOK 1: POTENSI & KEPRIBADIAN -->
           <div class="category-title text-yellow">POTENSI & KEPRIBADIAN</div>
           <div class="submenu-group group-yellow">
@@ -528,20 +524,44 @@
             <button class="nav-link" id="menu-relasi" data-bs-toggle="pill" data-bs-target="#pills-relasi" type="button"><span class="icon">💞</span> Relasi Keluarga</button>
             <button class="nav-link" id="menu-suasana_rumah" data-bs-toggle="pill" data-bs-target="#pills-suasana_rumah" type="button"><span class="icon">🏡</span> Suasana Rumah</button>
           </div>
-
         </div>
       </div>
     </div>
+
+    <!-- 3. RINGKASAN INDIVIDU -->
+    <button class="nav-link" id="menu-laporan-individu" data-bs-toggle="pill" data-bs-target="#pills-laporan-individu" type="button" style="margin-top: 5px;">
+      <span class="nav-icon">👤</span> Ringkasan Individu
+    </button>
+
+    <!-- 4. PENGATURAN ADMIN (Dropdown Manajemen Sistem - Hanya Super Admin) -->
+    <div id="admin-menu-section" style="display: none; width: 100%; margin-top: 5px;">
+      <a class="nav-link collapsed" data-bs-toggle="collapse" href="#collapseManajemenSistem" style="font-weight:600;">
+        <div><span class="nav-icon">⚙️</span> Manajemen Sistem</div>
+        <span class="dropdown-icon">▼</span>
+      </a>
+      <div class="collapse" id="collapseManajemenSistem">
+        <div class="nav-submenu d-flex flex-column">
+          <div class="submenu-group group-purple" style="margin-top: 10px;">
+            <button class="nav-link" id="menu-upload" data-bs-toggle="pill" data-bs-target="#pills-upload" type="button"><span class="icon">📂</span> Upload Data</button>
+            <button class="nav-link" id="menu-buat-akun" data-bs-toggle="pill" data-bs-target="#pills-buat-akun" type="button"><span class="icon">🏫</span> Buat Akun Sekolah</button>
+            <button class="nav-link" id="menu-buat-role" data-bs-toggle="pill" data-bs-target="#pills-buat-role" type="button"><span class="icon">🛡️</span> Buat Role Staff</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
   
   <!-- PROFIL FOOTER SIDEBAR -->
   <div class="sidebar-profile mt-auto p-3 border-top" style="border-color: rgba(255,255,255,0.05) !important; background: rgba(0,0,0,0.2);">
-      <div class="d-flex align-items-center gap-3">
-          <div style="width: 38px; height: 38px; background: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 1px solid #334155;">👨‍💼</div>
-          <div style="line-height: 1.3;">
-              <div style="color: #f8fafc; font-size: 13px; font-weight: 600;" id="user-display-name">Akun Administrator</div>
+      <div class="d-flex align-items-center gap-2">
+          <div style="width: 38px; height: 38px; min-width: 38px; background: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 1px solid #334155;">👨‍💼</div>
+          <div style="line-height: 1.3; flex-grow: 1; overflow: hidden;">
+              <div style="color: #f8fafc; font-size: 13px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" id="user-display-name">Akun Administrator</div>
               <div style="color: #64748b; font-size: 11px;" id="user-role-badge">Akses Penuh</div>
           </div>
+          <!-- 🔥 TOMBOL LOGOUT DI SAMPING NAMA AKUN 🔥 -->
+          <button onclick="doLogout()" class="btn-logout-sidebar" title="Logout">🚪</button>
       </div>
   </div>
 </nav>
@@ -555,14 +575,13 @@
  </div>
  <div class="btn-action-group">
  
- <!-- TOMBOL DOWNLOAD PDF (MEMANGGIL MODAL) -->
+ <!-- 🔥 TOMBOL DOWNLOAD PDF (HANYA TERLIHAT DI TAB RINGKASAN INDIVIDU) 🔥 -->
  <button id="btn-download-pdf" class="btn-top" style="display:none; background-color: #f59e0b; color: white; border: 1px solid #d97706;" onclick="openDownloadModal()">
  📥 <span>Download PDF</span>
  </button>
 
  <!-- TOMBOL KEMBALI KE DASHBOARD UTAMA -->
  <button id="btn-back" class="btn-top btn-back" style="display:none;" onclick="window.resetAllAndGoHome()">⬅️ <span>Dashboard Utama</span></button>
- <button class="btn-top btn-logout" onclick="doLogout()">🚪 <span>Logout</span></button>
  </div>
  </div>
 
@@ -914,7 +933,6 @@
      document.getElementById('user-role-badge').innerText = "Akses Penuh";
  }
 
- const btnDownloadPdf = document.getElementById('btn-download-pdf');
  const adminMenuSection = document.getElementById('admin-menu-section');
 
  const sek = (sessionSekolah || "").trim().toUpperCase();
@@ -928,17 +946,14 @@
      
      if (isSuperAdmin) {
          if (adminMenuSection) adminMenuSection.style.display = 'block'; // Tampilkan menu sidebar khusus Super Admin
-         if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex';
      } else {
          if (adminMenuSection) adminMenuSection.style.display = 'none';
-         if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
      }
  } else {
      document.getElementById('box-filter-sekolah').style.display = 'none';
      document.getElementById('box-filter-nama').className = 'col-md-6';
      document.getElementById('box-filter-kelas').className = 'col-md-6';
      if (adminMenuSection) adminMenuSection.style.display = 'none';
-     if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
  }
 
  document.getElementById('login-screen').style.display = 'none';
@@ -1025,11 +1040,20 @@
  document.querySelector('.top-title').innerText = cleanTitle;
  document.getElementById('sidebar').classList.remove('open');
  
- if(this.id === 'menu-ringkasan' || this.id === 'menu-laporan-individu') {
+ if(this.id === 'menu-ringkasan' || this.id === 'menu-laporan-individu' || this.id === 'menu-upload' || this.id === 'menu-buat-akun' || this.id === 'menu-buat-role') {
  document.getElementById('btn-back').style.display = 'none';
  } else {
  document.getElementById('btn-back').style.display = 'flex';
  }
+
+ // 🔥 TOMBOL PDF HANYA MUNCUL JIKA SEDANG MEMBUKA TAB RINGKASAN INDIVIDU 🔥
+ const btnDownloadPdf = document.getElementById('btn-download-pdf');
+ if (this.id === 'menu-laporan-individu') {
+     if (btnDownloadPdf) btnDownloadPdf.style.display = 'flex';
+ } else {
+     if (btnDownloadPdf) btnDownloadPdf.style.display = 'none';
+ }
+
  setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 310);
  });
  });
