@@ -180,14 +180,13 @@
  .sidebar-header { padding: 20px 25px; display: flex; align-items: center; justify-content: space-between; }
  .sidebar-logo-text { color: #38bdf8; font-size: 24px; font-weight: 900; letter-spacing: 1px; }
  
- /* 🔥 FIX FATAL: Memaksa menu menjadi BLOCK untuk mematikan bug flex-wrap dari Bootstrap yang membuat elemen terlempar ke samping dan hilang 🔥 */
- .sidebar-nav.nav.flex-column { 
+ /* 🔥 FIX FATAL PENYEMPURNAAN: Memaksa block mutlak untuk mencegah bug flex hilang ke samping 🔥 */
+ .sidebar-nav.nav { 
      display: block !important; 
      padding: 10px 15px; 
      flex-grow: 1; 
      overflow-y: auto !important; 
      overflow-x: hidden !important; 
-     flex-wrap: nowrap !important; 
      width: 100%;
  }
  
@@ -209,7 +208,11 @@
  .nav-link[aria-expanded="true"] .dropdown-icon { transform: rotate(180deg); }
  
  /* TIMELINE SUBMENU */
- .nav-submenu { padding-left: 0; margin-top: 5px; }
+ .nav-submenu { 
+     display: block !important; /* Mencegah bug flex terlempar saat dibuka */
+     padding-left: 0; 
+     margin-top: 5px; 
+ }
  .category-title { font-size: 10px; font-weight: 800; margin: 15px 0 8px 15px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; }
  
  .text-yellow { color: #facc15; }
@@ -218,7 +221,7 @@
  .text-red { color: #f87171; }
  .text-purple { color: #c084fc; }
  
- .submenu-group { position: relative; margin-left: 22px; padding-left: 15px; margin-bottom: 15px; }
+ .submenu-group { position: relative; margin-left: 22px; padding-left: 15px; margin-bottom: 15px; display: block !important; }
  
  /* Garis Vertikal */
  .submenu-group::before {
@@ -389,17 +392,17 @@
  .log-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
  
  /* =======================================================
- 🔥 FITUR COMPACT MODE (AUTO RESIZE SAAT DROPDOWN TERBUKA) 🔥
+ 🔥 FITUR COMPACT MODE (AUTO MENGECIL SEHINGGA MENU PAS) 🔥
  ======================================================= */
  .sidebar-nav.compact-mode { padding: 5px 10px !important; }
- .sidebar-nav.compact-mode .nav-link { font-size: 12.5px !important; padding: 8px 12px !important; margin-bottom: 2px !important; }
- .sidebar-nav.compact-mode .category-title { font-size: 9px !important; margin: 8px 0 4px 10px !important; letter-spacing: 0.5px !important; }
- .sidebar-nav.compact-mode .submenu-group { margin-bottom: 6px !important; margin-left: 15px !important; padding-left: 10px !important;}
- .sidebar-nav.compact-mode .submenu-group .nav-link { font-size: 11.5px !important; padding: 6px 8px !important; }
- .sidebar-nav.compact-mode .submenu-group::before { top: 8px !important; bottom: 10px !important; left: 0 !important; }
+ .sidebar-nav.compact-mode .nav-link { font-size: 11.5px !important; padding: 6px 10px !important; margin-bottom: 2px !important; }
+ .sidebar-nav.compact-mode .category-title { font-size: 9px !important; margin: 6px 0 3px 10px !important; letter-spacing: 0.5px !important; }
+ .sidebar-nav.compact-mode .submenu-group { margin-bottom: 4px !important; margin-left: 15px !important; padding-left: 10px !important;}
+ .sidebar-nav.compact-mode .submenu-group .nav-link { font-size: 10.5px !important; padding: 4px 6px !important; }
+ .sidebar-nav.compact-mode .submenu-group::before { top: 6px !important; bottom: 8px !important; left: 0 !important; }
  .sidebar-nav.compact-mode .submenu-group .nav-link::before { left: -14px !important; width: 4px !important; height: 4px !important; }
- .sidebar-nav.compact-mode .nav-icon { font-size: 14px !important; width: 22px !important; }
- .sidebar-nav.compact-mode .submenu-group .nav-link .icon { font-size: 13px !important; width: 18px !important; }
+ .sidebar-nav.compact-mode .nav-icon { font-size: 13px !important; width: 20px !important; }
+ .sidebar-nav.compact-mode .submenu-group .nav-link .icon { font-size: 12px !important; width: 16px !important; }
  </style>
 </head>
 <body>
@@ -495,7 +498,8 @@
 <nav id="sidebar" class="sidebar">
   <div class="sidebar-header"><div class="sidebar-logo-text">GANESA</div></div>
   
-  <div class="sidebar-nav nav flex-column" id="v-pills-tab" role="tablist">
+  <!-- 🔥 D-FLEX DIHAPUS, DIGANTI BLOCK UNTUK MENCEGAH MENU TERLEMPAR 🔥 -->
+  <div class="sidebar-nav nav" id="v-pills-tab" role="tablist">
     
     <!-- 1. DASHBOARD UTAMA -->
     <button class="nav-link active" id="menu-ringkasan" data-bs-toggle="pill" data-bs-target="#pills-ringkasan" type="button">
@@ -510,7 +514,8 @@
       </a>
       
       <div class="collapse" id="collapseReportAsesmen">
-        <div class="nav-submenu d-flex flex-column">
+        <!-- 🔥 FLEX DIHAPUS DARI SUBMENU AGAR MENGGULUNG KE BAWAH SECARA NORMAL 🔥 -->
+        <div class="nav-submenu">
           <!-- KELOMPOK 1: POTENSI & KEPRIBADIAN -->
           <div class="category-title text-yellow">POTENSI & KEPRIBADIAN</div>
           <div class="submenu-group group-yellow">
@@ -568,7 +573,7 @@
         <span class="dropdown-icon">▼</span>
       </a>
       <div class="collapse" id="collapseManajemenSistem">
-        <div class="nav-submenu d-flex flex-column">
+        <div class="nav-submenu">
           <div class="submenu-group group-purple" style="margin-top: 10px;">
             <button class="nav-link" id="menu-upload" data-bs-toggle="pill" data-bs-target="#pills-upload" type="button"><span class="icon">📂</span> Upload Data</button>
             <button class="nav-link" id="menu-buat-akun" data-bs-toggle="pill" data-bs-target="#pills-buat-akun" type="button"><span class="icon">🏫</span> Buat Akun Sekolah</button>
@@ -588,7 +593,6 @@
               <div style="color: #f8fafc; font-size: 13px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;" id="user-display-name">Akun Administrator</div>
               <div style="color: #64748b; font-size: 11px;" id="user-role-badge">Akses Penuh</div>
           </div>
-          <!-- 🔥 TOMBOL LOGOUT DI SAMPING NAMA AKUN 🔥 -->
           <button onclick="doLogout()" class="btn-logout-sidebar" title="Logout">🚪</button>
       </div>
   </div>
@@ -1375,267 +1379,267 @@
  // 🔥 LOGIKA GENERATOR PDF INDIVIDU (DESAIN BARU COMPACT + COVER) 🔥
  // =========================================================================
  if (isNameFiltered && filteredRows.length > 0) {
-    const siswa = filteredRows[0];
-    document.getElementById('laporan-kosong').style.display = 'none';
-    document.getElementById('laporan-isi').style.display = 'block';
+     const siswa = filteredRows[0];
+     document.getElementById('laporan-kosong').style.display = 'none';
+     document.getElementById('laporan-isi').style.display = 'block';
 
-    const getValStr = (col) => { let val = siswa[colIndices[col]]; if (!isVal(val)) return "-"; return String(val).trim(); };
-    const getNum = (col) => { let val = siswa[colIndices[col]]; if (!isVal(val)) return 0; if (typeof val === 'string') return parseFloat(val.replace(',', '.')) || 0; return parseFloat(val) || 0; };
-    const safeText = (col) => { let text = getValStr(col); return text !== "-" ? text.replace(/\n/g, '<br>') : '-'; };
+     const getValStr = (col) => { let val = siswa[colIndices[col]]; if (!isVal(val)) return "-"; return String(val).trim(); };
+     const getNum = (col) => { let val = siswa[colIndices[col]]; if (!isVal(val)) return 0; if (typeof val === 'string') return parseFloat(val.replace(',', '.')) || 0; return parseFloat(val) || 0; };
+     const safeText = (col) => { let text = getValStr(col); return text !== "-" ? text.replace(/\n/g, '<br>') : '-'; };
 
-    let sekolahName = getValStr('kolomNamaSekolah'); 
-    if(sekolahName === '-') sekolahName = $('#filter-sekolah').val() || sessionSekolah || "-";
-    
-    // Logo paten Ganesa untuk dicetak
-    let logoSrc = "https://lh3.googleusercontent.com/d/1Wqpp9soE46uHXkCdJiPF3pzbt8QGTypJ";
+     let sekolahName = getValStr('kolomNamaSekolah'); 
+     if(sekolahName === '-') sekolahName = $('#filter-sekolah').val() || sessionSekolah || "-";
+     
+     // Logo paten Ganesa untuk dicetak
+     let logoSrc = "https://lh3.googleusercontent.com/d/1Wqpp9soE46uHXkCdJiPF3pzbt8QGTypJ";
 
-    // =========================================================================
-    // 🔥 HALAMAN 1: COVER BIODATA 🔥
-    // =========================================================================
-    let coverHtml = `
-    <div class="pdf-page" style="position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; border-left: 3px solid #d4af37; border-right: 3px solid #d4af37; padding: 45px 55px; overflow: hidden; background-color: #ffffff;">
-        <div style="position: absolute; top: -70px; right: -70px; width: 220px; height: 220px; background: #7ee2d7; transform: rotate(45deg); z-index: 1;"></div>
-        <div style="position: absolute; top: -100px; right: 0px; width: 150px; height: 150px; background: #000; transform: rotate(45deg); z-index: 2;"></div>
-        <div style="position: absolute; bottom: -70px; left: -70px; width: 220px; height: 220px; background: #000; transform: rotate(45deg); z-index: 1;"></div>
-        <div style="position: absolute; bottom: -60px; left: -80px; width: 220px; height: 220px; border: 2px solid #7ee2d7; transform: rotate(45deg); z-index: 2; background: transparent;"></div>
-        
-        <div style="position: absolute; top: 40px; left: 40px; display: flex; align-items: flex-start; z-index: 3;">
-            <img src="${logoSrc}" alt="Logo" style="height: 75px; margin-right: 15px; object-fit: contain;">
-            <div>
-                <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 4px 0; letter-spacing: 1px;">GANESA.ID</h1>
-                <p style="font-size: 11px; color: #555; margin: 0; line-height: 1.3;"><i>Gerbang Assessment Indonesia</i></p>
-                <hr style="margin: 4px 0; border-color: #000; border-width: 2px; width: 100%;">
-                <p style="font-size: 10px; color: #333; margin: 0; line-height: 1.3;"><b>PT. AKARA NATURA NUSANTARA</b><br>Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
-            </div>
-        </div>
-        <img src="${logoSrc}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.04; width: 450px; z-index: 1;">
-        <div style="z-index: 10; font-size: 15px; color: #000; width: 55%; margin-top: 50px; line-height: 1.5;">
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Grup</strong><span>:</span><span>${sekolahName}</span></div>
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Kelas</strong><span>:</span><span>${getValStr('kolomKelas')}</span></div>
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Nama</strong><span>:</span><span>${getValStr('kolomNama')}</span></div>
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Jenis Kelamin</strong><span>:</span><span>${getValStr('kolomGender')}</span></div>
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Usia</strong><span>:</span><span>${getValStr('kolomUsia')}</span></div>
-            <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">No. Unik</strong><span>:</span><span>${getValStr('kolomNoUnik')}</span></div>
-        </div>
-    </div>
-    `;
+     // =========================================================================
+     // 🔥 HALAMAN 1: COVER BIODATA 🔥
+     // =========================================================================
+     let coverHtml = `
+     <div class="pdf-page" style="position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; border-left: 3px solid #d4af37; border-right: 3px solid #d4af37; padding: 45px 55px; overflow: hidden; background-color: #ffffff;">
+         <div style="position: absolute; top: -70px; right: -70px; width: 220px; height: 220px; background: #7ee2d7; transform: rotate(45deg); z-index: 1;"></div>
+         <div style="position: absolute; top: -100px; right: 0px; width: 150px; height: 150px; background: #000; transform: rotate(45deg); z-index: 2;"></div>
+         <div style="position: absolute; bottom: -70px; left: -70px; width: 220px; height: 220px; background: #000; transform: rotate(45deg); z-index: 1;"></div>
+         <div style="position: absolute; bottom: -60px; left: -80px; width: 220px; height: 220px; border: 2px solid #7ee2d7; transform: rotate(45deg); z-index: 2; background: transparent;"></div>
+         
+         <div style="position: absolute; top: 40px; left: 40px; display: flex; align-items: flex-start; z-index: 3;">
+             <img src="${logoSrc}" alt="Logo" style="height: 75px; margin-right: 15px; object-fit: contain;">
+             <div>
+                 <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 4px 0; letter-spacing: 1px;">GANESA.ID</h1>
+                 <p style="font-size: 11px; color: #555; margin: 0; line-height: 1.3;"><i>Gerbang Assessment Indonesia</i></p>
+                 <hr style="margin: 4px 0; border-color: #000; border-width: 2px; width: 100%;">
+                 <p style="font-size: 10px; color: #333; margin: 0; line-height: 1.3;"><b>PT. AKARA NATURA NUSANTARA</b><br>Jalan Kanayakan Lama No 40a Bandung | Jln Sadang Serang No 18 Bandung</p>
+             </div>
+         </div>
+         <img src="${logoSrc}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.04; width: 450px; z-index: 1;">
+         <div style="z-index: 10; font-size: 15px; color: #000; width: 55%; margin-top: 50px; line-height: 1.5;">
+             <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Grup</strong><span>:</span><span>${sekolahName}</span></div>
+             <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Kelas</strong><span>:</span><span>${getValStr('kolomKelas')}</span></div>
+             <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Nama</strong><span>:</span><span>${getValStr('kolomNama')}</span></div>
+             <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Jenis Kelamin</strong><span>:</span><span>${getValStr('kolomGender')}</span></div>
+             <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">Usia</strong><span>:</span><span>${getValStr('kolomUsia')}</span></div>
+             <div style="display: grid; grid-template-columns: 140px 20px 1fr; margin-bottom: 12px;"><strong style="font-weight: 800;">No. Unik</strong><span>:</span><span>${getValStr('kolomNoUnik')}</span></div>
+         </div>
+     </div>
+     `;
 
-    // =========================================================================
-    // 🔥 HALAMAN 2 & 3: ISI LAPORAN ASESMEN PSIKOLOGI (DYNAMIC FLOW) 🔥
-    // =========================================================================
-    let sections = [];
-    let secCount = 1;
+     // =========================================================================
+     // 🔥 HALAMAN 2 & 3: ISI LAPORAN ASESMEN PSIKOLOGI (DYNAMIC FLOW) 🔥
+     // =========================================================================
+     let sections = [];
+     let secCount = 1;
 
-    if (isVal(siswa[colIndices.kolomKepribadian])) {
-        let I = getNum('kolomI'), E = getNum('kolomE'), S = getNum('kolomS'), N = getNum('kolomN');
-        let T = getNum('kolomT'), F = getNum('kolomF'), J = getNum('kolomJ'), P = getNum('kolomP');
-        let domTraits = [];
-        domTraits.push(I >= E ? `Introvert ${I}%` : `Extrovert ${E}%`);
-        domTraits.push(S >= N ? `Sensing ${S}%` : `Intuition ${N}%`);
-        domTraits.push(F >= T ? `Feeling ${F}%` : `Thinking ${T}%`);
-        domTraits.push(J >= P ? `Judging ${J}%` : `Perceiving ${P}%`);
-        
-        sections.push({
-            weight: 18,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. KEPRIBADIAN (${getValStr('kolomKepribadian')})</div>
-            <div class="flex-between" style="align-items: flex-start; gap: 20px;">
-                <div style="flex: 1;">
-                    <p class="pr-text" style="margin-bottom:8px;">${safeText('kolomKepriMenonjol')}</p>
-                    <p class="pr-text"><b>Saran Pengembangan:</b> ${safeText('kolomKepriKembang')}</p>
-                </div>
-                <div style="width: 140px; text-align: right; font-size: 11px; color:#333; line-height: 1.8;">
-                    ${domTraits.join(' | <br>')} |
-                </div>
-            </div>
-            `
-        });
-    }
+     if (isVal(siswa[colIndices.kolomKepribadian])) {
+         let I = getNum('kolomI'), E = getNum('kolomE'), S = getNum('kolomS'), N = getNum('kolomN');
+         let T = getNum('kolomT'), F = getNum('kolomF'), J = getNum('kolomJ'), P = getNum('kolomP');
+         let domTraits = [];
+         domTraits.push(I >= E ? `Introvert ${I}%` : `Extrovert ${E}%`);
+         domTraits.push(S >= N ? `Sensing ${S}%` : `Intuition ${N}%`);
+         domTraits.push(F >= T ? `Feeling ${F}%` : `Thinking ${T}%`);
+         domTraits.push(J >= P ? `Judging ${J}%` : `Perceiving ${P}%`);
+         
+         sections.push({
+             weight: 18,
+             html: `
+             <div class="pr-section-title-new">${secCount++}. KEPRIBADIAN (${getValStr('kolomKepribadian')})</div>
+             <div class="flex-between" style="align-items: flex-start; gap: 20px;">
+                 <div style="flex: 1;">
+                     <p class="pr-text" style="margin-bottom:8px;">${safeText('kolomKepriMenonjol')}</p>
+                     <p class="pr-text"><b>Saran Pengembangan:</b> ${safeText('kolomKepriKembang')}</p>
+                 </div>
+                 <div style="width: 140px; text-align: right; font-size: 11px; color:#333; line-height: 1.8;">
+                     ${domTraits.join(' | <br>')} |
+                 </div>
+             </div>
+             `
+         });
+     }
 
-    if (isVal(siswa[colIndices.kolomGayaBelajar])) {
-        let gayaArr = [
-            {n: 'Visual', s: getNum('kolomVis')}, {n: 'Auditory', s: getNum('kolomAud')}, {n: 'Kinesthetic', s: getNum('kolomKines')}
-        ].sort((a,b) => b.s - a.s);
-        sections.push({
-            weight: 15,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. GAYA BELAJAR DOMINAN</div>
-            <p class="pr-text" style="margin-bottom: 8px;">
-                <b>${gayaArr[0].n.toUpperCase()} (${gayaArr[0].s}%)</b> | ${gayaArr[1].n} (${gayaArr[1].s}%) | ${gayaArr[2].n} (${gayaArr[2].s}%)
-            </p>
-            <p class="pr-text">${safeText('kolomGayaCiri')}</p>
-            `
-        });
-    }
+     if (isVal(siswa[colIndices.kolomGayaBelajar])) {
+         let gayaArr = [
+             {n: 'Visual', s: getNum('kolomVis')}, {n: 'Auditory', s: getNum('kolomAud')}, {n: 'Kinesthetic', s: getNum('kolomKines')}
+         ].sort((a,b) => b.s - a.s);
+         sections.push({
+             weight: 15,
+             html: `
+             <div class="pr-section-title-new">${secCount++}. GAYA BELAJAR DOMINAN</div>
+             <p class="pr-text" style="margin-bottom: 8px;">
+                 <b>${gayaArr[0].n.toUpperCase()} (${gayaArr[0].s}%)</b> | ${gayaArr[1].n} (${gayaArr[1].s}%) | ${gayaArr[2].n} (${gayaArr[2].s}%)
+             </p>
+             <p class="pr-text">${safeText('kolomGayaCiri')}</p>
+             `
+         });
+     }
 
-    if (isVal(siswa[colIndices.kolomTarafKecerdasan])) {
-        sections.push({
-            weight: 15,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. PROFIL KECERDASAN (IQ: ${getValStr('kolomTarafKecerdasan')} - KATEGORI ${getValStr('kolomTipeKecerdasan')})</div>
-            <div class="pr-grid-3">
-                <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Ketajaman Diferensiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Kritis mengidentifikasi detail masalah.</p></div>
-                <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Sistematika Berpikir (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Teratur, logis, dan sistematis.</p></div>
-                <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Kemampuan Asosiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Cukup mampu menghubungkan ide.</p></div>
-            </div>
-            `
-        });
-    }
+     if (isVal(siswa[colIndices.kolomTarafKecerdasan])) {
+         sections.push({
+             weight: 15,
+             html: `
+             <div class="pr-section-title-new">${secCount++}. PROFIL KECERDASAN (IQ: ${getValStr('kolomTarafKecerdasan')} - KATEGORI ${getValStr('kolomTipeKecerdasan')})</div>
+             <div class="pr-grid-3">
+                 <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Ketajaman Diferensiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Kritis mengidentifikasi detail masalah.</p></div>
+                 <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Sistematika Berpikir (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Teratur, logis, dan sistematis.</p></div>
+                 <div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">Kemampuan Asosiasi (${getValStr('kolomTipeKecerdasan')}):</p><p class="pr-text-xs">Cukup mampu menghubungkan ide.</p></div>
+             </div>
+             `
+         });
+     }
 
-    if (isVal(siswa[colIndices.kolomKecerdasanMajemuk])) {
-        let miArr = [
-            {n: 'Linguistik', s: getNum('kolomLing')}, {n: 'Matematis', s: getNum('kolomMat')},
-            {n: 'Spasial', s: getNum('kolomSpa')}, {n: 'Kinestetik', s: getNum('kolomKin')},
-            {n: 'Musikal', s: getNum('kolomMus')}, {n: 'Interpersonal', s: getNum('kolomInter')},
-            {n: 'Intrapersonal', s: getNum('kolomIntra')}, {n: 'Naturalis', s: getNum('kolomNat')}
-        ].sort((a,b) => b.s - a.s).slice(0, 3);
-        
-        let miHtml = `
-        <div class="pr-section-title-new">${secCount++}. KECERDASAN MAJEMUK UTAMA</div>
-        <div class="pr-grid-3">
-        `;
-        miArr.forEach(m => {
-            miHtml += `<div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">${m.n} (${m.s}%):</p><p class="pr-text-xs">Kecerdasan dominan pada bidang ${m.n.toLowerCase()}.</p></div>`;
-        });
-        miHtml += `</div>`;
+     if (isVal(siswa[colIndices.kolomKecerdasanMajemuk])) {
+         let miArr = [
+             {n: 'Linguistik', s: getNum('kolomLing')}, {n: 'Matematis', s: getNum('kolomMat')},
+             {n: 'Spasial', s: getNum('kolomSpa')}, {n: 'Kinestetik', s: getNum('kolomKin')},
+             {n: 'Musikal', s: getNum('kolomMus')}, {n: 'Interpersonal', s: getNum('kolomInter')},
+             {n: 'Intrapersonal', s: getNum('kolomIntra')}, {n: 'Naturalis', s: getNum('kolomNat')}
+         ].sort((a,b) => b.s - a.s).slice(0, 3);
+         
+         let miHtml = `
+         <div class="pr-section-title-new">${secCount++}. KECERDASAN MAJEMUK UTAMA</div>
+         <div class="pr-grid-3">
+         `;
+         miArr.forEach(m => {
+             miHtml += `<div><p class="text-bold" style="margin-bottom:2px; font-size:11px;">${m.n} (${m.s}%):</p><p class="pr-text-xs">Kecerdasan dominan pada bidang ${m.n.toLowerCase()}.</p></div>`;
+         });
+         miHtml += `</div>`;
 
-        sections.push({
-            weight: 15,
-            html: miHtml
-        });
-    }
+         sections.push({
+             weight: 15,
+             html: miHtml
+         });
+     }
 
-    if (isVal(siswa[colIndices.kolomTipeRIASEC])) {
-        let rArr = [
-            {n: 'Realistic', s: getNum('kolomReal')}, {n: 'Investigative', s: getNum('kolomInv')},
-            {n: 'Artistic', s: getNum('kolomArt')}, {n: 'Social', s: getNum('kolomSoc')},
-            {n: 'Enterprising', s: getNum('kolomEnt')}, {n: 'Conventional', s: getNum('kolomConv')}
-        ].sort((a,b) => b.s - a.s).slice(0, 2);
-        
-        sections.push({
-            weight: 26,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. MINAT BAKAT (RIASEC) & KARIR</div>
-            <div class="pr-grid-2">
-                <div>
-                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[0].n} (${rArr[0].s}%):</b> Dominan pertama.</p>
-                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[1].n} (${rArr[1].s}%):</b> Dominan kedua.</p>
-                </div>
-                <div>
-                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>Rekomendasi Jurusan:</b><br>${safeText('kolomRiasecJurusan')}</p>
-                    <p class="pr-text-sm" style="margin-bottom:6px;"><b>Mata Pelajaran Pendukung:</b><br>${safeText('kolomRiasecMapel')}</p>
-                </div>
-            </div>
-            <div style="margin-top: 8px;">
-                <p class="pr-text-sm" style="margin-bottom:6px;"><b>Kompetensi Kuat:</b><br>${safeText('kolomRiasecDesk')}</p>
-            </div>
-            `
-        });
-    }
+     if (isVal(siswa[colIndices.kolomTipeRIASEC])) {
+         let rArr = [
+             {n: 'Realistic', s: getNum('kolomReal')}, {n: 'Investigative', s: getNum('kolomInv')},
+             {n: 'Artistic', s: getNum('kolomArt')}, {n: 'Social', s: getNum('kolomSoc')},
+             {n: 'Enterprising', s: getNum('kolomEnt')}, {n: 'Conventional', s: getNum('kolomConv')}
+         ].sort((a,b) => b.s - a.s).slice(0, 2);
+         
+         sections.push({
+             weight: 26,
+             html: `
+             <div class="pr-section-title-new">${secCount++}. MINAT BAKAT (RIASEC) & KARIR</div>
+             <div class="pr-grid-2">
+                 <div>
+                     <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[0].n} (${rArr[0].s}%):</b> Dominan pertama.</p>
+                     <p class="pr-text-sm" style="margin-bottom:6px;"><b>${rArr[1].n} (${rArr[1].s}%):</b> Dominan kedua.</p>
+                 </div>
+                 <div>
+                     <p class="pr-text-sm" style="margin-bottom:6px;"><b>Rekomendasi Jurusan:</b><br>${safeText('kolomRiasecJurusan')}</p>
+                     <p class="pr-text-sm" style="margin-bottom:6px;"><b>Mata Pelajaran Pendukung:</b><br>${safeText('kolomRiasecMapel')}</p>
+                 </div>
+             </div>
+             <div style="margin-top: 8px;">
+                 <p class="pr-text-sm" style="margin-bottom:6px;"><b>Kompetensi Kuat:</b><br>${safeText('kolomRiasecDesk')}</p>
+             </div>
+             `
+         });
+     }
 
-    if (isVal(siswa[colIndices.kolomCaraMendidikKat])) {
-        sections.push({
-            weight: 25,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. KONDISI LINGKUNGAN KELUARGA</div>
-            <table class="pr-table-compact">
-                <thead><tr><th style="width:25%;">Aspek</th><th style="width:25%;">Skor</th><th>Deskripsi Singkat</th></tr></thead>
-                <tbody>
-                    <tr>
-                        <td><b>Cara Orang Tua Mendidik</b></td>
-                        <td>${getValStr('kolomCaraMendidikSkor')}% (${getValStr('kolomCaraMendidikKat')})</td>
-                        <td>Lingkungan pengasuhan berada pada tahap ${getValStr('kolomCaraMendidikKat').toLowerCase()}.</td>
-                    </tr>
-                    <tr>
-                        <td><b>Relasi Anak & Keluarga</b></td>
-                        <td>${getValStr('kolomRelasiSkor')}% (${getValStr('kolomRelasiKat')})</td>
-                        <td>Hubungan kekeluargaan berada pada tahap ${getValStr('kolomRelasiKat').toLowerCase()}.</td>
-                    </tr>
-                    <tr>
-                        <td><b>Suasana Rumah</b></td>
-                        <td>${getValStr('kolomSuasanaRumahSkor')}% (${getValStr('kolomSuasanaRumahKat')})</td>
-                        <td>Suasana lingkungan rumah ${getValStr('kolomSuasanaRumahKat').toLowerCase()}.</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p class="pr-text" style="margin-top:10px;"><b>Saran untuk Keluarga:</b> Seiring bertambahnya usia, berikan ruang diskusi yang terbuka bagi anak. Hindari sikap menghakimi dan libatkan anak dalam kegiatan keluarga agar mereka merasakan peran serta tanggung jawabnya.</p>
-            `
-        });
-    }
+     if (isVal(siswa[colIndices.kolomCaraMendidikKat])) {
+         sections.push({
+             weight: 25,
+             html: `
+             <div class="pr-section-title-new">${secCount++}. KONDISI LINGKUNGAN KELUARGA</div>
+             <table class="pr-table-compact">
+                 <thead><tr><th style="width:25%;">Aspek</th><th style="width:25%;">Skor</th><th>Deskripsi Singkat</th></tr></thead>
+                 <tbody>
+                     <tr>
+                         <td><b>Cara Orang Tua Mendidik</b></td>
+                         <td>${getValStr('kolomCaraMendidikSkor')}% (${getValStr('kolomCaraMendidikKat')})</td>
+                         <td>Lingkungan pengasuhan berada pada tahap ${getValStr('kolomCaraMendidikKat').toLowerCase()}.</td>
+                     </tr>
+                     <tr>
+                         <td><b>Relasi Anak & Keluarga</b></td>
+                         <td>${getValStr('kolomRelasiSkor')}% (${getValStr('kolomRelasiKat')})</td>
+                         <td>Hubungan kekeluargaan berada pada tahap ${getValStr('kolomRelasiKat').toLowerCase()}.</td>
+                     </tr>
+                     <tr>
+                         <td><b>Suasana Rumah</b></td>
+                         <td>${getValStr('kolomSuasanaRumahSkor')}% (${getValStr('kolomSuasanaRumahKat')})</td>
+                         <td>Suasana lingkungan rumah ${getValStr('kolomSuasanaRumahKat').toLowerCase()}.</td>
+                     </tr>
+                 </tbody>
+             </table>
+             <p class="pr-text" style="margin-top:10px;"><b>Saran untuk Keluarga:</b> Seiring bertambahnya usia, berikan ruang diskusi yang terbuka bagi anak. Hindari sikap menghakimi dan libatkan anak dalam kegiatan keluarga agar mereka merasakan peran serta tanggung jawabnya.</p>
+             `
+         });
+     }
 
-    let hasKes = isVal(siswa[colIndices.kolomKemandirianKat]);
-    let hasKeb = isVal(siswa[colIndices.kolomPRKat]);
-    if (hasKes || hasKeb) {
-        sections.push({
-            weight: 18,
-            html: `
-            <div class="pr-section-title-new">${secCount++}. KESEJAHTERAAN PSIKOLOGI & KEBIASAAN BELAJAR</div>
-            <div class="pr-grid-2" style="align-items: start;">
-                <div>
-                    <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kesejahteraan Psikologis:</p>
-                    <p class="pr-text">Tingkat kemandirian <b>(${getValStr('kolomKemandirianSkor')}%)</b>, penguasaan lingkungan <b>(${getValStr('kolomPenguasaanSkor')}%)</b>, dan tujuan hidup <b>(${getValStr('kolomTujuanSkor')}%)</b> terpantau dalam batas evaluasi saat asesmen dilakukan.</p>
-                </div>
-                <div>
-                    <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kebiasaan Belajar:</p>
-                    <p class="pr-text">Alokasi waktu <b>(${getValStr('kolomWaktuSkor')}%)</b>, pengerjaan PR <b>(${getValStr('kolomPRSkor')}%)</b>, serta konsentrasi <b>(${getValStr('kolomKonsentrasiSkor')}%)</b> mencerminkan profil belajar harian anak saat ini.</p>
-                </div>
-            </div>
-            `
-        });
-    }
+     let hasKes = isVal(siswa[colIndices.kolomKemandirianKat]);
+     let hasKeb = isVal(siswa[colIndices.kolomPRKat]);
+     if (hasKes || hasKeb) {
+         sections.push({
+             weight: 18,
+             html: `
+             <div class="pr-section-title-new">${secCount++}. KESEJAHTERAAN PSIKOLOGI & KEBIASAAN BELAJAR</div>
+             <div class="pr-grid-2" style="align-items: start;">
+                 <div>
+                     <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kesejahteraan Psikologis:</p>
+                     <p class="pr-text">Tingkat kemandirian <b>(${getValStr('kolomKemandirianSkor')}%)</b>, penguasaan lingkungan <b>(${getValStr('kolomPenguasaanSkor')}%)</b>, dan tujuan hidup <b>(${getValStr('kolomTujuanSkor')}%)</b> terpantau dalam batas evaluasi saat asesmen dilakukan.</p>
+                 </div>
+                 <div>
+                     <p class="text-bold" style="margin-bottom:5px; font-size:12px;">Kebiasaan Belajar:</p>
+                     <p class="pr-text">Alokasi waktu <b>(${getValStr('kolomWaktuSkor')}%)</b>, pengerjaan PR <b>(${getValStr('kolomPRSkor')}%)</b>, serta konsentrasi <b>(${getValStr('kolomKonsentrasiSkor')}%)</b> mencerminkan profil belajar harian anak saat ini.</p>
+                 </div>
+             </div>
+             `
+         });
+     }
 
-    if (isVal(siswa[colIndices.kolomDISC]) || isVal(siswa[colIndices.kolomPapi]) || isVal(siswa[colIndices.kolomKetahananDiri])) {
-        let addHtml = `<div class="pr-section-title-new">${secCount++}. ASESMEN TAMBAHAN</div><div class="pr-grid-3">`;
-        if (isVal(siswa[colIndices.kolomDISC])) {
-            addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Analisis DISC:</p><p class="pr-text">Kategori Kepribadian DISC berada pada tipe <b>${getValStr('kolomDISC')}</b>.</p></div>`;
-        }
-        if (isVal(siswa[colIndices.kolomPapi])) {
-            addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Papi Kostick:</p><p class="pr-text">Hasil kecenderungan profil berada pada <b>${getValStr('kolomPapi')}</b>.</p></div>`;
-        }
-        if (isVal(siswa[colIndices.kolomKetahananDiri])) {
-            addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Ketahanan Diri (AQ):</p><p class="pr-text">Profil resiliensi masuk dalam kategori <b>${getValStr('kolomKetahananDiri')}</b>.</p></div>`;
-        }
-        addHtml += `</div>`;
-        
-        sections.push({
-            weight: 15,
-            html: addHtml
-        });
-    }
+     if (isVal(siswa[colIndices.kolomDISC]) || isVal(siswa[colIndices.kolomPapi]) || isVal(siswa[colIndices.kolomKetahananDiri])) {
+         let addHtml = `<div class="pr-section-title-new">${secCount++}. ASESMEN TAMBAHAN</div><div class="pr-grid-3">`;
+         if (isVal(siswa[colIndices.kolomDISC])) {
+             addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Analisis DISC:</p><p class="pr-text">Kategori Kepribadian DISC berada pada tipe <b>${getValStr('kolomDISC')}</b>.</p></div>`;
+         }
+         if (isVal(siswa[colIndices.kolomPapi])) {
+             addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Papi Kostick:</p><p class="pr-text">Hasil kecenderungan profil berada pada <b>${getValStr('kolomPapi')}</b>.</p></div>`;
+         }
+         if (isVal(siswa[colIndices.kolomKetahananDiri])) {
+             addHtml += `<div><p class="text-bold" style="margin-bottom:5px; font-size:11px;">Ketahanan Diri (AQ):</p><p class="pr-text">Profil resiliensi masuk dalam kategori <b>${getValStr('kolomKetahananDiri')}</b>.</p></div>`;
+         }
+         addHtml += `</div>`;
+         
+         sections.push({
+             weight: 15,
+             html: addHtml
+         });
+     }
 
-    // 🔥 Sistem Pendistribusian Dinamis (Dynamic Chunking) YANG DIPERBAIKI 🔥
-    let maxWeight = 95; // Diturunkan agar margin bawah aman dan elemen mengisi penuh sebelum terpotong
-    let currentWeight = 0;
-    let pagesHtml = "";
-    
-    const miniHeader = `
-        <div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
-            <div style="font-size: 14px; font-weight: bold; color: #000; text-transform: uppercase;">HASIL ASESMEN PSIKOLOGI</div>
-            <div style="font-size: 11px; color: #333; text-align: right;"><b>${getValStr('kolomNama')}</b> | ${getValStr('kolomKelas')} | ${sekolahName}</div>
-        </div>
-    `;
+     // 🔥 Sistem Pendistribusian Dinamis (Dynamic Chunking) YANG DIPERBAIKI 🔥
+     let maxWeight = 95; // Diturunkan agar margin bawah aman dan elemen mengisi penuh sebelum terpotong
+     let currentWeight = 0;
+     let pagesHtml = "";
+     
+     const miniHeader = `
+         <div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+             <div style="font-size: 14px; font-weight: bold; color: #000; text-transform: uppercase;">HASIL ASESMEN PSIKOLOGI</div>
+             <div style="font-size: 11px; color: #333; text-align: right;"><b>${getValStr('kolomNama')}</b> | ${getValStr('kolomKelas')} | ${sekolahName}</div>
+         </div>
+     `;
 
-    let activePage = `<div class="pdf-page">` + miniHeader;
+     let activePage = `<div class="pdf-page">` + miniHeader;
 
-    for (let i = 0; i < sections.length; i++) {
-        let sec = sections[i];
-        if (currentWeight + sec.weight > maxWeight && currentWeight > 0) {
-            activePage += `</div>`;
-            pagesHtml += activePage;
-            
-            activePage = `<div class="pdf-page">` + miniHeader;
-            currentWeight = 0;
-        }
-        activePage += sec.html;
-        currentWeight += sec.weight;
-    }
-    
-    if (currentWeight > 0) {
-        activePage += `</div>`;
-        pagesHtml += activePage;
-    }
+     for (let i = 0; i < sections.length; i++) {
+         let sec = sections[i];
+         if (currentWeight + sec.weight > maxWeight && currentWeight > 0) {
+             activePage += `</div>`;
+             pagesHtml += activePage;
+             
+             activePage = `<div class="pdf-page">` + miniHeader;
+             currentWeight = 0;
+         }
+         activePage += sec.html;
+         currentWeight += sec.weight;
+     }
+     
+     if (currentWeight > 0) {
+         activePage += `</div>`;
+         pagesHtml += activePage;
+     }
 
-    document.getElementById('laporan-isi').innerHTML = coverHtml + pagesHtml;
+     document.getElementById('laporan-isi').innerHTML = coverHtml + pagesHtml;
 
  } else {
  document.getElementById('laporan-kosong').style.display = 'block';
