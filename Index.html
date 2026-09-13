@@ -170,7 +170,8 @@
  /* =======================================================
  🔥 SIDEBAR (TETAP ELEGAN GELAP - MODERN TIMELINE UI) 🔥
  ======================================================= */
- .sidebar { width: 260px; min-width: 260px; background-color: #121417; border-right: 1px solid #1e293b; transition: margin 0.3s ease-in-out; height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; z-index: 1000; margin-left: -260px; }
+ /* 🔥 FIX 1: Max Height & Penahan Strict Flexbox 🔥 */
+ .sidebar { width: 260px; min-width: 260px; background-color: #121417; border-right: 1px solid #1e293b; transition: margin 0.3s ease-in-out; height: 100vh; max-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; z-index: 1000; margin-left: -260px; }
  .sidebar.open { margin-left: 0; }
  
  /* Menyatukan styling scrollbar agar cantik dan tidak geser */
@@ -180,8 +181,10 @@
  .sidebar-header { padding: 20px 25px; display: flex; align-items: center; justify-content: space-between; }
  .sidebar-logo-text { color: #38bdf8; font-size: 24px; font-weight: 900; letter-spacing: 1px; }
  
- /* Perbaikan Overflow: Mencegah scrollbar bawaan yang tebal */
- .sidebar-nav { padding: 10px 15px; flex-grow: 1; overflow-y: auto; overflow-x: hidden; }
+ /* 🔥 FIX 2: Mencegah elemen menembus kebawah 🔥 */
+ .sidebar-nav { padding: 10px 15px; flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; }
+ .sidebar-profile { flex: 0 0 auto; }
+ 
  .sidebar-nav .nav-link { color: #94a3b8; padding: 12px 15px; border-radius: 8px; margin-bottom: 4px; font-weight: 500; font-size: 14px; display: flex; align-items: center; border: 1px solid transparent; width: 100%; transition: 0.2s; background: transparent; text-align: left; }
  .sidebar-nav .nav-link:hover { color: #e2e8f0; background: rgba(255,255,255,0.03); }
  
@@ -380,15 +383,18 @@
  .log-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
  
  /* =======================================================
- 🔥 FIX: AUTO-RESIZE SIDEBAR SAAT DROPDOWN TERBUKA 🔥
+ 🔥 FIX: COMPACT MODE (AUTO RESIZE SAAT DROPDOWN TERBUKA) 🔥
  ======================================================= */
- .sidebar-nav { min-height: 0; }
- .sidebar-nav:has(.collapse.show) .nav-link { font-size: 12px; padding: 8px 15px; margin-bottom: 2px; }
- .sidebar-nav:has(.collapse.show) .submenu-group .nav-link { font-size: 11px; padding: 4px 10px; }
- .sidebar-nav:has(.collapse.show) .category-title { font-size: 9px; margin: 8px 0 4px 15px; }
- .sidebar-nav:has(.collapse.show) .submenu-group { margin-bottom: 8px; }
- .sidebar-nav:has(.collapse.show) .nav-icon { font-size: 14px; }
- .sidebar-nav:has(.collapse.show) .submenu-group .nav-link .icon { width: 20px; font-size: 13px; }
+ /* Mode ringkas (di-trigger oleh JavaScript) */
+ .compact-mode { padding: 5px 10px !important; }
+ .compact-mode .nav-link { font-size: 12px !important; padding: 6px 12px !important; margin-bottom: 2px !important; }
+ .compact-mode .category-title { font-size: 9px !important; margin: 8px 0 4px 10px !important; letter-spacing: 0.5px !important; }
+ .compact-mode .submenu-group { margin-bottom: 6px !important; margin-left: 18px !important; padding-left: 10px !important;}
+ .compact-mode .submenu-group .nav-link { font-size: 10.5px !important; padding: 4px 8px !important; }
+ .compact-mode .submenu-group::before { top: 8px !important; bottom: 10px !important; left: 0 !important; }
+ .compact-mode .submenu-group .nav-link::before { left: -14px !important; width: 4px !important; height: 4px !important; }
+ .compact-mode .nav-icon { font-size: 14px !important; width: 22px !important; }
+ .compact-mode .submenu-group .nav-link .icon { font-size: 12px !important; width: 18px !important; }
  </style>
 </head>
 <body>
@@ -1074,6 +1080,15 @@
  setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 310);
  });
  });
+ 
+ // 🔥 FUNGSI OTOMATIS MENGECILKAN SIDEBAR SAAT DROPDOWN TERBUKA (MENGGUNAKAN JAVASCRIPT) 🔥
+ $('#collapseReportAsesmen, #collapseManajemenSistem').on('show.bs.collapse', function () {
+     $('.sidebar-nav').addClass('compact-mode');
+ });
+ $('#collapseReportAsesmen, #collapseManajemenSistem').on('hide.bs.collapse', function () {
+     $('.sidebar-nav').removeClass('compact-mode');
+ });
+
  });
 
  const CONFIG = {
