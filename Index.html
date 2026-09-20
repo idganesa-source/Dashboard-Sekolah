@@ -180,9 +180,12 @@
  
  /* 🔥 FIX FATAL: MEMAKSA DISPLAY BLOCK & MENCEGAH SCROLL BUG 🔥 */
  .sidebar-nav { 
-     display: block !important; 
+     display: flex !important; 
+     flex-direction: column !important;
+     flex-wrap: nowrap !important; /* INI KUNCI AGAR MENU TIDAK HILANG KE KANAN */
      padding: 10px 15px; 
-     flex-grow: 1; 
+     flex: 1 1 auto; /* Memastikan bisa scroll dalam area sisa */
+     min-height: 0; /* Wajib agar flex scroll bekerja */
      overflow-y: auto !important; 
      overflow-x: hidden !important; 
      width: 100%;
@@ -206,9 +209,12 @@
  
  /* 🔥 DESAIN SUBMENU PERMANEN COMPACT (Memaksimalkan Kapasitas Ruang) 🔥 */
  .nav-submenu { 
-     display: block !important; 
+     display: flex !important; 
+     flex-direction: column !important;
+     flex-wrap: nowrap !important;
      padding-left: 0; 
-     margin-top: 2px; 
+     margin-top: 5px; 
+     width: 100%;
  }
  .category-title { font-size: 9px; font-weight: 800; margin: 10px 0 4px 10px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; }
  
@@ -218,8 +224,18 @@
  .text-red { color: #f87171; }
  .text-purple { color: #c084fc; }
  
- .submenu-group { position: relative; margin-left: 18px; padding-left: 10px; margin-bottom: 8px; display: block !important; }
+ .submenu-group { 
+     position: relative; 
+     margin-left: 18px; 
+     padding-left: 10px; 
+     margin-bottom: 8px; 
+     display: flex !important; 
+     flex-direction: column !important; 
+     flex-wrap: nowrap !important;
+     width: 100%;
+ }
  
+ /* Garis Vertikal */
  .submenu-group::before {
      content: ''; position: absolute; left: 0; top: 8px; bottom: 12px; width: 1px;
  }
@@ -458,7 +474,6 @@
 <nav id="sidebar" class="sidebar">
   <div class="sidebar-header"><div class="sidebar-logo-text">GANESA</div></div>
   
-  <!-- 🔥 FIX: Class "nav" DIBUANG sepenuhnya agar Bootstrap tidak diam-diam memecah/melempar elemen (flex-wrap) 🔥 -->
   <div class="sidebar-nav" id="v-pills-tab" role="tablist">
     
     <!-- 1. DASHBOARD UTAMA -->
@@ -763,12 +778,14 @@
                      <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Pilihan Staff:</label>
                      <select id="role-tipe" class="form-select form-select-sm" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
                          <option value="Guru BK">Guru BK</option>
+                         <option value="Wali Kelas">Wali Kelas</option>
+                         <option value="Wali Dosen">Wali Dosen</option>
                          <option value="Kesiswaan">Kesiswaan</option>
                          <option value="Kepala Sekolah">Kepala Sekolah</option>
                      </select>
                  </div>
                  <div class="mb-3">
-                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Akses Kelas (Opsional untuk Guru BK):</label>
+                     <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Akses Kelas (Opsional untuk Guru BK / Wali Kelas / Wali Dosen):</label>
                      <input type="text" class="form-control form-control-sm" id="role-kelas" placeholder="Contoh: X-1, X-2 (Pisahkan dengan koma)" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
                      <small style="font-size: 10px; color: #64748b;">*Kosongkan jika bisa melihat seluruh kelas di sekolah tersebut.</small>
                  </div>
