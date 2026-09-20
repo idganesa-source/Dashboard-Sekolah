@@ -708,10 +708,10 @@
 
  <!-- 🔥 NEW: TAB BUAT AKUN SEKOLAH 🔥 -->
  <div class="tab-pane fade" id="pills-buat-akun" role="tabpanel">
-     <div class="row">
-         <div class="col-md-6">
-             <div class="dashboard-card">
-                 <div class="chart-header"><span>🏫 Buat Akun Sekolah Baru (Induk)</span></div>
+     <div class="row g-3">
+         <div class="col-md-5">
+             <div class="dashboard-card h-100 mb-0">
+                 <div class="chart-header"><span>🏫 Buat Akun Sekolah</span></div>
                  <div class="mb-2">
                      <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Email Login:</label>
                      <input type="email" class="form-control form-control-sm" id="new-email" placeholder="contoh: admin@sekolah.com" style="background-color: #f8fafc; border: 1px solid #cbd5e1;">
@@ -739,13 +739,24 @@
                      </div>
                  </div>
                  <button type="button" class="btn w-100" onclick="submitNewUser()" style="background-color: #0ea5e9; color: white; border: none; padding: 10px; font-weight: 600; border-radius: 8px;">Simpan Akun Sekolah</button>
+                 <div id="status-buat-akun" class="mt-3 text-center" style="font-size: 12px; font-weight: 600;"></div>
              </div>
          </div>
-         <div class="col-md-6">
-             <div class="dashboard-card" style="height: 100%;">
-                 <div class="chart-header"><span>📊 Tracker Pipeline / Log Aktivitas</span></div>
-                 <div id="log-buat-akun" class="log-container">
-                     <div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>
+         <div class="col-md-7">
+             <div class="dashboard-card h-100 mb-0">
+                 <div class="chart-header">
+                     <span>📋 Daftar Akun Sekolah</span> 
+                     <button class="btn btn-sm btn-outline-info py-0 px-2" style="font-size:11px; font-weight:bold;" onclick="fetchAkunList('sekolah')">🔄 Load dari Server</button>
+                 </div>
+                 <div class="table-container" style="max-height: 480px;">
+                     <table class="custom-table" id="table-log-akun">
+                         <thead>
+                             <tr><th>Sekolah</th><th>Email Login</th><th>Password</th><th>Aksi</th></tr>
+                         </thead>
+                         <tbody>
+                             <tr><td colspan="4" class="text-muted" style="padding: 30px;">Belum ada data baru di sesi ini. Buat akun di samping atau klik Load dari Server.</td></tr>
+                         </tbody>
+                     </table>
                  </div>
              </div>
          </div>
@@ -754,9 +765,9 @@
 
  <!-- 🔥 NEW: TAB BUAT ROLE STAFF 🔥 -->
  <div class="tab-pane fade" id="pills-buat-role" role="tabpanel">
-     <div class="row">
-         <div class="col-md-6">
-             <div class="dashboard-card">
+     <div class="row g-3">
+         <div class="col-md-5">
+             <div class="dashboard-card h-100 mb-0">
                  <div class="chart-header"><span>🛡️ Buat Role Staff Khusus</span></div>
                  <div class="mb-2">
                      <label class="form-label" style="font-size: 13px; font-weight: 600; color: #475569;">Nama Guru/Staff:</label>
@@ -790,13 +801,24 @@
                      <small style="font-size: 10px; color: #64748b;">*Kosongkan jika bisa melihat seluruh kelas di sekolah tersebut.</small>
                  </div>
                  <button type="button" class="btn w-100" onclick="submitNewRole()" style="background-color: #8b5cf6; color: white; border: none; padding: 10px; font-weight: 600; border-radius: 8px;">Simpan Role Staff</button>
+                 <div id="status-buat-role" class="mt-3 text-center" style="font-size: 12px; font-weight: 600;"></div>
              </div>
          </div>
-         <div class="col-md-6">
-             <div class="dashboard-card" style="height: 100%;">
-                 <div class="chart-header"><span>📊 Tracker Pipeline / Log Aktivitas</span></div>
-                 <div id="log-buat-role" class="log-container">
-                     <div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>
+         <div class="col-md-7">
+             <div class="dashboard-card h-100 mb-0">
+                 <div class="chart-header">
+                     <span>📋 Daftar Role Staff</span> 
+                     <button class="btn btn-sm btn-outline-info py-0 px-2" style="font-size:11px; font-weight:bold;" onclick="fetchAkunList('role')">🔄 Load dari Server</button>
+                 </div>
+                 <div class="table-container" style="max-height: 480px;">
+                     <table class="custom-table" id="table-log-role">
+                         <thead>
+                             <tr><th>Nama & Tipe</th><th>Sekolah</th><th>Email Login</th><th>Password</th><th>Aksi</th></tr>
+                         </thead>
+                         <tbody>
+                             <tr><td colspan="5" class="text-muted" style="padding: 30px;">Belum ada data baru di sesi ini. Buat role di samping atau klik Load dari Server.</td></tr>
+                         </tbody>
+                     </table>
                  </div>
              </div>
          </div>
@@ -884,7 +906,7 @@
  // GLOBAL VARIABLES TO STORE CHARTS
  window.globalCharts = {};
 
- // FUNGSI LOG TRACKER (Menambahkan Riwayat Aktivitas)
+ // FUNGSI LOG TRACKER (Menambahkan Riwayat Aktivitas) HANYA UNTUK UPLOAD DATA
  function addLog(targetId, message, isSuccess) {
      const logContainer = document.getElementById(targetId);
      const time = new Date().toLocaleTimeString('id-ID');
@@ -899,6 +921,88 @@
          logContainer.innerHTML = '';
      }
      logContainer.insertAdjacentHTML('afterbegin', logEntry);
+ }
+
+ // 🔥 FUNGSI NOTIFIKASI STATUS UNTUK PEMBUATAN AKUN & ROLE 🔥
+ function showStatus(targetId, message, isSuccess) {
+     const el = document.getElementById(targetId);
+     if(el) {
+         el.innerHTML = isSuccess ? `✅ <span style="color:#10b981;">${message}</span>` : `❌ <span style="color:#ef4444;">${message}</span>`;
+         setTimeout(() => { el.innerHTML = ''; }, 6000);
+     } else {
+         alert(message);
+     }
+ }
+
+ // 🔥 FUNGSI TAMBAH KE TABEL DAFTAR AKUN (REALTIME UI) 🔥
+ function appendTableLog(tableId, data) {
+     const tbody = document.querySelector(`#${tableId} tbody`);
+     if(tbody.innerText.includes("Belum ada data")) tbody.innerHTML = '';
+     
+     const passId = 'pass_' + Math.random().toString(36).substr(2, 9);
+     let tr = `<tr>`;
+     if (data.col1) tr += `<td class="text-start" style="font-weight:600; font-size:12px;">${data.col1}</td>`;
+     if (data.col2) tr += `<td style="font-size:12px;">${data.col2}</td>`;
+     tr += `<td style="font-size:12px;">${data.email}</td>
+            <td>
+                <div class="d-flex align-items-center justify-content-center gap-1">
+                    <input type="password" id="${passId}" value="${data.password}" class="form-control form-control-sm text-center" style="width:85px; background:transparent; border:none; padding:0; font-size:12px; color:#1e293b;" readonly>
+                    <button class="btn btn-sm" style="background:none; border:none; color:#64748b; padding:0 5px;" onclick="togglePassTable('${passId}')" title="Lihat Password">👁️</button>
+                </div>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size:10px; font-weight:bold;" onclick="editAccountPrompt('${data.email}', '${data.password}')">EDIT</button>
+            </td>
+            </tr>`;
+     tbody.insertAdjacentHTML('afterbegin', tr);
+ }
+
+ function togglePassTable(id) {
+     const el = document.getElementById(id);
+     if(el) { el.type = el.type === 'password' ? 'text' : 'password'; }
+ }
+
+ function editAccountPrompt(email, oldPass) {
+     const newPass = prompt(`Ubah Password untuk akun:\n${email}\n\nMasukkan password baru (Kosongkan/Batal jika tidak jadi mengubah):`, oldPass);
+     if (newPass !== null && newPass !== "" && newPass !== oldPass) {
+         alert(`Sistem: Permintaan mengubah password dikirim ke server...`);
+         callGAS("updatePasswordAkun", { email: email, newPassword: newPass })
+         .then(res => {
+             if(res.success) {
+                 alert("✅ Password berhasil diubah di database!");
+             } else { 
+                 alert("⚠️ Respon Server (Bisa diabaikan jika backend belum siap): " + res.message); 
+             }
+         })
+         .catch(err => alert("Koneksi gagal: " + err.message));
+     }
+ }
+
+ // 🔥 FUNGSI LOAD DATA SERVER (JIKA BACKEND SUDAH SIAP) 🔥
+ function fetchAkunList(type) {
+     const btnText = event.target.innerText;
+     event.target.innerText = "⏳ Loading...";
+     callGAS("getDaftarAkun", { tipe: type })
+     .then(res => {
+         event.target.innerText = btnText;
+         if(res.success && res.data && res.data.length > 0) {
+              const tbody = document.querySelector(type === 'sekolah' ? '#table-log-akun tbody' : '#table-log-role tbody');
+              tbody.innerHTML = '';
+              res.data.reverse().forEach(item => {
+                  if(type === 'sekolah') {
+                      appendTableLog('table-log-akun', { col1: item.namaSekolah, email: item.email, password: item.password });
+                  } else {
+                      appendTableLog('table-log-role', { col1: item.namaGuru + ' (' + item.tipe + ')', col2: item.sekolah, email: item.email, password: item.password });
+                  }
+              });
+         } else {
+              alert("Data belum tersedia atau format backend salah.");
+         }
+     })
+     .catch(err => {
+         event.target.innerText = btnText;
+         alert("Sistem belum didukung oleh Backend Apps Script. Harap tambahkan fungsi 'getDaftarAkun' di GAS.");
+     });
  }
 
  function handleEnter(e) { if(e.key === 'Enter') doLogin(); }
@@ -936,7 +1040,7 @@
 
  // UPDATE BADGE ROLE GURU BK DI SIDEBAR
  if (sessionKelasAkses && sessionKelasAkses.length > 0) {
-     document.getElementById('user-role-badge').innerText = "Guru BK (" + sessionKelasAkses.join(', ') + ")";
+     document.getElementById('user-role-badge').innerText = "Akses Khusus (" + sessionKelasAkses.join(', ') + ")";
  } else {
      document.getElementById('user-role-badge').innerText = "Akses Penuh";
  }
@@ -1003,10 +1107,11 @@
  $('#filter-kelas').val(null).trigger('change');
  allRows = []; sessionSekolah = ""; sessionKelasAkses = [];
  document.getElementById('user-role-badge').innerText = "Akses Penuh";
- // Reset logs
+ 
+ // Reset logs & tables
  document.getElementById('log-upload').innerHTML = '<div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>';
- document.getElementById('log-buat-akun').innerHTML = '<div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>';
- document.getElementById('log-buat-role').innerHTML = '<div class="text-muted" style="text-align: center; margin-top: 100px;">Belum ada aktivitas...</div>';
+ document.getElementById('table-log-akun').querySelector('tbody').innerHTML = '<tr><td colspan="4" class="text-muted" style="padding: 30px;">Belum ada data baru di sesi ini. Buat akun di samping atau klik Load dari Server.</td></tr>';
+ document.getElementById('table-log-role').querySelector('tbody').innerHTML = '<tr><td colspan="5" class="text-muted" style="padding: 30px;">Belum ada data baru di sesi ini. Buat role di samping atau klik Load dari Server.</td></tr>';
  }
  }
 
@@ -1788,19 +1893,20 @@
  // 🔥 FUNGSI SUBMIT CREATE USER (BUAT AKUN SEKOLAH INDUK) 🔥
  function submitNewUser() {
  const email = document.getElementById('new-email').value; const password = document.getElementById('new-password').value; const namaSekolah = document.getElementById('new-namasekolah').value; const urlLogo = document.getElementById('new-urllogo').value; const istPelajar = document.getElementById('new-istpelajar').value; const istKelas = document.getElementById('new-istkelas').value; 
- if (!email || !password || !namaSekolah) { addLog('log-buat-akun', "Email, Password, dan Nama Sekolah wajib diisi!", false); return; }
+ if (!email || !password || !namaSekolah) { showStatus('status-buat-akun', "Email, Password, dan Nama Sekolah wajib diisi!", false); return; }
  
- addLog('log-buat-akun', "Mengirim permintaan pembuatan akun ke server...", true);
+ showStatus('status-buat-akun', "⏳ Sedang memproses ke server...", true);
  const userData = { email, password, namaSekolah, urlLogo, istPelajar, istKelas };
  
  callGAS("createUserAccount", { userData: userData })
  .then(function(res) {
  if (res.success) {
- addLog('log-buat-akun', res.message, true);
+ showStatus('status-buat-akun', res.message, true);
+ appendTableLog('table-log-akun', { col1: namaSekolah, email: email, password: password });
  document.getElementById('new-email').value = ''; document.getElementById('new-password').value = ''; document.getElementById('new-namasekolah').value = ''; document.getElementById('new-urllogo').value = '';
- } else { addLog('log-buat-akun', "Gagal: " + res.message, false); }
+ } else { showStatus('status-buat-akun', "Gagal: " + res.message, false); }
  })
- .catch(function(err) { addLog('log-buat-akun', "System Error: " + err.message, false); });
+ .catch(function(err) { showStatus('status-buat-akun', "System Error: " + err.message, false); });
  }
 
  // 🔥 FUNGSI SUBMIT CREATE ROLE (STAFF KHUSUS) 🔥
@@ -1813,11 +1919,11 @@
  const aksesKelas = document.getElementById('role-kelas').value;
 
  if (!namaGuru || !sekolah || !user || !pass) {
-     addLog('log-buat-role', "Semua kolom wajib diisi (kecuali Akses Kelas)!", false);
+     showStatus('status-buat-role', "Semua kolom wajib diisi (kecuali Akses Kelas)!", false);
      return;
  }
 
- addLog('log-buat-role', "Memproses pendaftaran role staff baru...", true);
+ showStatus('status-buat-role', "⏳ Memproses pendaftaran role...", true);
 
  let arrAkses = [];
  if (aksesKelas.trim() !== "") {
@@ -1829,18 +1935,19 @@
  callGAS("createRoleAccount", { roleData: roleData })
  .then(function(res) {
      if (res.success) {
-         addLog('log-buat-role', res.message, true);
+         showStatus('status-buat-role', res.message, true);
+         appendTableLog('table-log-role', { col1: `${namaGuru} (${tipe})`, col2: sekolah, email: user, password: pass });
          document.getElementById('role-nama').value = '';
          document.getElementById('role-sekolah').value = '';
          document.getElementById('role-user').value = '';
          document.getElementById('role-password').value = '';
          document.getElementById('role-kelas').value = '';
      } else {
-         addLog('log-buat-role', "Gagal: " + res.message, false);
+         showStatus('status-buat-role', "Gagal: " + res.message, false);
      }
  })
  .catch(function(err) {
-     addLog('log-buat-role', "System Error: " + err.message, false);
+     showStatus('status-buat-role', "System Error: " + err.message, false);
  });
  }
 
