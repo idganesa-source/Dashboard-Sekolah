@@ -746,7 +746,7 @@
              <div class="dashboard-card h-100 mb-0">
                  <div class="chart-header">
                      <span>📋 Daftar Akun Sekolah</span> 
-                     <button class="btn btn-sm btn-outline-info py-0 px-2" style="font-size:11px; font-weight:bold;" onclick="fetchAkunList('sekolah', this)">🔄 Load dari Server</button>
+                     <button class="btn btn-sm btn-outline-info py-0 px-2" style="font-size:11px; font-weight:bold;" onclick="fetchAkunList('sekolah')">🔄 Load dari Server</button>
                  </div>
                  <div class="table-container" style="max-height: 480px;">
                      <table class="custom-table" id="table-log-akun">
@@ -808,7 +808,7 @@
              <div class="dashboard-card h-100 mb-0">
                  <div class="chart-header">
                      <span>📋 Daftar Role Staff</span> 
-                     <button class="btn btn-sm btn-outline-info py-0 px-2" style="font-size:11px; font-weight:bold;" onclick="fetchAkunList('role', this)">🔄 Load dari Server</button>
+                     <button class="btn btn-sm btn-outline-info py-0 px-2" style="font-size:11px; font-weight:bold;" onclick="fetchAkunList('role')">🔄 Load dari Server</button>
                  </div>
                  <div class="table-container" style="max-height: 480px;">
                      <table class="custom-table" id="table-log-role">
@@ -979,16 +979,12 @@
  }
 
  // 🔥 FUNGSI LOAD DATA SERVER (JIKA BACKEND SUDAH SIAP) 🔥
- function fetchAkunList(type, btnObj) {
-     const btnText = btnObj.innerText;
-     btnObj.innerText = "⏳ Loading...";
-     btnObj.disabled = true; // Mengunci tombol saat proses
-     
+ function fetchAkunList(type) {
+     const btnText = event.target.innerText;
+     event.target.innerText = "⏳ Loading...";
      callGAS("getDaftarAkun", { tipe: type })
      .then(res => {
-         btnObj.innerText = btnText;
-         btnObj.disabled = false;
-         
+         event.target.innerText = btnText;
          if(res.success && res.data && res.data.length > 0) {
               const tbody = document.querySelector(type === 'sekolah' ? '#table-log-akun tbody' : '#table-log-role tbody');
               tbody.innerHTML = '';
@@ -1000,12 +996,11 @@
                   }
               });
          } else {
-              alert("Data belum tersedia di database atau respons salah.");
+              alert("Data belum tersedia atau format backend salah.");
          }
      })
      .catch(err => {
-         btnObj.innerText = btnText;
-         btnObj.disabled = false;
+         event.target.innerText = btnText;
          alert("Sistem belum didukung oleh Backend Apps Script. Harap tambahkan fungsi 'getDaftarAkun' di GAS.");
      });
  }
