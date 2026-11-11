@@ -688,8 +688,9 @@
                  <div class="mb-3">
                      <label class="form-label" style="font-size: 14px; color: #475569;">Metode Simpan:</label>
                      <select id="select-upload-mode" class="form-select" style="background-color: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1;">
-                         <option value="append">➕ Tambahkan ke Data yang Sudah Ada (Append)</option>
-                         <option value="replace">⚠️ Timpa Semua Data Lama (Replace)</option>
+                         <option value="update" selected>🔄 Update (Tambal Kosong & Sisipkan Siswa Baru)</option>
+                         <option value="append">➕ Append (Tambah ke Bawah Tanpa Cek Data)</option>
+                         <option value="replace">⚠️ Replace (Hapus & Timpa Semua Data Lama)</option>
                      </select>
                  </div>
                  <button type="button" class="btn w-100" id="btn-proses-upload" onclick="prosesUploadExcel()" style="background-color: #0d9488; color: white; border: none; padding: 10px; font-weight: 600; border-radius: 8px;">Mulai Upload Data</button>
@@ -947,7 +948,7 @@
             <td>
                 <div class="d-flex align-items-center justify-content-center gap-1">
                     <input type="password" id="${passId}" value="${data.password}" class="form-control form-control-sm text-center" style="width:85px; background:transparent; border:none; padding:0; font-size:12px; color:#1e293b;" readonly>
-                    <button class="btn btn-sm" style="background:none; border:none; color:#64748b; padding:0 5px;" onclick="togglePassTable('${passId}')" title="Lihat Password">👁️️</button>
+                    <button class="btn btn-sm" style="background:none; border:none; color:#64748b; padding:0 5px;" onclick="togglePassTable('${passId}')" title="Lihat Password">👁</button>
                 </div>
             </td>
             <td>
