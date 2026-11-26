@@ -182,10 +182,10 @@
  .sidebar-nav { 
      display: flex !important; 
      flex-direction: column !important;
-     flex-wrap: nowrap !important; /* INI KUNCI AGAR MENU TIDAK HILANG KE KANAN */
+     flex-wrap: nowrap !important;
      padding: 10px 15px; 
-     flex: 1 1 auto; /* Memastikan bisa scroll dalam area sisa */
-     min-height: 0; /* Wajib agar flex scroll bekerja */
+     flex: 1 1 auto;
+     min-height: 0;
      overflow-y: auto !important; 
      overflow-x: hidden !important; 
      width: 100%;
@@ -207,7 +207,7 @@
  .dropdown-icon { margin-left: auto; font-size: 11px; transition: transform 0.3s; opacity: 0.5; }
  .nav-link[aria-expanded="true"] .dropdown-icon { transform: rotate(180deg); }
  
- /* 🔥 DESAIN SUBMENU PERMANEN COMPACT (Memaksimalkan Kapasitas Ruang) 🔥 */
+ /* 🔥 DESAIN SUBMENU PERMANEN COMPACT 🔥 */
  .nav-submenu { 
      display: flex !important; 
      flex-direction: column !important;
@@ -235,7 +235,6 @@
      width: 100%;
  }
  
- /* Garis Vertikal */
  .submenu-group::before {
      content: ''; position: absolute; left: 0; top: 8px; bottom: 12px; width: 1px;
  }
@@ -330,7 +329,7 @@
  #loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.95); padding: 30px 50px; border-radius: 12px; border: 1px solid #e2e8f0; z-index: 2000; text-align: center; display: none; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);}
  
  /* =========================================================================
- 🔥 PERBAIKAN SELECT2 TOTAL (SPESIFISITAS TEGAS UNTUK SEMUA ITEM OPTION)
+ 🔥 PERBAIKAN SELECT2 TOTAL
  ========================================================================= */
  .select2-container--default .select2-selection--single { background-color: #ffffff !important; border: 1px solid #cbd5e1 !important; border-radius: 8px !important; height: 40px !important; outline: none; }
  .select2-container--default .select2-selection--single .select2-selection__rendered { color: #1e293b !important; line-height: 38px !important; padding-left: 12px !important; }
@@ -531,6 +530,12 @@
             <button class="nav-link" id="menu-relasi" data-bs-toggle="pill" data-bs-target="#pills-relasi" type="button"><span class="icon">💞</span> Relasi Keluarga</button>
             <button class="nav-link" id="menu-suasana_rumah" data-bs-toggle="pill" data-bs-target="#pills-suasana_rumah" type="button"><span class="icon">🏡</span> Suasana Rumah</button>
           </div>
+
+          <!-- KELOMPOK 5: KESEGARAN JASMANI -->
+          <div class="category-title text-purple">KESEGARAN JASMANI</div>
+          <div class="submenu-group group-purple">
+            <button class="nav-link" id="menu-jasmani" data-bs-toggle="pill" data-bs-target="#pills-jasmani" type="button"><span class="icon">🏃</span> Tes Jasmani</button>
+          </div>
         </div>
       </div>
     </div>
@@ -660,6 +665,7 @@
  <div class="col-md-6" id="card-taraf"><div class="dashboard-card clickable-card" onclick="navTo('menu-profil_kecerdasan')"><div class="chart-header"><span>Taraf Kecerdasan</span> <span class="detail-hint">Lihat Detail ➔</span></div><div id="chart_ringkasan_profil_kecerdasan" class="chart-div"></div></div></div>
  </div>
  <div class="row"><div class="col-md-6" id="card-disc"><div class="dashboard-card clickable-card" onclick="navTo('menu-disc')"><div class="chart-header"><span>Hasil Asesmen DISC</span> <span class="detail-hint">Lihat Detail ➔</span></div><div id="chart_ringkasan_disc" class="chart-div"></div></div></div><div class="col-md-6" id="card-papi"><div class="dashboard-card clickable-card" onclick="navTo('menu-papi')"><div class="chart-header"><span>Hasil Papi Kostick</span> <span class="detail-hint">Lihat Detail ➔</span></div><div id="chart_ringkasan_papi" class="chart-div"></div></div></div></div>
+ <div class="row"><div class="col-md-12" id="card-jasmani"><div class="dashboard-card clickable-card" onclick="navTo('menu-jasmani')"><div class="chart-header"><span>Hasil Tes Jasmani / Fisik</span> <span class="detail-hint">Lihat Detail ➔</span></div><div id="chart_ringkasan_jasmani" class="chart-div"></div></div></div></div>
  </div>
 
  <!-- 🔥 2. TAB RINGKASAN INDIVIDU (KHUSUS 1 NAMA - MULTI HALAMAN PDF) 🔥 -->
@@ -852,6 +858,53 @@
  <div class="tab-pane fade" id="pills-cara_mendidik" role="tabpanel"><div class="dashboard-card mb-4"><div class="chart-header"><span>Cara Orang Tua Mendidik</span> <button class="btn-tampil-semua" onclick="window.resetTable('cara_mendidik')">👁 Tampilkan Semua</button></div><div class="row"><div class="col-md-4"><div class="table-container" style="max-height: 380px;"><table class="custom-table" id="summary-cara_mendidik-table"><thead><tr><th>Kategori Cara Mendidik</th><th>Jumlah</th></tr></thead><tbody></tbody></table></div></div><div class="col-md-8"><div id="chart_cara_mendidik_detail" class="chart-div-large"></div></div></div></div><div class="dashboard-card"><div class="table-container"><table class="custom-table" id="detail-cara_mendidik-table"><thead><tr><th class="text-start" style="background-color: #0d9488;">Nama</th><th style="background-color: #0d9488;">L/P</th><th class="dyn-kelas-th" style="background-color: #0d9488;">Kelas</th><th style="background-color: #0d9488;">Kategori</th><th style="background-color: #0d9488;">Skor</th></tr></thead><tbody></tbody></table></div></div></div>
  <div class="tab-pane fade" id="pills-relasi" role="tabpanel"><div class="dashboard-card mb-4"><div class="chart-header"><span>Relasi Antara Anak & Keluarga</span> <button class="btn-tampil-semua" onclick="window.resetTable('relasi')">👁️ Tampilkan Semua</button></div><div class="row"><div class="col-md-4"><div class="table-container" style="max-height: 380px;"><table class="custom-table" id="summary-relasi-table"><thead><tr><th>Kategori Relasi</th><th>Jumlah</th></tr></thead><tbody></tbody></table></div></div><div class="col-md-8"><div id="chart_relasi_detail" class="chart-div-large"></div></div></div></div><div class="dashboard-card"><div class="table-container"><table class="custom-table" id="detail-relasi-table"><thead><tr><th class="text-start" style="background-color: #0d9488;">Nama</th><th style="background-color: #0d9488;">L/P</th><th class="dyn-kelas-th" style="background-color: #0d9488;">Kelas</th><th style="background-color: #0d9488;">Kategori</th><th style="background-color: #0d9488;">Skor</th></tr></thead><tbody></tbody></table></div></div></div>
  <div class="tab-pane fade" id="pills-suasana_rumah" role="tabpanel"><div class="dashboard-card mb-4"><div class="chart-header"><span>Suasana Rumah</span> <button class="btn-tampil-semua" onclick="window.resetTable('suasana_rumah')">👁️ Tampilkan Semua</button></div><div class="row"><div class="col-md-4"><div class="table-container" style="max-height: 380px;"><table class="custom-table" id="summary-suasana_rumah-table"><thead><tr><th>Kategori Suasana</th><th>Jumlah</th></tr></thead><tbody></tbody></table></div></div><div class="col-md-8"><div id="chart_suasana_rumah_detail" class="chart-div-large"></div></div></div></div><div class="dashboard-card"><div class="table-container"><table class="custom-table" id="detail-suasana_rumah-table"><thead><tr><th class="text-start" style="background-color: #0d9488;">Nama</th><th style="background-color: #0d9488;">L/P</th><th class="dyn-kelas-th" style="background-color: #0d9488;">Kelas</th><th style="background-color: #0d9488;">Kategori</th><th style="background-color: #0d9488;">Skor</th></tr></thead><tbody></tbody></table></div></div></div>
+
+ <!-- 🔥 TAB DETAIL BARU: TES JASMANI / FISIK 🔥 -->
+ <div class="tab-pane fade" id="pills-jasmani" role="tabpanel">
+   <div class="dashboard-card mb-4">
+     <div class="chart-header">
+       <span>Report Analisis Tes Jasmani / Fisik</span>
+       <button class="btn-tampil-semua" onclick="window.resetTable('jasmani')">👁️ Tampilkan Semua</button>
+     </div>
+     <div class="row">
+       <div class="col-md-4">
+         <div class="table-container" style="max-height: 380px;">
+           <table class="custom-table" id="summary-jasmani-table">
+             <thead><tr><th>Predikat (Poin)</th><th>Jumlah</th></tr></thead>
+             <tbody></tbody>
+           </table>
+         </div>
+       </div>
+       <div class="col-md-8">
+         <div id="chart_jasmani_detail" class="chart-div-large"></div>
+       </div>
+     </div>
+   </div>
+   <div class="dashboard-card">
+     <div class="table-container">
+       <table class="custom-table" id="detail-jasmani-table">
+         <thead>
+           <tr>
+             <th class="text-start" style="background-color: #0d9488; color:#fff;">Nama</th>
+             <th style="background-color: #0d9488; color:#fff;">L/P</th>
+             <th class="dyn-kelas-th" style="background-color: #0d9488; color:#fff;">Kelas</th>
+             <th style="background-color: #3b82f6; color:#fff;">Beep (Hasil)</th>
+             <th style="background-color: #3b82f6; color:#fff;">Beep (Nilai)</th>
+             <th style="background-color: #06b6d4; color:#fff;">Push Up (Hasil)</th>
+             <th style="background-color: #06b6d4; color:#fff;">Push Up (Nilai)</th>
+             <th style="background-color: #f59e0b; color:#fff;">Sit Up (Hasil)</th>
+             <th style="background-color: #f59e0b; color:#fff;">Sit Up (Nilai)</th>
+             <th style="background-color: #8b5cf6; color:#fff;">Shuttle (Hasil)</th>
+             <th style="background-color: #8b5cf6; color:#fff;">Shuttle (Nilai)</th>
+             <th style="background-color: #0f172a; color:#fff;">Total Nilai</th>
+             <th style="background-color: #0d9488; color:#fff;">Poin</th>
+           </tr>
+         </thead>
+         <tbody></tbody>
+       </table>
+     </div>
+   </div>
+ </div>
 
  </div> <!-- End Tab Content -->
  </div> <!-- End Content Container -->
@@ -1058,7 +1111,7 @@
      document.getElementById('box-filter-kelas').className = 'col-md-4';
      
      if (isSuperAdmin) {
-         if (adminMenuSection) adminMenuSection.style.display = 'block'; // Tampilkan menu sidebar khusus Super Admin
+         if (adminMenuSection) adminMenuSection.style.display = 'block';
      } else {
          if (adminMenuSection) adminMenuSection.style.display = 'none';
      }
@@ -1240,18 +1293,18 @@
  
  kolomCaraMendidikKat: "Kategori Cara orang tua mendidik", 
  kolomRelasiKat: "Kategori Relasi antara anak dan anggota keluarga", 
- kolomSuasanaRumahKat: "Kategori Suasana Rumah",
+ kolomSuasanaRumahKat: "Kategori Suasana Rumah", 
  
  kolomCaraMendidikSkor: "Cara orang tua mendidik", 
  kolomRelasiSkor: "Relasi antara anak dan anggota keluarga", 
  kolomSuasanaRumahSkor: "Suasana Rumah",
 
  kolomKepriMenonjol: "Sangat Menonjol", 
- kolomKepriKembang: "Butuh Pengembangan",
+ kolomKepriKembang: "Butuh Pengembangan", 
  
  kolomKecerDesk: "Deskripsi Kecerdasan Majemuk", 
  kolomKecerCiri: "Ciri-ciri Kecerdasan Majemuk", 
- kolomKecerSaran: "Saran Ekstrakurikuler",
+ kolomKecerSaran: "Saran Ekstrakurikuler", 
  
  kolomGayaDesk: "Deskripsi Gaya Belajar", 
  kolomGayaCiri: "Ciri-ciri Gaya Belajar", 
@@ -1260,7 +1313,18 @@
  kolomRiasecDesk: "Deskripsi RIASEC", 
  kolomRiasecJurusan: "Saran Jurusan di Kampus", 
  kolomRiasecMapel: "Mata pelajaran yang mendukung",
- kolomRiasecKarir: "Rekomendasi Karir" 
+ kolomRiasecKarir: "Rekomendasi Karir",
+
+ kolomBeepHasil: "Hasil Beep Test",
+ kolomBeepNilai: "Nilai Beep Test",
+ kolomPushHasil: "Hasil Push Up",
+ kolomPushNilai: "Nilai Push Up",
+ kolomSitHasil: "Hasil Sit Up",
+ kolomSitNilai: "Nilai Sit Up",
+ kolomShuttleHasil: "Hasil Shuttle Run",
+ kolomShuttleNilai: "Nilai Shuttle Run",
+ kolomJasmaniTotal: "Total Nilai Jasmani",
+ kolomJasmaniPoin: "Poin Jasmani"
  };
 
  let allRows = []; let colIndices = {};
@@ -1328,7 +1392,6 @@
  if (sessionKelasAkses && sessionKelasAkses.length > 0) {
      allRows = allRows.filter(row => {
          let klsSiswa = String(row[colIndices.kolomKelas] || "").trim().toLowerCase();
-         // Cek apakah kelas siswa ini ada di dalam list yang diizinkan (sessionKelasAkses)
          return sessionKelasAkses.some(akses => akses.trim().toLowerCase() === klsSiswa);
      });
 
@@ -1628,6 +1691,30 @@
          });
      }
 
+     if (isVal(siswa[colIndices.kolomJasmaniPoin]) || isVal(siswa[colIndices.kolomJasmaniTotal])) {
+         sections.push({
+             weight: 22,
+             html: `
+             <div class="pr-section-title-new">${secCount++}. HASIL TES JASMANI / KESEGARAN FISIK (POIN: ${getValStr('kolomJasmaniPoin')} | TOTAL NILAI: ${getValStr('kolomJasmaniTotal')})</div>
+             <table class="pr-table-compact">
+                 <thead>
+                     <tr>
+                         <th style="width:35%;">Item Tes Fisik</th>
+                         <th style="width:35%;">Hasil Capaian</th>
+                         <th style="width:30%;">Nilai / Predikat</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <tr><td><b>Beep Test</b></td><td>${getValStr('kolomBeepHasil')}</td><td><b>${getValStr('kolomBeepNilai')}</b></td></tr>
+                     <tr><td><b>Push Up</b></td><td>${getValStr('kolomPushHasil')}</td><td><b>${getValStr('kolomPushNilai')}</b></td></tr>
+                     <tr><td><b>Sit Up</b></td><td>${getValStr('kolomSitHasil')}</td><td><b>${getValStr('kolomSitNilai')}</b></td></tr>
+                     <tr><td><b>Shuttle Run</b></td><td>${getValStr('kolomShuttleHasil')}</td><td><b>${getValStr('kolomShuttleNilai')}</b></td></tr>
+                 </tbody>
+             </table>
+             `
+         });
+     }
+
      let maxWeight = 95;
      let currentWeight = 0;
      let pagesHtml = "";
@@ -1678,7 +1765,7 @@
  if (filterNama && colIndices.kolomNama !== undefined) filteredRows = filteredRows.filter(r => String(r[colIndices.kolomNama]).trim() === filterNama);
 
  let lakiLaki = 0; let perempuan = 0;
- const counts = { minat: {}, kepribadian: {}, kecerdasan: {}, gayaBelajar: {}, tarafKecerdasan: {}, tipeKecerdasan: {}, ketahananDiri: {}, disc: {}, papi: {}, kemandirian: {}, penguasaan: {}, pertumbuhan: {}, hubungan: {}, tujuan: {}, penerimaan: {}, pr: {}, waktu: {}, membaca: {}, prosedur: {}, konsentrasi: {}, caraMendidik: {}, relasi: {}, suasanaRumah: {} };
+ const counts = { minat: {}, kepribadian: {}, kecerdasan: {}, gayaBelajar: {}, tarafKecerdasan: {}, tipeKecerdasan: {}, ketahananDiri: {}, disc: {}, papi: {}, kemandirian: {}, penguasaan: {}, pertumbuhan: {}, hubungan: {}, tujuan: {}, penerimaan: {}, pr: {}, waktu: {}, membaca: {}, prosedur: {}, konsentrasi: {}, caraMendidik: {}, relasi: {}, suasanaRumah: {}, jasmani: {} };
 
  filteredRows.forEach(row => {
  if (colIndices.kolomGender !== undefined) {
@@ -1692,7 +1779,7 @@
  if (isVal(val)) { countObj[val] = (countObj[val] || 0) + 1; } 
  } 
  };
- aggregate('kolomTipeRIASEC', counts.minat); aggregate('kolomKepribadian', counts.kepribadian); aggregate('kolomKecerdasanMajemuk', counts.kecerdasan); aggregate('kolomGayaBelajar', counts.gayaBelajar); aggregate('kolomTipeKecerdasan', counts.tipeKecerdasan); aggregate('kolomKetahananDiri', counts.ketahananDiri); aggregate('kolomDISC', counts.disc); aggregate('kolomPapi', counts.papi); aggregate('kolomKemandirianKat', counts.kemandirian); aggregate('kolomPenguasaanKat', counts.penguasaan); aggregate('kolomPertumbuhanKat', counts.pertumbuhan); aggregate('kolomHubunganKat', counts.hubungan); aggregate('kolomTujuanKat', counts.tujuan); aggregate('kolomPenerimaanKat', counts.penerimaan); aggregate('kolomPRKat', counts.pr); aggregate('kolomWaktuKat', counts.waktu); aggregate('kolomMembacaKat', counts.membaca); aggregate('kolomProsedurKat', counts.prosedur); aggregate('kolomKonsentrasiKat', counts.konsentrasi); aggregate('kolomCaraMendidikKat', counts.caraMendidik); aggregate('kolomRelasiKat', counts.relasi); aggregate('kolomSuasanaRumahKat', counts.suasanaRumah);
+ aggregate('kolomTipeRIASEC', counts.minat); aggregate('kolomKepribadian', counts.kepribadian); aggregate('kolomKecerdasanMajemuk', counts.kecerdasan); aggregate('kolomGayaBelajar', counts.gayaBelajar); aggregate('kolomTipeKecerdasan', counts.tipeKecerdasan); aggregate('kolomKetahananDiri', counts.ketahananDiri); aggregate('kolomDISC', counts.disc); aggregate('kolomPapi', counts.papi); aggregate('kolomKemandirianKat', counts.kemandirian); aggregate('kolomPenguasaanKat', counts.penguasaan); aggregate('kolomPertumbuhanKat', counts.pertumbuhan); aggregate('kolomHubunganKat', counts.hubungan); aggregate('kolomTujuanKat', counts.tujuan); aggregate('kolomPenerimaanKat', counts.penerimaan); aggregate('kolomPRKat', counts.pr); aggregate('kolomWaktuKat', counts.waktu); aggregate('kolomMembacaKat', counts.membaca); aggregate('kolomProsedurKat', counts.prosedur); aggregate('kolomKonsentrasiKat', counts.konsentrasi); aggregate('kolomCaraMendidikKat', counts.caraMendidik); aggregate('kolomRelasiKat', counts.relasi); aggregate('kolomSuasanaRumahKat', counts.suasanaRumah); aggregate('kolomJasmaniPoin', counts.jasmani);
  });
 
  document.getElementById('total-siswa').innerText = filteredRows.length;
@@ -1718,11 +1805,11 @@
  const hasAnyReportData = hasData(counts.minat) || hasData(counts.kepribadian) || hasData(counts.kecerdasan) || hasData(counts.tipeKecerdasan) || hasData(counts.gayaBelajar) || hasData(counts.ketahananDiri) || hasData(counts.disc) || hasData(counts.papi) ||
  hasData(counts.kemandirian) || hasData(counts.penguasaan) || hasData(counts.pertumbuhan) || hasData(counts.hubungan) || hasData(counts.tujuan) || hasData(counts.penerimaan) ||
  hasData(counts.pr) || hasData(counts.waktu) || hasData(counts.membaca) || hasData(counts.prosedur) || hasData(counts.konsentrasi) ||
- hasData(counts.caraMendidik) || hasData(counts.relasi) || hasData(counts.suasanaRumah);
+ hasData(counts.caraMendidik) || hasData(counts.relasi) || hasData(counts.suasanaRumah) || hasData(counts.jasmani);
  
  toggleVisMenu('wrap-report', hasAnyReportData);
  
- toggleVisMenu('menu-minatbakat', hasData(counts.minat)); toggleVisMenu('menu-kepribadian', hasData(counts.kepribadian)); toggleVisMenu('menu-kecerdasan', hasData(counts.kecerdasan)); toggleVisMenu('menu-profil_kecerdasan', hasData(counts.tipeKecerdasan)); toggleVisMenu('menu-gaya', hasData(counts.gayaBelajar)); toggleVisMenu('menu-ketahanan', hasData(counts.ketahananDiri)); toggleVisMenu('menu-disc', hasData(counts.disc)); toggleVisMenu('menu-papi', hasData(counts.papi)); 
+ toggleVisMenu('menu-minatbakat', hasData(counts.minat)); toggleVisMenu('menu-kepribadian', hasData(counts.kepribadian)); toggleVisMenu('menu-kecerdasan', hasData(counts.kecerdasan)); toggleVisMenu('menu-profil_kecerdasan', hasData(counts.tipeKecerdasan)); toggleVisMenu('menu-gaya', hasData(counts.gayaBelajar)); toggleVisMenu('menu-ketahanan', hasData(counts.ketahananDiri)); toggleVisMenu('menu-disc', hasData(counts.disc)); toggleVisMenu('menu-papi', hasData(counts.papi)); toggleVisMenu('menu-jasmani', hasData(counts.jasmani)); 
 
  toggleVisMenu('menu-kemandirian', hasData(counts.kemandirian)); toggleVisMenu('menu-penguasaan', hasData(counts.penguasaan)); toggleVisMenu('menu-pertumbuhan', hasData(counts.pertumbuhan)); toggleVisMenu('menu-hubungan', hasData(counts.hubungan)); toggleVisMenu('menu-tujuan', hasData(counts.tujuan)); toggleVisMenu('menu-penerimaan', hasData(counts.penerimaan));
  toggleVisMenu('menu-pr', hasData(counts.pr)); toggleVisMenu('menu-waktu', hasData(counts.waktu)); toggleVisMenu('menu-membaca', hasData(counts.membaca)); toggleVisMenu('menu-prosedur', hasData(counts.prosedur)); toggleVisMenu('menu-konsentrasi', hasData(counts.konsentrasi));
@@ -1731,6 +1818,7 @@
  const updateGrid = (id1, show1, id2, show2, class1, class2) => { let el1 = document.getElementById(id1); let el2 = document.getElementById(id2); if(el1) { el1.style.display = show1 ? '' : 'none'; el1.className = (show1 && !show2) ? 'col-md-12' : class1; } if(el2) { el2.style.display = show2 ? '' : 'none'; el2.className = (!show1 && show2) ? 'col-md-12' : class2; } };
  let cardKepri = document.getElementById('card-kepribadian'); if(cardKepri) cardKepri.style.display = hasData(counts.kepribadian) ? '' : 'none';
  updateGrid('card-kecerdasan', hasData(counts.kecerdasan), 'card-gaya', hasData(counts.gayaBelajar), 'col-md-7', 'col-md-5'); updateGrid('card-kesejahteraan', hasData(counts.kemandirian) || hasData(counts.penguasaan) || hasData(counts.pertumbuhan) || hasData(counts.hubungan) || hasData(counts.tujuan) || hasData(counts.penerimaan), 'card-kebiasaan', hasData(counts.pr) || hasData(counts.waktu) || hasData(counts.membaca) || hasData(counts.prosedur) || hasData(counts.konsentrasi), 'col-md-6', 'col-md-6'); updateGrid('card-lingkungan', hasData(counts.caraMendidik) || hasData(counts.relasi) || hasData(counts.suasanaRumah), 'card-profil', hasData(counts.minat), 'col-md-7', 'col-md-5'); updateGrid('card-ketahanan', hasData(counts.ketahananDiri), 'card-taraf', hasData(counts.tipeKecerdasan), 'col-md-6', 'col-md-6'); updateGrid('card-disc', hasData(counts.disc), 'card-papi', hasData(counts.papi), 'col-md-6', 'col-md-6'); 
+ let cardJasmani = document.getElementById('card-jasmani'); if(cardJasmani) cardJasmani.style.display = hasData(counts.jasmani) ? '' : 'none';
 
  if(hasData(counts.kepribadian)) renderSingleColumnChart(counts.kepribadian, 'chart_ringkasan_kepribadian', '#0d9488', 'Tipe Kepribadian', 'kepribadian', 'menu-kepribadian'); 
  if(hasData(counts.kecerdasan)) renderSingleColumnChart(counts.kecerdasan, 'chart_ringkasan_kecerdasan', '#3b82f6', 'Kecerdasan', 'kecerdasan', 'menu-kecerdasan'); 
@@ -1772,6 +1860,7 @@
  if(hasData(counts.gayaBelajar)) renderReportGayaBelajar(filteredRows, counts.gayaBelajar);
  if(hasData(counts.disc)) renderReportDISC(filteredRows, counts.disc);
  if(hasData(counts.papi)) renderGenericReport(filteredRows, counts.papi, 'papi', 'kolomPapi');
+ if(hasData(counts.jasmani)) renderReportJasmani(filteredRows, counts.jasmani);
 
  if(hasData(counts.tipeKecerdasan)) { renderDonutChart(counts.tipeKecerdasan, 'chart_profil_kecerdasan_detail', warnaTaraf, 'profil_kecerdasan'); const sumT = document.querySelector('#summary-profil_kecerdasan-table tbody'); if(sumT) { let shtml = []; Object.keys(counts.tipeKecerdasan).sort((a,b) => counts.tipeKecerdasan[b] - counts.tipeKecerdasan[a]).forEach(kat => { shtml.push(`<tr><td class="text-start">${kat}</td><td class="cell-score">${counts.tipeKecerdasan[kat]}</td></tr>`); }); sumT.innerHTML = shtml.join(''); } const detT = document.querySelector('#detail-profil_kecerdasan-table tbody'); if(detT) { let phtml = []; filteredRows.forEach(row => { let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let taraf = colIndices.kolomTarafKecerdasan !== undefined ? row[colIndices.kolomTarafKecerdasan] : '-'; let tipe = colIndices.kolomTipeKecerdasan !== undefined ? row[colIndices.kolomTipeKecerdasan] : '-'; if (isVal(taraf)) phtml.push(`<tr data-category="${tipe}"><td class="text-start">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td><td class="cell-score" style="background-color: #f1f5f9">${taraf}</td><td style="font-weight:bold; color:#0d9488">${tipe}</td></tr>`); }); detT.innerHTML = phtml.join(''); } }
  if(hasData(counts.ketahananDiri)) { renderDonutChart(counts.ketahananDiri, 'chart_ketahanan_diri_detail', ['#10b981', '#f59e0b', '#ef4444'], 'ketahanan_diri'); const sumK = document.querySelector('#summary-ketahanan_diri-table tbody'); if(sumK) { let shtml = []; Object.keys(counts.ketahananDiri).sort((a,b) => counts.ketahananDiri[b] - counts.ketahananDiri[a]).forEach(kat => { shtml.push(`<tr><td class="text-start">${kat}</td><td class="cell-score">${counts.ketahananDiri[kat]}</td></tr>`); }); sumK.innerHTML = shtml.join(''); } const detK = document.querySelector('#detail-ketahanan_diri-table tbody'); if(detK) { let dhtml = []; filteredRows.forEach(row => { let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let kategori = colIndices.kolomKetahananDiri !== undefined ? row[colIndices.kolomKetahananDiri] : '-'; let bgColor = '#f1f5f9'; let kLow = String(kategori).toLowerCase(); if (kLow.includes('tinggi') || kLow.includes('climber')) bgColor = '#d1fae5'; else if (kLow.includes('sedang') || kLow.includes('camper')) bgColor = '#fef3c7'; else if (kLow.includes('rendah') || kLow.includes('quitter')) bgColor = '#fee2e2'; if (isVal(kategori)) dhtml.push(`<tr data-category="${kategori}"><td class="text-start">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td><td class="cell-score" style="background-color: ${bgColor};">${kategori}</td></tr>`); }); detK.innerHTML = dhtml.join(''); } }
@@ -1793,6 +1882,55 @@
  function renderReportKepribadian(filteredRows, dataKepribadian) { renderSingleColumnChart(dataKepribadian, 'chart_kepribadian_detail', '#f59e0b', 'Tipe', 'kepribadian', 'menu-kepribadian'); const summaryTableBody = document.querySelector('#summary-kepribadian-table tbody'); if(!summaryTableBody) return; let shtml = []; Object.keys(dataKepribadian).sort((a,b) => dataKepribadian[b] - dataKepribadian[a]).forEach(tipe => { shtml.push(`<tr><td class="text-start">${tipe}</td><td class="cell-score">${dataKepribadian[tipe]}</td></tr>`); }); summaryTableBody.innerHTML = shtml.join(''); const detailTableBody = document.querySelector('#detail-kepribadian-table tbody'); let dhtml = []; filteredRows.forEach(row => { let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let tipe = colIndices.kolomKepribadian !== undefined ? row[colIndices.kolomKepribadian] : '-'; const getCell = (colKey, bgColor) => { let val = colIndices[colKey] !== undefined ? row[colIndices[colKey]] : '-'; let colorStyle = isVal(val) ? `background-color: ${bgColor};` : ''; return `<td class="cell-score" style="${colorStyle}">${val}</td>`; }; if (isVal(tipe)) dhtml.push(`<tr data-category="${tipe}"><td class="text-start" style="white-space:nowrap;">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td>${getCell('kolomE', '#f1f5f9')}${getCell('kolomI', '#f1f5f9')}${getCell('kolomS', '#f1f5f9')}${getCell('kolomN', '#f1f5f9')}${getCell('kolomT', '#f1f5f9')}${getCell('kolomF', '#f1f5f9')}${getCell('kolomJ', '#f1f5f9')}${getCell('kolomP', '#f1f5f9')}<td style="font-weight:bold; color:#0d9488;">${tipe}</td></tr>`); }); detailTableBody.innerHTML = dhtml.join(''); }
  function renderReportKecerdasan(filteredRows, dataKecerdasan) { renderSingleColumnChart(dataKecerdasan, 'chart_kecerdasan_detail', '#3b82f6', 'Kecerdasan', 'kecerdasan', 'menu-kecerdasan'); const summaryTableBody = document.querySelector('#summary-kecerdasan-table tbody'); if(!summaryTableBody) return; let shtml = []; Object.keys(dataKecerdasan).sort((a,b) => dataKecerdasan[b] - dataKecerdasan[a]).forEach(kec => { shtml.push(`<tr><td class="text-start">${kec}</td><td class="cell-score">${dataKecerdasan[kec]}</td></tr>`); }); summaryTableBody.innerHTML = shtml.join(''); const detailTableBody = document.querySelector('#detail-kecerdasan-table tbody'); let dhtml = []; filteredRows.forEach(row => { let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let tipe = colIndices.kolomKecerdasanMajemuk !== undefined ? row[colIndices.kolomKecerdasanMajemuk] : '-'; const getCell = (colKey, bgColor) => { let val = colIndices[colKey] !== undefined ? row[colIndices[colKey]] : '-'; let colorStyle = isVal(val) ? `background-color: ${bgColor};` : ''; return `<td class="cell-score" style="${colorStyle}">${val}</td>`; }; if (isVal(tipe)) dhtml.push(`<tr data-category="${tipe}"><td class="text-start" style="white-space:nowrap;">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td>${getCell('kolomLing', '#f1f5f9')}${getCell('kolomMat', '#f1f5f9')}${getCell('kolomSpa', '#f1f5f9')}${getCell('kolomKin', '#f1f5f9')}${getCell('kolomMus', '#f1f5f9')}${getCell('kolomInter', '#f1f5f9')}${getCell('kolomIntra', '#f1f5f9')}${getCell('kolomNat', '#f1f5f9')}<td style="font-weight:bold; color:#0d9488;">${tipe}</td></tr>`); }); detailTableBody.innerHTML = dhtml.join(''); }
  function renderReportGayaBelajar(filteredRows, dataGaya) { renderDonutChart(dataGaya, 'chart_gaya_detail', ['#3b82f6', '#ec4899', '#06b6d4'], 'gaya', 'menu-gaya'); const summaryTableBody = document.querySelector('#summary-gaya-table tbody'); if(!summaryTableBody) return; let shtml = []; Object.keys(dataGaya).sort((a,b) => dataGaya[b] - dataGaya[a]).forEach(gaya => { shtml.push(`<tr><td class="text-start">${gaya}</td><td class="cell-score">${dataGaya[gaya]}</td></tr>`); }); summaryTableBody.innerHTML = shtml.join(''); const detailTableBody = document.querySelector('#detail-gaya-table tbody'); let dhtml = []; filteredRows.forEach(row => { let nama = colIndices.kolomNama !== undefined ? row[colIndices.kolomNama] : '-'; let jk = colIndices.kolomGender !== undefined ? row[colIndices.kolomGender] : '-'; let kelas = colIndices.kolomKelas !== undefined ? row[colIndices.kolomKelas] : '-'; let tipe = colIndices.kolomGayaBelajar !== undefined ? row[colIndices.kolomGayaBelajar] : '-'; const getCell = (colKey, bgColor) => { let val = colIndices[colKey] !== undefined ? row[colIndices[colKey]] : '-'; let colorStyle = isVal(val) ? `background-color: ${bgColor};` : ''; return `<td class="cell-score" style="${colorStyle}">${val}</td>`; }; if (isVal(tipe)) dhtml.push(`<tr data-category="${tipe}"><td class="text-start" style="white-space:nowrap;">${nama}</td><td>${String(jk).charAt(0).toUpperCase()}</td><td>${kelas}</td>${getCell('kolomVis', '#f1f5f9')}${getCell('kolomAud', '#f1f5f9')}${getCell('kolomKines', '#f1f5f9')}<td style="font-weight:bold; color:#0d9488;">${tipe}</td></tr>`); }); detailTableBody.innerHTML = dhtml.join(''); }
+
+ function renderReportJasmani(filteredRows, dataKategori) {
+   const warnaJasmani = ['#10b981', '#3b82f6', '#f59e0b', '#f97316', '#ef4444'];
+   renderDonutChart(dataKategori, 'chart_ringkasan_jasmani', warnaJasmani, 'jasmani', 'menu-jasmani');
+   renderDonutChart(dataKategori, 'chart_jasmani_detail', warnaJasmani, 'jasmani', 'menu-jasmani');
+
+   const summaryBody = document.querySelector('#summary-jasmani-table tbody');
+   if (summaryBody) {
+     let shtml = [];
+     Object.keys(dataKategori).sort().forEach(k => {
+       shtml.push(`<tr><td class="text-start">Predikat ${k}</td><td class="cell-score">${dataKategori[k]}</td></tr>`);
+     });
+     summaryBody.innerHTML = shtml.join('');
+   }
+
+   const detailBody = document.querySelector('#detail-jasmani-table tbody');
+   if (detailBody) {
+     let dhtml = [];
+     filteredRows.forEach(r => {
+       const getVal = (key) => (colIndices[key] !== undefined && isVal(r[colIndices[key]])) ? r[colIndices[key]] : '-';
+       let poin = getVal('kolomJasmaniPoin');
+       if (poin !== '-') {
+         let badgeBg = '#f1f5f9', badgeColor = '#0f172a';
+         let pUp = String(poin).toUpperCase();
+         if (pUp === 'A') { badgeBg = '#10b981'; badgeColor = '#ffffff'; }
+         else if (pUp === 'B') { badgeBg = '#0d9488'; badgeColor = '#ffffff'; }
+         else if (pUp === 'C') { badgeBg = '#f59e0b'; badgeColor = '#ffffff'; }
+         else if (pUp === 'D' || pUp === 'E') { badgeBg = '#ef4444'; badgeColor = '#ffffff'; }
+
+         dhtml.push(`<tr data-category="${poin}">
+           <td class="text-start">${getVal('kolomNama')}</td>
+           <td>${String(getVal('kolomGender')).charAt(0).toUpperCase()}</td>
+           <td>${getVal('kolomKelas')}</td>
+           <td class="cell-score" style="background-color:#f8fafc;">${getVal('kolomBeepHasil')}</td>
+           <td class="cell-score">${getVal('kolomBeepNilai')}</td>
+           <td class="cell-score" style="background-color:#f8fafc;">${getVal('kolomPushHasil')}</td>
+           <td class="cell-score">${getVal('kolomPushNilai')}</td>
+           <td class="cell-score" style="background-color:#f8fafc;">${getVal('kolomSitHasil')}</td>
+           <td class="cell-score">${getVal('kolomSitNilai')}</td>
+           <td class="cell-score" style="background-color:#f8fafc;">${getVal('kolomShuttleHasil')}</td>
+           <td class="cell-score">${getVal('kolomShuttleNilai')}</td>
+           <td class="cell-score" style="background-color:#e2e8f0;">${getVal('kolomJasmaniTotal')}</td>
+           <td style="font-weight:bold; background-color:${badgeBg}; color:${badgeColor};">${poin}</td>
+         </tr>`);
+       }
+     });
+     detailBody.innerHTML = dhtml.join('');
+   }
+ }
 
  // 🔥 OPTIMALISASI RESIZE DEBOUNCE
  let resizeTimer;
@@ -1867,7 +2005,6 @@
  if (res.success) {
  addLog('log-upload', res.message, true);
  fileInput.value = ''; 
- // Refresh dashboard data automatically
  callGAS("getSchoolData", { namaSekolah: sessionSekolah }).then(function(jsonString) { initDashboard(jsonString); });
  } else {
  addLog('log-upload', "Error: " + res.message, false);
@@ -2021,7 +2158,6 @@
  }
 
  // 🔥 FUNGSI PROSES DOWNLOAD PDF MASSAL KE ZIP (SEMUA SISWA DI KELAS) 🔥
- // 🚀 TEROPTIMASI: HD (SCALE: 2), MENGGUNAKAN SEQUENTIAL MICRO-YIELDS (ANTI FREEZE/CRASH BROWSER)
  async function prosesDownloadPDFZip() {
     const selectedPages = Array.from(document.querySelectorAll('.page-checkbox:checked')).map(cb => parseInt(cb.value));
     if (selectedPages.length === 0) { alert("⚠️ Silakan centang minimal 1 halaman untuk di-download."); return; }
@@ -2066,12 +2202,10 @@
         
         loadingText.innerHTML = `Memproses PDF HD: <b>${i + 1} dari ${students.length} Siswa</b><br><small style="color:#0d9488;">Mencetak: ${studentName}</small>`;
         
-        // 🔥 KUNCI ANTI FREEZE: Beri napas ke browser agar UI terupdate & tidak muncul "Page Unresponsive"
         await new Promise(r => setTimeout(r, 100));
 
         stagingArea.innerHTML = buildStudentReportHTML(students[i], fSekolah);
         
-        // Jeda agar DOM HTML selesai dibentuk browser sebelum difoto
         await new Promise(r => setTimeout(r, 150)); 
 
         const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4', compress: true });
@@ -2087,7 +2221,6 @@
 
             pageEl.style.boxShadow = 'none'; pageEl.style.margin = '0'; pageEl.style.borderRadius = '0';
             
-            // 🚀 RENDER HD (Scale 2) dengan aman tanpa membebani browser UI
             const canvas = await html2canvas(pageEl, { 
                 scale: 2, 
                 useCORS: true, 
@@ -2103,13 +2236,10 @@
             if (!isFirstPage) { doc.addPage(); } else { isFirstPage = false; }
             doc.addImage(imgData, 'JPEG', 0, 0, pdfWidth, renderedImgHeight);
 
-            // 🔥 NAFAS TAMBAHAN SETIAP SELESAI 1 HALAMAN 🔥
             await new Promise(r => setTimeout(r, 50));
         }
 
         folder.file(safeFileName, doc.output('arraybuffer'));
-        
-        // Kosongkan HTML agar RAM dibersihkan segera (Garbage Collector)
         stagingArea.innerHTML = ''; 
     }
 
@@ -2117,10 +2247,8 @@
     
     if (stagingArea) stagingArea.remove();
 
-    // 🔥 NAFAS SEBELUM PROSES ZIP YANG BERAT 🔥
     await new Promise(r => setTimeout(r, 150));
 
-    // 🚀 Matikan kompresi ulang JSZip (Gunakan algoritma "STORE") untuk mencegah freeze di detik akhir
     zip.generateAsync({ type: "blob", compression: "STORE" }).then(function(content) {
         saveAs(content, `${safeFolderName}.zip`);
         $('#filter-nama').val(originalName).trigger('change');
